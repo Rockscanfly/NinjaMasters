@@ -1,0 +1,51 @@
+0	Mon Dec 16 16:20:40 2019
+ CycleBattery: VISA address GPIB0::5::INSTR, started
+number_cycles: 1 
+voltage_max: 4.150000 
+voltage_min: 3.950000 
+current_max: 1.000000
+current_end: 0.100000 
+charge_end: 50.000000 
+timeout: 10.000000 
+relax_time: 10.000000 
+
+12	Mon Dec 16 16:20:53 2019
+ GetToVoltage completed
+Charge Moved: 11.074911, time taken: 12.035000
+
+12	Mon Dec 16 16:20:53 2019
+ CycleBattery: initial charge completed
+Charge Moved: 11.074911, time taken: 12.397000
+
+128	Mon Dec 16 16:22:48 2019
+ GetToVoltage completed
+Charge Moved: -114.472930, time taken: 115.224998
+
+128	Mon Dec 16 16:22:48 2019
+ CycleBattery: discharge 1 completed
+Charge Moved: -114.472930, time taken: 127.972000
+
+179	Mon Dec 16 16:23:39 2019
+ GetToVoltage completed
+Charge Moved: 50.169095, time taken: 50.507000
+
+179	Mon Dec 16 16:23:39 2019
+ CycleBattery: charge 1 completed
+Charge Moved: 50.169095, time taken: 178.837997
+
+179	Mon Dec 16 16:23:39 2019
+ Call to MoveCharge
+I: 1.000000 
+Q: -57.236465
+
+237	Mon Dec 16 16:24:37 2019
+ MoveCharge completed
+Charge Moved: -57.375918, time taken: 57.714001
+
+237	Mon Dec 16 16:24:37 2019
+ CycleBattery: cycling completed
+Last full charge Q: 50.169095
+Last full discharge Q: -114.472930
+End charge depleted: -57.375918
+time taken: 236.904007
+

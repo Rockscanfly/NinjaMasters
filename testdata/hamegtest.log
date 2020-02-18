@@ -1,0 +1,11 @@
+0	Mon Dec 16 15:13:13 2019
+ CycleBattery: VISA address GPIB0::1::INSTR, started
+number_cycles: 1 
+voltage_max: 4.100000 
+voltage_min: 3.900000 
+current_max: 1.000000
+current_end: 0.100000 
+charge_end: 50.000000 
+timeout: 10.000000 
+relax_time: 10.000000 
+
