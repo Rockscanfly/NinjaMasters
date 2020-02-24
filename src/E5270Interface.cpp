@@ -359,7 +359,8 @@ int E5270Interface::DataDecode(const char t_data[256] , double *t_return)
     #endif // DEBUG
     int rtype = 0;
 
-    if(!strcmpi(&t_data[4], "z")) // Invalid Data Returned
+
+    if((int)t_data[4] == 90 || (int)t_data[4] == 122) // Invalid Data Returned, Z or z
     {
         #if DEBUG
             printf("Invalid Data, type Z\n");

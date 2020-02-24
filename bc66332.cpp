@@ -13,36 +13,27 @@
 
 int main (int argc, char *argv[])
 {
-    printf("Battery Cycler 66332, BC66332 V%i.%i.%i \nAuthor: Vance Farrow %s\n", VERSION_MAJOR, VERSION_MINOR, VERSION_PATCH, PATCH_DATE);
-    printf("Last Updated: VGF Oct 2019\n");
+    printf("Battery Cycler 66332, BC66332 V%i.%i.%i \n", VERSION_MAJOR, VERSION_MINOR, VERSION_PATCH);
+    printf("Last Updated: Vance Farrow %s\n", PATCH_DATE);
 
-    int gpib_major = 0;
-    int gpib_minor = 0;
-    int ncycles = 0;
-    double vmin = 0;
-    double vmax = 0;
-    double imax = 0;
-    double iend = 0;
-    double qend = 0;
-    double timeout = 0;
-    double trelax = 0;
-    char filestring[255] = {'\0'};
+    const char device_string[256] = "HP66332";
+    bcargs args = bcparse(argc, argv, device_string);
 
-    printf("gpib_major: %i\n", gpib_major);
-    printf("gpib_minor: %i\n", gpib_minor);
-    printf("ncycles: %i\n", ncycles);
-    printf("vmax: %f\n", vmax);
-    printf("vmin: %f\n", vmin);
-    printf("imax: %f\n", imax);
-    printf("iend: %f\n", iend);
-    printf("qend: %f\n", qend);
-    printf("timeout: %f\n", timeout);
-    printf("trelax: %f\n", trelax);
-    printf("filestring: %s\n", filestring);
+    printf("gpib_major: %i\n", args.gpib_major);
+    printf("gpib_minor: %i\n", args.gpib_minor);
+    printf("ncycles: %i\n", args.ncycles);
+    printf("vmax: %f\n", args.vmax);
+    printf("vmin: %f\n", args.vmin);
+    printf("imax: %f\n", args.imax);
+    printf("iend: %f\n", args.iend);
+    printf("qend: %f\n", args.qend);
+    printf("timeout: %f\n", args.timeout);
+    printf("trelax: %f\n", args.trelax);
+    printf("filestring: %s\n", args.filestring);
 
-    HP66332Interface device(gpib_major, gpib_minor, 0, vmax, vmin, imax, filestring);
+    HP66332Interface device(args.gpib_major, args.gpib_minor, 0, args.vmax, args.vmin, args.imax, args.filestring);
 
     PSUInterface* p_device = &device;
-    p_device->CycleBattery(ncycles, vmax, vmin, imax, iend, qend, timeout, trelax);
+    p_device->CycleBattery(args.ncycles, args.vmax, args.vmin, args.imax, args.iend, args.qend, args.timeout, args.trelax);
 
 }

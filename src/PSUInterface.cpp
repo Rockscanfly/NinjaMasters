@@ -502,7 +502,7 @@ int PSUInterface::WriteLog(const char* str)
 {
     time(&t);
     m_clock_now = clock();
-    fprintf(p_log, "%i\t%s %s\n", (int)(m_clock_now-m_clock_initial)/CLOCKS_PER_SEC, ctime(&t), str);
+    fprintf(p_log, "%li\t%s %s\n", (int)(m_clock_now-m_clock_initial)/CLOCKS_PER_SEC, ctime(&t), str);
     return 0;
 }
 

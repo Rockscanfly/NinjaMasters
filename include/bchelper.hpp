@@ -1,5 +1,5 @@
 struct bcargs
-{ 
+{
     int gpib_major = 0;
     int gpib_minor = 0;
     int ncycles = 0;
@@ -13,4 +13,4 @@ struct bcargs
     char filestring[255] = {'\0'};
 };
 
-bcargs bcparse(int argc, char ** argv, char device_string[256]);
+bcargs bcparse(int argc, char ** argv, const char device_string[256]);

@@ -14,6 +14,90 @@
 #############################################
 # Rule for compiling CXX files.
 
+rule CXX_COMPILER__keithley
+  depfile = $DEP_FILE
+  deps = gcc
+  command = C:\MinGW\bin\c++.exe  $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
+  description = Building CXX object $out
+
+
+#############################################
+# Rule for linking CXX static library.
+
+rule CXX_STATIC_LIBRARY_LINKER__keithley
+  command = cmd.exe /C "$PRE_LINK && "C:\Program Files\CMake\bin\cmake.exe" -E remove $TARGET_FILE && C:\MinGW\bin\ar.exe qc $TARGET_FILE $LINK_FLAGS $in && C:\MinGW\bin\ranlib.exe $TARGET_FILE && $POST_BUILD"
+  description = Linking CXX static library $TARGET_FILE
+  restat = $RESTAT
+
+
+#############################################
+# Rule for compiling CXX files.
+
+rule CXX_COMPILER__bchelper
+  depfile = $DEP_FILE
+  deps = gcc
+  command = C:\MinGW\bin\c++.exe  $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
+  description = Building CXX object $out
+
+
+#############################################
+# Rule for linking CXX static library.
+
+rule CXX_STATIC_LIBRARY_LINKER__bchelper
+  command = cmd.exe /C "$PRE_LINK && "C:\Program Files\CMake\bin\cmake.exe" -E remove $TARGET_FILE && C:\MinGW\bin\ar.exe qc $TARGET_FILE $LINK_FLAGS $in && C:\MinGW\bin\ranlib.exe $TARGET_FILE && $POST_BUILD"
+  description = Linking CXX static library $TARGET_FILE
+  restat = $RESTAT
+
+
+#############################################
+# Rule for running custom commands.
+
+rule CUSTOM_COMMAND
+  command = $COMMAND
+  description = $DESC
+
+
+#############################################
+# Rule for compiling CXX files.
+
+rule CXX_COMPILER__hameg
+  depfile = $DEP_FILE
+  deps = gcc
+  command = C:\MinGW\bin\c++.exe  $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
+  description = Building CXX object $out
+
+
+#############################################
+# Rule for linking CXX static library.
+
+rule CXX_STATIC_LIBRARY_LINKER__hameg
+  command = cmd.exe /C "$PRE_LINK && "C:\Program Files\CMake\bin\cmake.exe" -E remove $TARGET_FILE && C:\MinGW\bin\ar.exe qc $TARGET_FILE $LINK_FLAGS $in && C:\MinGW\bin\ranlib.exe $TARGET_FILE && $POST_BUILD"
+  description = Linking CXX static library $TARGET_FILE
+  restat = $RESTAT
+
+
+#############################################
+# Rule for compiling CXX files.
+
+rule CXX_COMPILER__bzhelper
+  depfile = $DEP_FILE
+  deps = gcc
+  command = C:\MinGW\bin\c++.exe  $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
+  description = Building CXX object $out
+
+
+#############################################
+# Rule for linking CXX static library.
+
+rule CXX_STATIC_LIBRARY_LINKER__bzhelper
+  command = cmd.exe /C "$PRE_LINK && "C:\Program Files\CMake\bin\cmake.exe" -E remove $TARGET_FILE && C:\MinGW\bin\ar.exe qc $TARGET_FILE $LINK_FLAGS $in && C:\MinGW\bin\ranlib.exe $TARGET_FILE && $POST_BUILD"
+  description = Linking CXX static library $TARGET_FILE
+  restat = $RESTAT
+
+
+#############################################
+# Rule for compiling CXX files.
+
 rule CXX_COMPILER__visawrapper_debug
   depfile = $DEP_FILE
   deps = gcc
@@ -25,7 +109,7 @@ rule CXX_COMPILER__visawrapper_debug
 # Rule for linking CXX static library.
 
 rule CXX_STATIC_LIBRARY_LINKER__visawrapper_debug
-  command = cmd.exe /C "$PRE_LINK && "C:\Program Files\CMake\bin\cmake.exe" -E remove $TARGET_FILE && C:\MinGW\bin\ar.exe qc $TARGET_FILE $LINK_FLAGS $in && $POST_BUILD"
+  command = cmd.exe /C "$PRE_LINK && "C:\Program Files\CMake\bin\cmake.exe" -E remove $TARGET_FILE && C:\MinGW\bin\ar.exe qc $TARGET_FILE $LINK_FLAGS $in && C:\MinGW\bin\ranlib.exe $TARGET_FILE && $POST_BUILD"
   description = Linking CXX static library $TARGET_FILE
   restat = $RESTAT
 
@@ -63,7 +147,7 @@ rule CXX_COMPILER__psu_debug
 # Rule for linking CXX static library.
 
 rule CXX_STATIC_LIBRARY_LINKER__psu_debug
-  command = cmd.exe /C "$PRE_LINK && "C:\Program Files\CMake\bin\cmake.exe" -E remove $TARGET_FILE && C:\MinGW\bin\ar.exe qc $TARGET_FILE $LINK_FLAGS $in && $POST_BUILD"
+  command = cmd.exe /C "$PRE_LINK && "C:\Program Files\CMake\bin\cmake.exe" -E remove $TARGET_FILE && C:\MinGW\bin\ar.exe qc $TARGET_FILE $LINK_FLAGS $in && C:\MinGW\bin\ranlib.exe $TARGET_FILE && $POST_BUILD"
   description = Linking CXX static library $TARGET_FILE
   restat = $RESTAT
 
@@ -82,72 +166,7 @@ rule CXX_COMPILER__visawrapper
 # Rule for linking CXX static library.
 
 rule CXX_STATIC_LIBRARY_LINKER__visawrapper
-  command = cmd.exe /C "$PRE_LINK && "C:\Program Files\CMake\bin\cmake.exe" -E remove $TARGET_FILE && C:\MinGW\bin\ar.exe qc $TARGET_FILE $LINK_FLAGS $in && $POST_BUILD"
-  description = Linking CXX static library $TARGET_FILE
-  restat = $RESTAT
-
-
-#############################################
-# Rule for running custom commands.
-
-rule CUSTOM_COMMAND
-  command = $COMMAND
-  description = $DESC
-
-
-#############################################
-# Rule for compiling CXX files.
-
-rule CXX_COMPILER__hameg
-  depfile = $DEP_FILE
-  deps = gcc
-  command = C:\MinGW\bin\c++.exe  $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
-  description = Building CXX object $out
-
-
-#############################################
-# Rule for linking CXX static library.
-
-rule CXX_STATIC_LIBRARY_LINKER__hameg
-  command = cmd.exe /C "$PRE_LINK && "C:\Program Files\CMake\bin\cmake.exe" -E remove $TARGET_FILE && C:\MinGW\bin\ar.exe qc $TARGET_FILE $LINK_FLAGS $in && $POST_BUILD"
-  description = Linking CXX static library $TARGET_FILE
-  restat = $RESTAT
-
-
-#############################################
-# Rule for compiling CXX files.
-
-rule CXX_COMPILER__hameg_debug
-  depfile = $DEP_FILE
-  deps = gcc
-  command = C:\MinGW\bin\c++.exe  $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
-  description = Building CXX object $out
-
-
-#############################################
-# Rule for linking CXX static library.
-
-rule CXX_STATIC_LIBRARY_LINKER__hameg_debug
-  command = cmd.exe /C "$PRE_LINK && "C:\Program Files\CMake\bin\cmake.exe" -E remove $TARGET_FILE && C:\MinGW\bin\ar.exe qc $TARGET_FILE $LINK_FLAGS $in && $POST_BUILD"
-  description = Linking CXX static library $TARGET_FILE
-  restat = $RESTAT
-
-
-#############################################
-# Rule for compiling CXX files.
-
-rule CXX_COMPILER__keithley
-  depfile = $DEP_FILE
-  deps = gcc
-  command = C:\MinGW\bin\c++.exe  $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
-  description = Building CXX object $out
-
-
-#############################################
-# Rule for linking CXX static library.
-
-rule CXX_STATIC_LIBRARY_LINKER__keithley
-  command = cmd.exe /C "$PRE_LINK && "C:\Program Files\CMake\bin\cmake.exe" -E remove $TARGET_FILE && C:\MinGW\bin\ar.exe qc $TARGET_FILE $LINK_FLAGS $in && $POST_BUILD"
+  command = cmd.exe /C "$PRE_LINK && "C:\Program Files\CMake\bin\cmake.exe" -E remove $TARGET_FILE && C:\MinGW\bin\ar.exe qc $TARGET_FILE $LINK_FLAGS $in && C:\MinGW\bin\ranlib.exe $TARGET_FILE && $POST_BUILD"
   description = Linking CXX static library $TARGET_FILE
   restat = $RESTAT
 
@@ -185,7 +204,7 @@ rule CXX_COMPILER__keithley_debug
 # Rule for linking CXX static library.
 
 rule CXX_STATIC_LIBRARY_LINKER__keithley_debug
-  command = cmd.exe /C "$PRE_LINK && "C:\Program Files\CMake\bin\cmake.exe" -E remove $TARGET_FILE && C:\MinGW\bin\ar.exe qc $TARGET_FILE $LINK_FLAGS $in && $POST_BUILD"
+  command = cmd.exe /C "$PRE_LINK && "C:\Program Files\CMake\bin\cmake.exe" -E remove $TARGET_FILE && C:\MinGW\bin\ar.exe qc $TARGET_FILE $LINK_FLAGS $in && C:\MinGW\bin\ranlib.exe $TARGET_FILE && $POST_BUILD"
   description = Linking CXX static library $TARGET_FILE
   restat = $RESTAT
 
@@ -193,7 +212,7 @@ rule CXX_STATIC_LIBRARY_LINKER__keithley_debug
 #############################################
 # Rule for compiling CXX files.
 
-rule CXX_COMPILER__e5270_debug
+rule CXX_COMPILER__hameg_debug
   depfile = $DEP_FILE
   deps = gcc
   command = C:\MinGW\bin\c++.exe  $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
@@ -203,27 +222,8 @@ rule CXX_COMPILER__e5270_debug
 #############################################
 # Rule for linking CXX static library.
 
-rule CXX_STATIC_LIBRARY_LINKER__e5270_debug
-  command = cmd.exe /C "$PRE_LINK && "C:\Program Files\CMake\bin\cmake.exe" -E remove $TARGET_FILE && C:\MinGW\bin\ar.exe qc $TARGET_FILE $LINK_FLAGS $in && $POST_BUILD"
-  description = Linking CXX static library $TARGET_FILE
-  restat = $RESTAT
-
-
-#############################################
-# Rule for compiling CXX files.
-
-rule CXX_COMPILER__e5270
-  depfile = $DEP_FILE
-  deps = gcc
-  command = C:\MinGW\bin\c++.exe  $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
-  description = Building CXX object $out
-
-
-#############################################
-# Rule for linking CXX static library.
-
-rule CXX_STATIC_LIBRARY_LINKER__e5270
-  command = cmd.exe /C "$PRE_LINK && "C:\Program Files\CMake\bin\cmake.exe" -E remove $TARGET_FILE && C:\MinGW\bin\ar.exe qc $TARGET_FILE $LINK_FLAGS $in && $POST_BUILD"
+rule CXX_STATIC_LIBRARY_LINKER__hameg_debug
+  command = cmd.exe /C "$PRE_LINK && "C:\Program Files\CMake\bin\cmake.exe" -E remove $TARGET_FILE && C:\MinGW\bin\ar.exe qc $TARGET_FILE $LINK_FLAGS $in && C:\MinGW\bin\ranlib.exe $TARGET_FILE && $POST_BUILD"
   description = Linking CXX static library $TARGET_FILE
   restat = $RESTAT
 
@@ -242,7 +242,7 @@ rule CXX_COMPILER__hp66332_debug
 # Rule for linking CXX static library.
 
 rule CXX_STATIC_LIBRARY_LINKER__hp66332_debug
-  command = cmd.exe /C "$PRE_LINK && "C:\Program Files\CMake\bin\cmake.exe" -E remove $TARGET_FILE && C:\MinGW\bin\ar.exe qc $TARGET_FILE $LINK_FLAGS $in && $POST_BUILD"
+  command = cmd.exe /C "$PRE_LINK && "C:\Program Files\CMake\bin\cmake.exe" -E remove $TARGET_FILE && C:\MinGW\bin\ar.exe qc $TARGET_FILE $LINK_FLAGS $in && C:\MinGW\bin\ranlib.exe $TARGET_FILE && $POST_BUILD"
   description = Linking CXX static library $TARGET_FILE
   restat = $RESTAT
 
@@ -261,7 +261,45 @@ rule CXX_COMPILER__hp66332
 # Rule for linking CXX static library.
 
 rule CXX_STATIC_LIBRARY_LINKER__hp66332
-  command = cmd.exe /C "$PRE_LINK && "C:\Program Files\CMake\bin\cmake.exe" -E remove $TARGET_FILE && C:\MinGW\bin\ar.exe qc $TARGET_FILE $LINK_FLAGS $in && $POST_BUILD"
+  command = cmd.exe /C "$PRE_LINK && "C:\Program Files\CMake\bin\cmake.exe" -E remove $TARGET_FILE && C:\MinGW\bin\ar.exe qc $TARGET_FILE $LINK_FLAGS $in && C:\MinGW\bin\ranlib.exe $TARGET_FILE && $POST_BUILD"
+  description = Linking CXX static library $TARGET_FILE
+  restat = $RESTAT
+
+
+#############################################
+# Rule for compiling CXX files.
+
+rule CXX_COMPILER__e5270
+  depfile = $DEP_FILE
+  deps = gcc
+  command = C:\MinGW\bin\c++.exe  $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
+  description = Building CXX object $out
+
+
+#############################################
+# Rule for linking CXX static library.
+
+rule CXX_STATIC_LIBRARY_LINKER__e5270
+  command = cmd.exe /C "$PRE_LINK && "C:\Program Files\CMake\bin\cmake.exe" -E remove $TARGET_FILE && C:\MinGW\bin\ar.exe qc $TARGET_FILE $LINK_FLAGS $in && C:\MinGW\bin\ranlib.exe $TARGET_FILE && $POST_BUILD"
+  description = Linking CXX static library $TARGET_FILE
+  restat = $RESTAT
+
+
+#############################################
+# Rule for compiling CXX files.
+
+rule CXX_COMPILER__e5270_debug
+  depfile = $DEP_FILE
+  deps = gcc
+  command = C:\MinGW\bin\c++.exe  $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
+  description = Building CXX object $out
+
+
+#############################################
+# Rule for linking CXX static library.
+
+rule CXX_STATIC_LIBRARY_LINKER__e5270_debug
+  command = cmd.exe /C "$PRE_LINK && "C:\Program Files\CMake\bin\cmake.exe" -E remove $TARGET_FILE && C:\MinGW\bin\ar.exe qc $TARGET_FILE $LINK_FLAGS $in && C:\MinGW\bin\ranlib.exe $TARGET_FILE && $POST_BUILD"
   description = Linking CXX static library $TARGET_FILE
   restat = $RESTAT
 
@@ -299,7 +337,7 @@ rule CXX_COMPILER__psu
 # Rule for linking CXX static library.
 
 rule CXX_STATIC_LIBRARY_LINKER__psu
-  command = cmd.exe /C "$PRE_LINK && "C:\Program Files\CMake\bin\cmake.exe" -E remove $TARGET_FILE && C:\MinGW\bin\ar.exe qc $TARGET_FILE $LINK_FLAGS $in && $POST_BUILD"
+  command = cmd.exe /C "$PRE_LINK && "C:\Program Files\CMake\bin\cmake.exe" -E remove $TARGET_FILE && C:\MinGW\bin\ar.exe qc $TARGET_FILE $LINK_FLAGS $in && C:\MinGW\bin\ranlib.exe $TARGET_FILE && $POST_BUILD"
   description = Linking CXX static library $TARGET_FILE
   restat = $RESTAT
 
@@ -402,6 +440,44 @@ rule CXX_EXECUTABLE_LINKER__bch_debug
 #############################################
 # Rule for compiling CXX files.
 
+rule CXX_COMPILER__bzk
+  depfile = $DEP_FILE
+  deps = gcc
+  command = C:\MinGW\bin\c++.exe  $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
+  description = Building CXX object $out
+
+
+#############################################
+# Rule for linking CXX executable.
+
+rule CXX_EXECUTABLE_LINKER__bzk
+  command = cmd.exe /C "$PRE_LINK && C:\MinGW\bin\c++.exe $FLAGS  $LINK_FLAGS $in  -o $TARGET_FILE -Wl,--out-implib,$TARGET_IMPLIB -Wl,--major-image-version,0,--minor-image-version,0 $LINK_PATH $LINK_LIBRARIES && $POST_BUILD"
+  description = Linking CXX executable $TARGET_FILE
+  restat = $RESTAT
+
+
+#############################################
+# Rule for compiling CXX files.
+
+rule CXX_COMPILER__bzk_debug
+  depfile = $DEP_FILE
+  deps = gcc
+  command = C:\MinGW\bin\c++.exe  $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
+  description = Building CXX object $out
+
+
+#############################################
+# Rule for linking CXX executable.
+
+rule CXX_EXECUTABLE_LINKER__bzk_debug
+  command = cmd.exe /C "$PRE_LINK && C:\MinGW\bin\c++.exe $FLAGS  $LINK_FLAGS $in  -o $TARGET_FILE -Wl,--out-implib,$TARGET_IMPLIB -Wl,--major-image-version,0,--minor-image-version,0 $LINK_PATH $LINK_LIBRARIES && $POST_BUILD"
+  description = Linking CXX executable $TARGET_FILE
+  restat = $RESTAT
+
+
+#############################################
+# Rule for compiling CXX files.
+
 rule CXX_COMPILER__bzh
   depfile = $DEP_FILE
   deps = gcc
@@ -476,48 +552,10 @@ rule CXX_EXECUTABLE_LINKER__bz5270_debug
 
 
 #############################################
-# Rule for compiling CXX files.
-
-rule CXX_COMPILER__bzk
-  depfile = $DEP_FILE
-  deps = gcc
-  command = C:\MinGW\bin\c++.exe  $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
-  description = Building CXX object $out
-
-
-#############################################
-# Rule for linking CXX executable.
-
-rule CXX_EXECUTABLE_LINKER__bzk
-  command = cmd.exe /C "$PRE_LINK && C:\MinGW\bin\c++.exe $FLAGS  $LINK_FLAGS $in  -o $TARGET_FILE -Wl,--out-implib,$TARGET_IMPLIB -Wl,--major-image-version,0,--minor-image-version,0 $LINK_PATH $LINK_LIBRARIES && $POST_BUILD"
-  description = Linking CXX executable $TARGET_FILE
-  restat = $RESTAT
-
-
-#############################################
-# Rule for compiling CXX files.
-
-rule CXX_COMPILER__bzk_debug
-  depfile = $DEP_FILE
-  deps = gcc
-  command = C:\MinGW\bin\c++.exe  $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
-  description = Building CXX object $out
-
-
-#############################################
-# Rule for linking CXX executable.
-
-rule CXX_EXECUTABLE_LINKER__bzk_debug
-  command = cmd.exe /C "$PRE_LINK && C:\MinGW\bin\c++.exe $FLAGS  $LINK_FLAGS $in  -o $TARGET_FILE -Wl,--out-implib,$TARGET_IMPLIB -Wl,--major-image-version,0,--minor-image-version,0 $LINK_PATH $LINK_LIBRARIES && $POST_BUILD"
-  description = Linking CXX executable $TARGET_FILE
-  restat = $RESTAT
-
-
-#############################################
 # Rule for re-running cmake.
 
 rule RERUN_CMAKE
-  command = "C:\Program Files\CMake\bin\cmake.exe" -SC:\Users\vance\OneDrive\Desktop\SUBLIMEMasters -BC:\Users\vance\OneDrive\Desktop\SUBLIMEMasters\build
+  command = "C:\Program Files\CMake\bin\cmake.exe" -SC:\Users\vance\OneDrive\Desktop\NinjaMasters -BC:\Users\vance\OneDrive\Desktop\NinjaMasters\build
   description = Re-running CMake...
   generator = 1
 

@@ -2,9 +2,10 @@
 #include "stdio.h"
 #include <stdlib.h>
 
-bcargs bcparse(int argc, char ** argv, char device_string[256]) {
+bcargs bcparse(int argc, char ** argv, const char device_string[256])
+{
 
-    bcargs args; 
+    bcargs args;
 
     if((argc != 11) && (argc != 12))
     {
@@ -20,7 +21,7 @@ bcargs bcparse(int argc, char ** argv, char device_string[256]) {
         printf("accurately represent the safe operating values of the battery and provides no guarantee it will not\n");
         printf("damage any attached device\n");
         printf("\n");
-        printf("Data and log files will be created in the same directory as BCK\n");
+        printf("Data and log files will be created in the same directory as where the program was called from\n");
         printf("The optional argument [filestring] will overwrite the default file names DataFile.tvi and LogFile.log\n");
         printf("and results will be stored in [filestring].tvi and [filestring].log\n");
         printf("The .tvi file stores measurements in three tab separated columns time(s) volts(V) current(A)\n");
@@ -42,7 +43,7 @@ bcargs bcparse(int argc, char ** argv, char device_string[256]) {
         args.gpib_major = -1;
         return args;
     }
-    else    
+    else
     {
         for(int i = 1; i < argc; i++)
         {
@@ -98,6 +99,6 @@ bcargs bcparse(int argc, char ** argv, char device_string[256]) {
             }
         }
     }
-     
+
     return args;
 }
