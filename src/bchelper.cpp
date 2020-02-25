@@ -1,45 +1,51 @@
 #include "bchelper.hpp"
+#include "string.h"
 #include "stdio.h"
 #include <stdlib.h>
+#include <iostream>
 
-bcargs bcparse(int argc, char ** argv, const char device_string[256])
+using namespace std;
+
+bcargs bcparse(int argc, char ** argv, string device_string)
 {
 
     bcargs args;
 
     if((argc != 11) && (argc != 12))
     {
-        printf("Invalid number of parameters %i\n", argc-1);
-        printf("Usage: %s <VISA#> <gpib_addr> <ncycles> <Vmax> <Vmin> <Imax> <Iend> <Qend> <timeout> <relaxtime> [filestring]\n", argv[0]);
-        printf("\n");
-        printf("This program requires a %s connected to the host machine accessible at the specified\n", device_string);
-        printf("GPIB address, and the visa driver interface to be installed on the host\n");
-        printf("The expected device address is in the format: GPIB<VISA#>::<gpib_addr>::INSTR\n");
-        printf("\n");
-        printf("The program is designed to cycle a battery attached to the %s between the specified maximum and\n", device_string);
-        printf("minimum voltages at the specified maximum current. The program expects the voltage and current ranges to\n");
-        printf("accurately represent the safe operating values of the battery and provides no guarantee it will not\n");
-        printf("damage any attached device\n");
-        printf("\n");
-        printf("Data and log files will be created in the same directory as where the program was called from\n");
-        printf("The optional argument [filestring] will overwrite the default file names DataFile.tvi and LogFile.log\n");
-        printf("and results will be stored in [filestring].tvi and [filestring].log\n");
-        printf("The .tvi file stores measurements in three tab separated columns time(s) volts(V) current(A)\n");
-        printf("The .log file stores timestamped plain english descriptions of milestones reached by the program\n");
-        printf("\n");
-        printf("<VISA#> is the GPIB address value of the primary switch that the %s is attached to\n", device_string);
-        printf("<gpib_addr> is the GPIB subaddress value of %s attached to the GPIB switch at <VISA#>\n", device_string);
-        printf("<ncycles> is the number of times the attached battery will be fully discharged and then fully charged\n");
-        printf("<vmax> is the maximum voltage up to which the battery will be charged\n");
-        printf("<vmin> is the minimum voltage down to which the battery will be discharged\n");
-        printf("<imax> is the maximum current, in Amps, that %s will source or sink to charge or discharge the battery\n", device_string);
-        printf("<iend> is the minimum current, in Amps, flowing when the program will decide the battery is fullly charged or discharged\n");
-        printf("<qend> is the final fraction of charge left in the battery as a percent of fully charged, NOTE not the same as voltage\n");
-        printf("<timeout> is the maximum amount of time the current will be allowed to decay after falling below <imax>\n");
-        printf("    before the program decides the battery is fully charged or discharged\n");
-        printf("<relaxtime> is the time the voltage will be allowed to relax after all cycling is complete and the\n");
-        printf("    charge level has reached <quend>, zero current will flow but the %s will continue measurements for this time\n", device_string);
-        printf("[filestring] sets the name of the target .tvi and .log files, NOTE existing files with the same name will be OVERWRITTEN\n");
+        cout << "Invalid number of parameters "  <<  argc-1 << endl;
+        cout << "Usage: bc.exe <device> <VISA#> <gpib_addr> <ncycles> <Vmax> <Vmin> <Imax> <Iend> <Qend> <timeout> <relaxtime> [filestring]" << endl;
+        cout << endl;
+        cout << "This program requires a " << device_string << " connected to the host machine accessible at the specified" << endl;
+        cout << "GPIB address, and the visa driver interface to be installed on the host" << endl;
+        cout << "The expected device address is in the format: GPIB<VISA#>::<gpib_addr>::INSTR" << endl;
+        cout << endl;
+        cout << "The program is designed to cycle a battery attached to the " << device_string << " between the specified maximum and" << endl;
+        cout << "minimum voltages at the specified maximum current. The program expects the voltage and current ranges to" << endl;
+        cout << "accurately represent the safe operating values of the battery and provides no guarantee it will not" << endl;
+        cout << "damage any attached device" << endl;
+        cout  << endl;
+        cout << "Data and log files will be created in the same directory as where the program was called from" << endl;
+        cout << "The optional argument [filestring] will overwrite the default file names DataFile.tvi and LogFile.log" << endl;
+        cout << "and results will be stored in [filestring].tvi and [filestring].log" << endl;
+        cout << "The .tvi file stores measurements in three tab separated columns time(s) volts(V) current(A)" << endl;
+        cout << "The .log file stores timestamped plain english descriptions of milestones reached by the program" << endl;
+        cout << endl;
+        cout << "<device> is the hardware to be used to measure imepedance with. Options are: " << endl;
+        cout << "Keithley Hameg HP66332 E5270" << endl;
+        cout << "<VISA#> is the GPIB address value of the primary switch that the " << device_string << " is attached to" << endl;
+        cout << "<gpib_addr> is the GPIB subaddress value of " << device_string << " attached to the GPIB switch at <VISA#>" << endl;
+        cout << "<ncycles> is the number of times the attached battery will be fully discharged and then fully charged" << endl;
+        cout << "<vmax> is the maximum voltage up to which the battery will be charged" << endl;
+        cout << "<vmin> is the minimum voltage down to which the battery will be discharged" << endl;
+        cout << "<imax> is the maximum current, in Amps, that " << device_string << " will source or sink to charge or discharge the battery" << endl;
+        cout << "<iend> is the minimum current, in Amps, flowing when the program will decide the battery is fullly charged or discharged" << endl;
+        cout << "<qend> is the final fraction of charge left in the battery as a percent of fully charged, NOTE not the same as voltage" << endl;
+        cout << "<timeout> is the maximum amount of time the current will be allowed to decay after falling below <imax>" << endl;
+        cout << "    before the program decides the battery is fully charged or discharged" << endl;
+        cout << "<relaxtime> is the time the voltage will be allowed to relax after all cycling is complete and the" << endl;
+        cout << "    charge level has reached <quend>, zero current will flow but the " << device_string << " will continue measurements for this time" << endl;
+        cout << "[filestring] sets the name of the target .tvi and .log files, NOTE existing files with the same name will be OVERWRITTEN" << endl;
         args.gpib_major = -1;
         return args;
     }
@@ -93,7 +99,7 @@ bcargs bcparse(int argc, char ** argv, const char device_string[256])
                     break;
 
                 default:
-                printf("Error unknown argument %s\n", argv[i]);
+                cout << "Error unknown argument " << argv[i]  << endl;
                     args.gpib_major = -1;
 
             }

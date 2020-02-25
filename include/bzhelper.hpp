@@ -1,3 +1,15 @@
+#include "stdio.h"
+#include <stdlib.h>
+#include <string>
+
+enum device_list {
+    Keithley,
+    Hameg,
+    HP66332,
+    E5270,
+    None
+};
+
 struct bzargs
 {
     int gpib_major = 0;
@@ -13,4 +25,4 @@ struct bzargs
     char filestring[256] = {'\0'};
 };
 
-bzargs bzparse(int argc, char ** argv, const char device_string[256]);
+bzargs bzparse(int argc, char ** argv, std::string device_string);

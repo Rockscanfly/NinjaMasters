@@ -218,44 +218,6 @@ build libvisawrapper_debug.a: CXX_STATIC_LIBRARY_LINKER__visawrapper_debug CMake
   TARGET_PDB = libvisawrapper_debug.pdb
 
 # =============================================================================
-# Object build statements for EXECUTABLE target bz66332_debug
-
-
-#############################################
-# Order-only phony target for bz66332_debug
-
-build cmake_object_order_depends_target_bz66332_debug: phony || cmake_object_order_depends_target_bzhelper cmake_object_order_depends_target_hp66332_debug cmake_object_order_depends_target_psu_debug cmake_object_order_depends_target_visawrapper_debug
-
-build CMakeFiles/bz66332_debug.dir/bz66332.cpp.obj: CXX_COMPILER__bz66332_debug ../bz66332.cpp || cmake_object_order_depends_target_bz66332_debug
-  DEFINES = -DDEBUG=1
-  DEP_FILE = CMakeFiles\bz66332_debug.dir\bz66332.cpp.obj.d
-  FLAGS = -Weffc++  -Wextra -pedantic -Wall -std=c++11 -Werror -Wno-unused-parameter -Wno-unused-variable -Wno-unused-but-set-variable
-  INCLUDES = -I../include -I../src
-  OBJECT_DIR = CMakeFiles\bz66332_debug.dir
-  OBJECT_FILE_DIR = CMakeFiles\bz66332_debug.dir
-  TARGET_COMPILE_PDB = CMakeFiles\bz66332_debug.dir\
-  TARGET_PDB = bz66332_debug.pdb
-
-
-# =============================================================================
-# Link build statements for EXECUTABLE target bz66332_debug
-
-
-#############################################
-# Link the executable bz66332_debug.exe
-
-build bz66332_debug.exe: CXX_EXECUTABLE_LINKER__bz66332_debug CMakeFiles/bz66332_debug.dir/bz66332.cpp.obj | libbzhelper.a libvisawrapper_debug.a libhp66332_debug.a libpsu_debug.a libvisawrapper_debug.a ../include/VISA/WinNT/lib/msc/visa32.lib ../include/VISA/WinNT/Lib_x64/msc/visa64.lib || libbzhelper.a libhp66332_debug.a libpsu_debug.a libvisawrapper_debug.a
-  FLAGS = -Weffc++  -Wextra -pedantic -Wall -std=c++11 -Werror -Wno-unused-parameter -Wno-unused-variable -Wno-unused-but-set-variable
-  LINK_LIBRARIES = libbzhelper.a libvisawrapper_debug.a libhp66332_debug.a libpsu_debug.a libvisawrapper_debug.a ../include/VISA/WinNT/lib/msc/visa32.lib ../include/VISA/WinNT/Lib_x64/msc/visa64.lib -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
-  OBJECT_DIR = CMakeFiles\bz66332_debug.dir
-  POST_BUILD = cd .
-  PRE_LINK = cd .
-  TARGET_COMPILE_PDB = CMakeFiles\bz66332_debug.dir\
-  TARGET_FILE = bz66332_debug.exe
-  TARGET_IMPLIB = libbz66332_debug.dll.a
-  TARGET_PDB = bz66332_debug.pdb
-
-# =============================================================================
 # Object build statements for STATIC_LIBRARY target psu_debug
 
 
@@ -325,43 +287,6 @@ build libvisawrapper.a: CXX_STATIC_LIBRARY_LINKER__visawrapper CMakeFiles/visawr
   TARGET_COMPILE_PDB = CMakeFiles\visawrapper.dir\visawrapper.pdb
   TARGET_FILE = libvisawrapper.a
   TARGET_PDB = libvisawrapper.pdb
-
-# =============================================================================
-# Object build statements for EXECUTABLE target bc66332
-
-
-#############################################
-# Order-only phony target for bc66332
-
-build cmake_object_order_depends_target_bc66332: phony || cmake_object_order_depends_target_bchelper cmake_object_order_depends_target_hp66332 cmake_object_order_depends_target_psu cmake_object_order_depends_target_visawrapper
-
-build CMakeFiles/bc66332.dir/bc66332.cpp.obj: CXX_COMPILER__bc66332 ../bc66332.cpp || cmake_object_order_depends_target_bc66332
-  DEP_FILE = CMakeFiles\bc66332.dir\bc66332.cpp.obj.d
-  FLAGS = -Weffc++  -Wextra -pedantic -Wall -std=c++11 -Werror -Wno-unused-parameter -Wno-unused-variable -Wno-unused-but-set-variable
-  INCLUDES = -I../include -I../src
-  OBJECT_DIR = CMakeFiles\bc66332.dir
-  OBJECT_FILE_DIR = CMakeFiles\bc66332.dir
-  TARGET_COMPILE_PDB = CMakeFiles\bc66332.dir\
-  TARGET_PDB = bc66332.pdb
-
-
-# =============================================================================
-# Link build statements for EXECUTABLE target bc66332
-
-
-#############################################
-# Link the executable bc66332.exe
-
-build bc66332.exe: CXX_EXECUTABLE_LINKER__bc66332 CMakeFiles/bc66332.dir/bc66332.cpp.obj | libbchelper.a libvisawrapper.a libhp66332.a libpsu.a libvisawrapper.a ../include/VISA/WinNT/lib/msc/visa32.lib ../include/VISA/WinNT/Lib_x64/msc/visa64.lib || libbchelper.a libhp66332.a libpsu.a libvisawrapper.a
-  FLAGS = -Weffc++  -Wextra -pedantic -Wall -std=c++11 -Werror -Wno-unused-parameter -Wno-unused-variable -Wno-unused-but-set-variable
-  LINK_LIBRARIES = libbchelper.a libvisawrapper.a libhp66332.a libpsu.a libvisawrapper.a ../include/VISA/WinNT/lib/msc/visa32.lib ../include/VISA/WinNT/Lib_x64/msc/visa64.lib -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
-  OBJECT_DIR = CMakeFiles\bc66332.dir
-  POST_BUILD = cd .
-  PRE_LINK = cd .
-  TARGET_COMPILE_PDB = CMakeFiles\bc66332.dir\
-  TARGET_FILE = bc66332.exe
-  TARGET_IMPLIB = libbc66332.dll.a
-  TARGET_PDB = bc66332.pdb
 
 # =============================================================================
 # Object build statements for STATIC_LIBRARY target keithley_debug
@@ -578,43 +503,6 @@ build libe5270_debug.a: CXX_STATIC_LIBRARY_LINKER__e5270_debug CMakeFiles/e5270_
   TARGET_PDB = libe5270_debug.pdb
 
 # =============================================================================
-# Object build statements for EXECUTABLE target bz66332
-
-
-#############################################
-# Order-only phony target for bz66332
-
-build cmake_object_order_depends_target_bz66332: phony || cmake_object_order_depends_target_bzhelper cmake_object_order_depends_target_hp66332 cmake_object_order_depends_target_psu cmake_object_order_depends_target_visawrapper
-
-build CMakeFiles/bz66332.dir/bz66332.cpp.obj: CXX_COMPILER__bz66332 ../bz66332.cpp || cmake_object_order_depends_target_bz66332
-  DEP_FILE = CMakeFiles\bz66332.dir\bz66332.cpp.obj.d
-  FLAGS = -Weffc++  -Wextra -pedantic -Wall -std=c++11 -Werror -Wno-unused-parameter -Wno-unused-variable -Wno-unused-but-set-variable
-  INCLUDES = -I../include -I../src
-  OBJECT_DIR = CMakeFiles\bz66332.dir
-  OBJECT_FILE_DIR = CMakeFiles\bz66332.dir
-  TARGET_COMPILE_PDB = CMakeFiles\bz66332.dir\
-  TARGET_PDB = bz66332.pdb
-
-
-# =============================================================================
-# Link build statements for EXECUTABLE target bz66332
-
-
-#############################################
-# Link the executable bz66332.exe
-
-build bz66332.exe: CXX_EXECUTABLE_LINKER__bz66332 CMakeFiles/bz66332.dir/bz66332.cpp.obj | libbzhelper.a libvisawrapper.a libhp66332.a libpsu.a libvisawrapper.a ../include/VISA/WinNT/lib/msc/visa32.lib ../include/VISA/WinNT/Lib_x64/msc/visa64.lib || libbzhelper.a libhp66332.a libpsu.a libvisawrapper.a
-  FLAGS = -Weffc++  -Wextra -pedantic -Wall -std=c++11 -Werror -Wno-unused-parameter -Wno-unused-variable -Wno-unused-but-set-variable
-  LINK_LIBRARIES = libbzhelper.a libvisawrapper.a libhp66332.a libpsu.a libvisawrapper.a ../include/VISA/WinNT/lib/msc/visa32.lib ../include/VISA/WinNT/Lib_x64/msc/visa64.lib -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
-  OBJECT_DIR = CMakeFiles\bz66332.dir
-  POST_BUILD = cd .
-  PRE_LINK = cd .
-  TARGET_COMPILE_PDB = CMakeFiles\bz66332.dir\
-  TARGET_FILE = bz66332.exe
-  TARGET_IMPLIB = libbz66332.dll.a
-  TARGET_PDB = bz66332.pdb
-
-# =============================================================================
 # Object build statements for STATIC_LIBRARY target psu
 
 
@@ -650,417 +538,154 @@ build libpsu.a: CXX_STATIC_LIBRARY_LINKER__psu CMakeFiles/psu.dir/src/PSUInterfa
   TARGET_PDB = libpsu.pdb
 
 # =============================================================================
-# Object build statements for EXECUTABLE target bck_debug
+# Object build statements for EXECUTABLE target bc
 
 
 #############################################
-# Order-only phony target for bck_debug
+# Order-only phony target for bc
 
-build cmake_object_order_depends_target_bck_debug: phony || cmake_object_order_depends_target_bchelper cmake_object_order_depends_target_keithley_debug cmake_object_order_depends_target_psu_debug cmake_object_order_depends_target_visawrapper_debug
+build cmake_object_order_depends_target_bc: phony || cmake_object_order_depends_target_bchelper cmake_object_order_depends_target_hameg cmake_object_order_depends_target_hp66332 cmake_object_order_depends_target_keithley cmake_object_order_depends_target_psu cmake_object_order_depends_target_visawrapper
 
-build CMakeFiles/bck_debug.dir/bck.cpp.obj: CXX_COMPILER__bck_debug ../bck.cpp || cmake_object_order_depends_target_bck_debug
+build CMakeFiles/bc.dir/bcmain.cpp.obj: CXX_COMPILER__bc ../bcmain.cpp || cmake_object_order_depends_target_bc
+  DEP_FILE = CMakeFiles\bc.dir\bcmain.cpp.obj.d
+  FLAGS = -Weffc++  -Wextra -pedantic -Wall -std=c++11 -Werror -Wno-unused-parameter -Wno-unused-variable -Wno-unused-but-set-variable
+  INCLUDES = -I../include -I../src
+  OBJECT_DIR = CMakeFiles\bc.dir
+  OBJECT_FILE_DIR = CMakeFiles\bc.dir
+  TARGET_COMPILE_PDB = CMakeFiles\bc.dir\
+  TARGET_PDB = bc.pdb
+
+
+# =============================================================================
+# Link build statements for EXECUTABLE target bc
+
+
+#############################################
+# Link the executable bc.exe
+
+build bc.exe: CXX_EXECUTABLE_LINKER__bc CMakeFiles/bc.dir/bcmain.cpp.obj | libbchelper.a libvisawrapper.a libpsu.a libkeithley.a libhameg.a libhp66332.a libvisawrapper.a ../include/VISA/WinNT/lib/msc/visa32.lib ../include/VISA/WinNT/Lib_x64/msc/visa64.lib || libbchelper.a libhameg.a libhp66332.a libkeithley.a libpsu.a libvisawrapper.a
+  FLAGS = -Weffc++  -Wextra -pedantic -Wall -std=c++11 -Werror -Wno-unused-parameter -Wno-unused-variable -Wno-unused-but-set-variable
+  LINK_LIBRARIES = libbchelper.a libvisawrapper.a libpsu.a libkeithley.a libhameg.a libhp66332.a libvisawrapper.a ../include/VISA/WinNT/lib/msc/visa32.lib ../include/VISA/WinNT/Lib_x64/msc/visa64.lib -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
+  OBJECT_DIR = CMakeFiles\bc.dir
+  POST_BUILD = cd .
+  PRE_LINK = cd .
+  TARGET_COMPILE_PDB = CMakeFiles\bc.dir\
+  TARGET_FILE = bc.exe
+  TARGET_IMPLIB = libbc.dll.a
+  TARGET_PDB = bc.pdb
+
+# =============================================================================
+# Object build statements for EXECUTABLE target bc_debug
+
+
+#############################################
+# Order-only phony target for bc_debug
+
+build cmake_object_order_depends_target_bc_debug: phony || cmake_object_order_depends_target_bchelper cmake_object_order_depends_target_hameg_debug cmake_object_order_depends_target_hp66332_debug cmake_object_order_depends_target_keithley_debug cmake_object_order_depends_target_psu_debug cmake_object_order_depends_target_visawrapper_debug
+
+build CMakeFiles/bc_debug.dir/bcmain.cpp.obj: CXX_COMPILER__bc_debug ../bcmain.cpp || cmake_object_order_depends_target_bc_debug
   DEFINES = -DDEBUG=1
-  DEP_FILE = CMakeFiles\bck_debug.dir\bck.cpp.obj.d
+  DEP_FILE = CMakeFiles\bc_debug.dir\bcmain.cpp.obj.d
   FLAGS = -Weffc++  -Wextra -pedantic -Wall -std=c++11 -Werror -Wno-unused-parameter -Wno-unused-variable -Wno-unused-but-set-variable
   INCLUDES = -I../include -I../src
-  OBJECT_DIR = CMakeFiles\bck_debug.dir
-  OBJECT_FILE_DIR = CMakeFiles\bck_debug.dir
-  TARGET_COMPILE_PDB = CMakeFiles\bck_debug.dir\
-  TARGET_PDB = bck_debug.pdb
+  OBJECT_DIR = CMakeFiles\bc_debug.dir
+  OBJECT_FILE_DIR = CMakeFiles\bc_debug.dir
+  TARGET_COMPILE_PDB = CMakeFiles\bc_debug.dir\
+  TARGET_PDB = bc_debug.pdb
 
 
 # =============================================================================
-# Link build statements for EXECUTABLE target bck_debug
+# Link build statements for EXECUTABLE target bc_debug
 
 
 #############################################
-# Link the executable bck_debug.exe
+# Link the executable bc_debug.exe
 
-build bck_debug.exe: CXX_EXECUTABLE_LINKER__bck_debug CMakeFiles/bck_debug.dir/bck.cpp.obj | libbchelper.a libvisawrapper_debug.a libkeithley_debug.a libpsu_debug.a libvisawrapper_debug.a ../include/VISA/WinNT/lib/msc/visa32.lib ../include/VISA/WinNT/Lib_x64/msc/visa64.lib || libbchelper.a libkeithley_debug.a libpsu_debug.a libvisawrapper_debug.a
+build bc_debug.exe: CXX_EXECUTABLE_LINKER__bc_debug CMakeFiles/bc_debug.dir/bcmain.cpp.obj | libbchelper.a libvisawrapper_debug.a libpsu_debug.a libkeithley_debug.a libhameg_debug.a libhp66332_debug.a libvisawrapper_debug.a ../include/VISA/WinNT/lib/msc/visa32.lib ../include/VISA/WinNT/Lib_x64/msc/visa64.lib || libbchelper.a libhameg_debug.a libhp66332_debug.a libkeithley_debug.a libpsu_debug.a libvisawrapper_debug.a
   FLAGS = -Weffc++  -Wextra -pedantic -Wall -std=c++11 -Werror -Wno-unused-parameter -Wno-unused-variable -Wno-unused-but-set-variable
-  LINK_LIBRARIES = libbchelper.a libvisawrapper_debug.a libkeithley_debug.a libpsu_debug.a libvisawrapper_debug.a ../include/VISA/WinNT/lib/msc/visa32.lib ../include/VISA/WinNT/Lib_x64/msc/visa64.lib -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
-  OBJECT_DIR = CMakeFiles\bck_debug.dir
+  LINK_LIBRARIES = libbchelper.a libvisawrapper_debug.a libpsu_debug.a libkeithley_debug.a libhameg_debug.a libhp66332_debug.a libvisawrapper_debug.a ../include/VISA/WinNT/lib/msc/visa32.lib ../include/VISA/WinNT/Lib_x64/msc/visa64.lib -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
+  OBJECT_DIR = CMakeFiles\bc_debug.dir
   POST_BUILD = cd .
   PRE_LINK = cd .
-  TARGET_COMPILE_PDB = CMakeFiles\bck_debug.dir\
-  TARGET_FILE = bck_debug.exe
-  TARGET_IMPLIB = libbck_debug.dll.a
-  TARGET_PDB = bck_debug.pdb
+  TARGET_COMPILE_PDB = CMakeFiles\bc_debug.dir\
+  TARGET_FILE = bc_debug.exe
+  TARGET_IMPLIB = libbc_debug.dll.a
+  TARGET_PDB = bc_debug.pdb
 
 # =============================================================================
-# Object build statements for EXECUTABLE target bck
+# Object build statements for EXECUTABLE target bz
 
 
 #############################################
-# Order-only phony target for bck
+# Order-only phony target for bz
 
-build cmake_object_order_depends_target_bck: phony || cmake_object_order_depends_target_bchelper cmake_object_order_depends_target_keithley cmake_object_order_depends_target_psu cmake_object_order_depends_target_visawrapper
+build cmake_object_order_depends_target_bz: phony || cmake_object_order_depends_target_bzhelper cmake_object_order_depends_target_e5270 cmake_object_order_depends_target_hameg cmake_object_order_depends_target_hp66332 cmake_object_order_depends_target_keithley cmake_object_order_depends_target_psu cmake_object_order_depends_target_visawrapper
 
-build CMakeFiles/bck.dir/bck.cpp.obj: CXX_COMPILER__bck ../bck.cpp || cmake_object_order_depends_target_bck
-  DEP_FILE = CMakeFiles\bck.dir\bck.cpp.obj.d
+build CMakeFiles/bz.dir/bzmain.cpp.obj: CXX_COMPILER__bz ../bzmain.cpp || cmake_object_order_depends_target_bz
+  DEP_FILE = CMakeFiles\bz.dir\bzmain.cpp.obj.d
   FLAGS = -Weffc++  -Wextra -pedantic -Wall -std=c++11 -Werror -Wno-unused-parameter -Wno-unused-variable -Wno-unused-but-set-variable
   INCLUDES = -I../include -I../src
-  OBJECT_DIR = CMakeFiles\bck.dir
-  OBJECT_FILE_DIR = CMakeFiles\bck.dir
-  TARGET_COMPILE_PDB = CMakeFiles\bck.dir\
-  TARGET_PDB = bck.pdb
+  OBJECT_DIR = CMakeFiles\bz.dir
+  OBJECT_FILE_DIR = CMakeFiles\bz.dir
+  TARGET_COMPILE_PDB = CMakeFiles\bz.dir\
+  TARGET_PDB = bz.pdb
 
 
 # =============================================================================
-# Link build statements for EXECUTABLE target bck
+# Link build statements for EXECUTABLE target bz
 
 
 #############################################
-# Link the executable bck.exe
+# Link the executable bz.exe
 
-build bck.exe: CXX_EXECUTABLE_LINKER__bck CMakeFiles/bck.dir/bck.cpp.obj | libbchelper.a libvisawrapper.a libkeithley.a libpsu.a libvisawrapper.a ../include/VISA/WinNT/lib/msc/visa32.lib ../include/VISA/WinNT/Lib_x64/msc/visa64.lib || libbchelper.a libkeithley.a libpsu.a libvisawrapper.a
+build bz.exe: CXX_EXECUTABLE_LINKER__bz CMakeFiles/bz.dir/bzmain.cpp.obj | libbzhelper.a libvisawrapper.a libpsu.a libkeithley.a libhameg.a libhp66332.a libe5270.a libvisawrapper.a ../include/VISA/WinNT/lib/msc/visa32.lib ../include/VISA/WinNT/Lib_x64/msc/visa64.lib || libbzhelper.a libe5270.a libhameg.a libhp66332.a libkeithley.a libpsu.a libvisawrapper.a
   FLAGS = -Weffc++  -Wextra -pedantic -Wall -std=c++11 -Werror -Wno-unused-parameter -Wno-unused-variable -Wno-unused-but-set-variable
-  LINK_LIBRARIES = libbchelper.a libvisawrapper.a libkeithley.a libpsu.a libvisawrapper.a ../include/VISA/WinNT/lib/msc/visa32.lib ../include/VISA/WinNT/Lib_x64/msc/visa64.lib -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
-  OBJECT_DIR = CMakeFiles\bck.dir
+  LINK_LIBRARIES = libbzhelper.a libvisawrapper.a libpsu.a libkeithley.a libhameg.a libhp66332.a libe5270.a libvisawrapper.a ../include/VISA/WinNT/lib/msc/visa32.lib ../include/VISA/WinNT/Lib_x64/msc/visa64.lib -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
+  OBJECT_DIR = CMakeFiles\bz.dir
   POST_BUILD = cd .
   PRE_LINK = cd .
-  TARGET_COMPILE_PDB = CMakeFiles\bck.dir\
-  TARGET_FILE = bck.exe
-  TARGET_IMPLIB = libbck.dll.a
-  TARGET_PDB = bck.pdb
+  TARGET_COMPILE_PDB = CMakeFiles\bz.dir\
+  TARGET_FILE = bz.exe
+  TARGET_IMPLIB = libbz.dll.a
+  TARGET_PDB = bz.pdb
 
 # =============================================================================
-# Object build statements for EXECUTABLE target bc66332_debug
+# Object build statements for EXECUTABLE target bz_debug
 
 
 #############################################
-# Order-only phony target for bc66332_debug
+# Order-only phony target for bz_debug
 
-build cmake_object_order_depends_target_bc66332_debug: phony || cmake_object_order_depends_target_bchelper cmake_object_order_depends_target_hp66332_debug cmake_object_order_depends_target_psu_debug cmake_object_order_depends_target_visawrapper_debug
+build cmake_object_order_depends_target_bz_debug: phony || cmake_object_order_depends_target_bzhelper cmake_object_order_depends_target_e5270_debug cmake_object_order_depends_target_hameg_debug cmake_object_order_depends_target_hp66332_debug cmake_object_order_depends_target_keithley_debug cmake_object_order_depends_target_psu_debug cmake_object_order_depends_target_visawrapper_debug
 
-build CMakeFiles/bc66332_debug.dir/bc66332.cpp.obj: CXX_COMPILER__bc66332_debug ../bc66332.cpp || cmake_object_order_depends_target_bc66332_debug
+build CMakeFiles/bz_debug.dir/bzmain.cpp.obj: CXX_COMPILER__bz_debug ../bzmain.cpp || cmake_object_order_depends_target_bz_debug
   DEFINES = -DDEBUG=1
-  DEP_FILE = CMakeFiles\bc66332_debug.dir\bc66332.cpp.obj.d
+  DEP_FILE = CMakeFiles\bz_debug.dir\bzmain.cpp.obj.d
   FLAGS = -Weffc++  -Wextra -pedantic -Wall -std=c++11 -Werror -Wno-unused-parameter -Wno-unused-variable -Wno-unused-but-set-variable
   INCLUDES = -I../include -I../src
-  OBJECT_DIR = CMakeFiles\bc66332_debug.dir
-  OBJECT_FILE_DIR = CMakeFiles\bc66332_debug.dir
-  TARGET_COMPILE_PDB = CMakeFiles\bc66332_debug.dir\
-  TARGET_PDB = bc66332_debug.pdb
+  OBJECT_DIR = CMakeFiles\bz_debug.dir
+  OBJECT_FILE_DIR = CMakeFiles\bz_debug.dir
+  TARGET_COMPILE_PDB = CMakeFiles\bz_debug.dir\
+  TARGET_PDB = bz_debug.pdb
 
 
 # =============================================================================
-# Link build statements for EXECUTABLE target bc66332_debug
+# Link build statements for EXECUTABLE target bz_debug
 
 
 #############################################
-# Link the executable bc66332_debug.exe
+# Link the executable bz_debug.exe
 
-build bc66332_debug.exe: CXX_EXECUTABLE_LINKER__bc66332_debug CMakeFiles/bc66332_debug.dir/bc66332.cpp.obj | libbchelper.a libvisawrapper_debug.a libhp66332_debug.a libpsu_debug.a libvisawrapper_debug.a ../include/VISA/WinNT/lib/msc/visa32.lib ../include/VISA/WinNT/Lib_x64/msc/visa64.lib || libbchelper.a libhp66332_debug.a libpsu_debug.a libvisawrapper_debug.a
+build bz_debug.exe: CXX_EXECUTABLE_LINKER__bz_debug CMakeFiles/bz_debug.dir/bzmain.cpp.obj | libbzhelper.a libvisawrapper_debug.a libpsu_debug.a libkeithley_debug.a libhameg_debug.a libhp66332_debug.a libe5270_debug.a libvisawrapper_debug.a ../include/VISA/WinNT/lib/msc/visa32.lib ../include/VISA/WinNT/Lib_x64/msc/visa64.lib || libbzhelper.a libe5270_debug.a libhameg_debug.a libhp66332_debug.a libkeithley_debug.a libpsu_debug.a libvisawrapper_debug.a
   FLAGS = -Weffc++  -Wextra -pedantic -Wall -std=c++11 -Werror -Wno-unused-parameter -Wno-unused-variable -Wno-unused-but-set-variable
-  LINK_LIBRARIES = libbchelper.a libvisawrapper_debug.a libhp66332_debug.a libpsu_debug.a libvisawrapper_debug.a ../include/VISA/WinNT/lib/msc/visa32.lib ../include/VISA/WinNT/Lib_x64/msc/visa64.lib -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
-  OBJECT_DIR = CMakeFiles\bc66332_debug.dir
+  LINK_LIBRARIES = libbzhelper.a libvisawrapper_debug.a libpsu_debug.a libkeithley_debug.a libhameg_debug.a libhp66332_debug.a libe5270_debug.a libvisawrapper_debug.a ../include/VISA/WinNT/lib/msc/visa32.lib ../include/VISA/WinNT/Lib_x64/msc/visa64.lib -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
+  OBJECT_DIR = CMakeFiles\bz_debug.dir
   POST_BUILD = cd .
   PRE_LINK = cd .
-  TARGET_COMPILE_PDB = CMakeFiles\bc66332_debug.dir\
-  TARGET_FILE = bc66332_debug.exe
-  TARGET_IMPLIB = libbc66332_debug.dll.a
-  TARGET_PDB = bc66332_debug.pdb
-
-# =============================================================================
-# Object build statements for EXECUTABLE target bch
-
-
-#############################################
-# Order-only phony target for bch
-
-build cmake_object_order_depends_target_bch: phony || cmake_object_order_depends_target_bchelper cmake_object_order_depends_target_hameg cmake_object_order_depends_target_psu cmake_object_order_depends_target_visawrapper
-
-build CMakeFiles/bch.dir/bch.cpp.obj: CXX_COMPILER__bch ../bch.cpp || cmake_object_order_depends_target_bch
-  DEP_FILE = CMakeFiles\bch.dir\bch.cpp.obj.d
-  FLAGS = -Weffc++  -Wextra -pedantic -Wall -std=c++11 -Werror -Wno-unused-parameter -Wno-unused-variable -Wno-unused-but-set-variable
-  INCLUDES = -I../include -I../src
-  OBJECT_DIR = CMakeFiles\bch.dir
-  OBJECT_FILE_DIR = CMakeFiles\bch.dir
-  TARGET_COMPILE_PDB = CMakeFiles\bch.dir\
-  TARGET_PDB = bch.pdb
-
-
-# =============================================================================
-# Link build statements for EXECUTABLE target bch
-
-
-#############################################
-# Link the executable bch.exe
-
-build bch.exe: CXX_EXECUTABLE_LINKER__bch CMakeFiles/bch.dir/bch.cpp.obj | libbchelper.a libvisawrapper.a libhameg.a libpsu.a libvisawrapper.a ../include/VISA/WinNT/lib/msc/visa32.lib ../include/VISA/WinNT/Lib_x64/msc/visa64.lib || libbchelper.a libhameg.a libpsu.a libvisawrapper.a
-  FLAGS = -Weffc++  -Wextra -pedantic -Wall -std=c++11 -Werror -Wno-unused-parameter -Wno-unused-variable -Wno-unused-but-set-variable
-  LINK_LIBRARIES = libbchelper.a libvisawrapper.a libhameg.a libpsu.a libvisawrapper.a ../include/VISA/WinNT/lib/msc/visa32.lib ../include/VISA/WinNT/Lib_x64/msc/visa64.lib -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
-  OBJECT_DIR = CMakeFiles\bch.dir
-  POST_BUILD = cd .
-  PRE_LINK = cd .
-  TARGET_COMPILE_PDB = CMakeFiles\bch.dir\
-  TARGET_FILE = bch.exe
-  TARGET_IMPLIB = libbch.dll.a
-  TARGET_PDB = bch.pdb
-
-# =============================================================================
-# Object build statements for EXECUTABLE target bch_debug
-
-
-#############################################
-# Order-only phony target for bch_debug
-
-build cmake_object_order_depends_target_bch_debug: phony || cmake_object_order_depends_target_bchelper cmake_object_order_depends_target_hameg_debug cmake_object_order_depends_target_psu_debug cmake_object_order_depends_target_visawrapper_debug
-
-build CMakeFiles/bch_debug.dir/bch.cpp.obj: CXX_COMPILER__bch_debug ../bch.cpp || cmake_object_order_depends_target_bch_debug
-  DEFINES = -DDEBUG=1
-  DEP_FILE = CMakeFiles\bch_debug.dir\bch.cpp.obj.d
-  FLAGS = -Weffc++  -Wextra -pedantic -Wall -std=c++11 -Werror -Wno-unused-parameter -Wno-unused-variable -Wno-unused-but-set-variable
-  INCLUDES = -I../include -I../src
-  OBJECT_DIR = CMakeFiles\bch_debug.dir
-  OBJECT_FILE_DIR = CMakeFiles\bch_debug.dir
-  TARGET_COMPILE_PDB = CMakeFiles\bch_debug.dir\
-  TARGET_PDB = bch_debug.pdb
-
-
-# =============================================================================
-# Link build statements for EXECUTABLE target bch_debug
-
-
-#############################################
-# Link the executable bch_debug.exe
-
-build bch_debug.exe: CXX_EXECUTABLE_LINKER__bch_debug CMakeFiles/bch_debug.dir/bch.cpp.obj | libbchelper.a libvisawrapper_debug.a libhameg_debug.a libpsu_debug.a libvisawrapper_debug.a ../include/VISA/WinNT/lib/msc/visa32.lib ../include/VISA/WinNT/Lib_x64/msc/visa64.lib || libbchelper.a libhameg_debug.a libpsu_debug.a libvisawrapper_debug.a
-  FLAGS = -Weffc++  -Wextra -pedantic -Wall -std=c++11 -Werror -Wno-unused-parameter -Wno-unused-variable -Wno-unused-but-set-variable
-  LINK_LIBRARIES = libbchelper.a libvisawrapper_debug.a libhameg_debug.a libpsu_debug.a libvisawrapper_debug.a ../include/VISA/WinNT/lib/msc/visa32.lib ../include/VISA/WinNT/Lib_x64/msc/visa64.lib -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
-  OBJECT_DIR = CMakeFiles\bch_debug.dir
-  POST_BUILD = cd .
-  PRE_LINK = cd .
-  TARGET_COMPILE_PDB = CMakeFiles\bch_debug.dir\
-  TARGET_FILE = bch_debug.exe
-  TARGET_IMPLIB = libbch_debug.dll.a
-  TARGET_PDB = bch_debug.pdb
-
-# =============================================================================
-# Object build statements for EXECUTABLE target bzk
-
-
-#############################################
-# Order-only phony target for bzk
-
-build cmake_object_order_depends_target_bzk: phony || cmake_object_order_depends_target_bzhelper cmake_object_order_depends_target_keithley cmake_object_order_depends_target_psu cmake_object_order_depends_target_visawrapper
-
-build CMakeFiles/bzk.dir/bzk.cpp.obj: CXX_COMPILER__bzk ../bzk.cpp || cmake_object_order_depends_target_bzk
-  DEP_FILE = CMakeFiles\bzk.dir\bzk.cpp.obj.d
-  FLAGS = -Weffc++  -Wextra -pedantic -Wall -std=c++11 -Werror -Wno-unused-parameter -Wno-unused-variable -Wno-unused-but-set-variable
-  INCLUDES = -I../include -I../src
-  OBJECT_DIR = CMakeFiles\bzk.dir
-  OBJECT_FILE_DIR = CMakeFiles\bzk.dir
-  TARGET_COMPILE_PDB = CMakeFiles\bzk.dir\
-  TARGET_PDB = bzk.pdb
-
-
-# =============================================================================
-# Link build statements for EXECUTABLE target bzk
-
-
-#############################################
-# Link the executable bzk.exe
-
-build bzk.exe: CXX_EXECUTABLE_LINKER__bzk CMakeFiles/bzk.dir/bzk.cpp.obj | libbzhelper.a libvisawrapper.a libkeithley.a libpsu.a libvisawrapper.a ../include/VISA/WinNT/lib/msc/visa32.lib ../include/VISA/WinNT/Lib_x64/msc/visa64.lib || libbzhelper.a libkeithley.a libpsu.a libvisawrapper.a
-  FLAGS = -Weffc++  -Wextra -pedantic -Wall -std=c++11 -Werror -Wno-unused-parameter -Wno-unused-variable -Wno-unused-but-set-variable
-  LINK_LIBRARIES = libbzhelper.a libvisawrapper.a libkeithley.a libpsu.a libvisawrapper.a ../include/VISA/WinNT/lib/msc/visa32.lib ../include/VISA/WinNT/Lib_x64/msc/visa64.lib -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
-  OBJECT_DIR = CMakeFiles\bzk.dir
-  POST_BUILD = cd .
-  PRE_LINK = cd .
-  TARGET_COMPILE_PDB = CMakeFiles\bzk.dir\
-  TARGET_FILE = bzk.exe
-  TARGET_IMPLIB = libbzk.dll.a
-  TARGET_PDB = bzk.pdb
-
-# =============================================================================
-# Object build statements for EXECUTABLE target bzk_debug
-
-
-#############################################
-# Order-only phony target for bzk_debug
-
-build cmake_object_order_depends_target_bzk_debug: phony || cmake_object_order_depends_target_bzhelper cmake_object_order_depends_target_keithley_debug cmake_object_order_depends_target_psu_debug cmake_object_order_depends_target_visawrapper_debug
-
-build CMakeFiles/bzk_debug.dir/bzk.cpp.obj: CXX_COMPILER__bzk_debug ../bzk.cpp || cmake_object_order_depends_target_bzk_debug
-  DEFINES = -DDEBUG=1
-  DEP_FILE = CMakeFiles\bzk_debug.dir\bzk.cpp.obj.d
-  FLAGS = -Weffc++  -Wextra -pedantic -Wall -std=c++11 -Werror -Wno-unused-parameter -Wno-unused-variable -Wno-unused-but-set-variable
-  INCLUDES = -I../include -I../src
-  OBJECT_DIR = CMakeFiles\bzk_debug.dir
-  OBJECT_FILE_DIR = CMakeFiles\bzk_debug.dir
-  TARGET_COMPILE_PDB = CMakeFiles\bzk_debug.dir\
-  TARGET_PDB = bzk_debug.pdb
-
-
-# =============================================================================
-# Link build statements for EXECUTABLE target bzk_debug
-
-
-#############################################
-# Link the executable bzk_debug.exe
-
-build bzk_debug.exe: CXX_EXECUTABLE_LINKER__bzk_debug CMakeFiles/bzk_debug.dir/bzk.cpp.obj | libbzhelper.a libvisawrapper_debug.a libkeithley_debug.a libpsu_debug.a libvisawrapper_debug.a ../include/VISA/WinNT/lib/msc/visa32.lib ../include/VISA/WinNT/Lib_x64/msc/visa64.lib || libbzhelper.a libkeithley_debug.a libpsu_debug.a libvisawrapper_debug.a
-  FLAGS = -Weffc++  -Wextra -pedantic -Wall -std=c++11 -Werror -Wno-unused-parameter -Wno-unused-variable -Wno-unused-but-set-variable
-  LINK_LIBRARIES = libbzhelper.a libvisawrapper_debug.a libkeithley_debug.a libpsu_debug.a libvisawrapper_debug.a ../include/VISA/WinNT/lib/msc/visa32.lib ../include/VISA/WinNT/Lib_x64/msc/visa64.lib -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
-  OBJECT_DIR = CMakeFiles\bzk_debug.dir
-  POST_BUILD = cd .
-  PRE_LINK = cd .
-  TARGET_COMPILE_PDB = CMakeFiles\bzk_debug.dir\
-  TARGET_FILE = bzk_debug.exe
-  TARGET_IMPLIB = libbzk_debug.dll.a
-  TARGET_PDB = bzk_debug.pdb
-
-# =============================================================================
-# Object build statements for EXECUTABLE target bzh
-
-
-#############################################
-# Order-only phony target for bzh
-
-build cmake_object_order_depends_target_bzh: phony || cmake_object_order_depends_target_bzhelper cmake_object_order_depends_target_hameg cmake_object_order_depends_target_psu cmake_object_order_depends_target_visawrapper
-
-build CMakeFiles/bzh.dir/bzh.cpp.obj: CXX_COMPILER__bzh ../bzh.cpp || cmake_object_order_depends_target_bzh
-  DEP_FILE = CMakeFiles\bzh.dir\bzh.cpp.obj.d
-  FLAGS = -Weffc++  -Wextra -pedantic -Wall -std=c++11 -Werror -Wno-unused-parameter -Wno-unused-variable -Wno-unused-but-set-variable
-  INCLUDES = -I../include -I../src
-  OBJECT_DIR = CMakeFiles\bzh.dir
-  OBJECT_FILE_DIR = CMakeFiles\bzh.dir
-  TARGET_COMPILE_PDB = CMakeFiles\bzh.dir\
-  TARGET_PDB = bzh.pdb
-
-
-# =============================================================================
-# Link build statements for EXECUTABLE target bzh
-
-
-#############################################
-# Link the executable bzh.exe
-
-build bzh.exe: CXX_EXECUTABLE_LINKER__bzh CMakeFiles/bzh.dir/bzh.cpp.obj | libbzhelper.a libvisawrapper.a libhameg.a libpsu.a libvisawrapper.a ../include/VISA/WinNT/lib/msc/visa32.lib ../include/VISA/WinNT/Lib_x64/msc/visa64.lib || libbzhelper.a libhameg.a libpsu.a libvisawrapper.a
-  FLAGS = -Weffc++  -Wextra -pedantic -Wall -std=c++11 -Werror -Wno-unused-parameter -Wno-unused-variable -Wno-unused-but-set-variable
-  LINK_LIBRARIES = libbzhelper.a libvisawrapper.a libhameg.a libpsu.a libvisawrapper.a ../include/VISA/WinNT/lib/msc/visa32.lib ../include/VISA/WinNT/Lib_x64/msc/visa64.lib -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
-  OBJECT_DIR = CMakeFiles\bzh.dir
-  POST_BUILD = cd .
-  PRE_LINK = cd .
-  TARGET_COMPILE_PDB = CMakeFiles\bzh.dir\
-  TARGET_FILE = bzh.exe
-  TARGET_IMPLIB = libbzh.dll.a
-  TARGET_PDB = bzh.pdb
-
-# =============================================================================
-# Object build statements for EXECUTABLE target bzh_debug
-
-
-#############################################
-# Order-only phony target for bzh_debug
-
-build cmake_object_order_depends_target_bzh_debug: phony || cmake_object_order_depends_target_bzhelper cmake_object_order_depends_target_hameg_debug cmake_object_order_depends_target_psu_debug cmake_object_order_depends_target_visawrapper_debug
-
-build CMakeFiles/bzh_debug.dir/bzh.cpp.obj: CXX_COMPILER__bzh_debug ../bzh.cpp || cmake_object_order_depends_target_bzh_debug
-  DEFINES = -DDEBUG=1
-  DEP_FILE = CMakeFiles\bzh_debug.dir\bzh.cpp.obj.d
-  FLAGS = -Weffc++  -Wextra -pedantic -Wall -std=c++11 -Werror -Wno-unused-parameter -Wno-unused-variable -Wno-unused-but-set-variable
-  INCLUDES = -I../include -I../src
-  OBJECT_DIR = CMakeFiles\bzh_debug.dir
-  OBJECT_FILE_DIR = CMakeFiles\bzh_debug.dir
-  TARGET_COMPILE_PDB = CMakeFiles\bzh_debug.dir\
-  TARGET_PDB = bzh_debug.pdb
-
-
-# =============================================================================
-# Link build statements for EXECUTABLE target bzh_debug
-
-
-#############################################
-# Link the executable bzh_debug.exe
-
-build bzh_debug.exe: CXX_EXECUTABLE_LINKER__bzh_debug CMakeFiles/bzh_debug.dir/bzh.cpp.obj | libbzhelper.a libvisawrapper_debug.a libhameg_debug.a libpsu_debug.a libvisawrapper_debug.a ../include/VISA/WinNT/lib/msc/visa32.lib ../include/VISA/WinNT/Lib_x64/msc/visa64.lib || libbzhelper.a libhameg_debug.a libpsu_debug.a libvisawrapper_debug.a
-  FLAGS = -Weffc++  -Wextra -pedantic -Wall -std=c++11 -Werror -Wno-unused-parameter -Wno-unused-variable -Wno-unused-but-set-variable
-  LINK_LIBRARIES = libbzhelper.a libvisawrapper_debug.a libhameg_debug.a libpsu_debug.a libvisawrapper_debug.a ../include/VISA/WinNT/lib/msc/visa32.lib ../include/VISA/WinNT/Lib_x64/msc/visa64.lib -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
-  OBJECT_DIR = CMakeFiles\bzh_debug.dir
-  POST_BUILD = cd .
-  PRE_LINK = cd .
-  TARGET_COMPILE_PDB = CMakeFiles\bzh_debug.dir\
-  TARGET_FILE = bzh_debug.exe
-  TARGET_IMPLIB = libbzh_debug.dll.a
-  TARGET_PDB = bzh_debug.pdb
-
-# =============================================================================
-# Object build statements for EXECUTABLE target bz5270
-
-
-#############################################
-# Order-only phony target for bz5270
-
-build cmake_object_order_depends_target_bz5270: phony || cmake_object_order_depends_target_bzhelper cmake_object_order_depends_target_e5270 cmake_object_order_depends_target_psu cmake_object_order_depends_target_visawrapper
-
-build CMakeFiles/bz5270.dir/bz5270.cpp.obj: CXX_COMPILER__bz5270 ../bz5270.cpp || cmake_object_order_depends_target_bz5270
-  DEP_FILE = CMakeFiles\bz5270.dir\bz5270.cpp.obj.d
-  FLAGS = -Weffc++  -Wextra -pedantic -Wall -std=c++11 -Werror -Wno-unused-parameter -Wno-unused-variable -Wno-unused-but-set-variable
-  INCLUDES = -I../include -I../src
-  OBJECT_DIR = CMakeFiles\bz5270.dir
-  OBJECT_FILE_DIR = CMakeFiles\bz5270.dir
-  TARGET_COMPILE_PDB = CMakeFiles\bz5270.dir\
-  TARGET_PDB = bz5270.pdb
-
-
-# =============================================================================
-# Link build statements for EXECUTABLE target bz5270
-
-
-#############################################
-# Link the executable bz5270.exe
-
-build bz5270.exe: CXX_EXECUTABLE_LINKER__bz5270 CMakeFiles/bz5270.dir/bz5270.cpp.obj | libbzhelper.a libvisawrapper.a libe5270.a libpsu.a libvisawrapper.a ../include/VISA/WinNT/lib/msc/visa32.lib ../include/VISA/WinNT/Lib_x64/msc/visa64.lib || libbzhelper.a libe5270.a libpsu.a libvisawrapper.a
-  FLAGS = -Weffc++  -Wextra -pedantic -Wall -std=c++11 -Werror -Wno-unused-parameter -Wno-unused-variable -Wno-unused-but-set-variable
-  LINK_LIBRARIES = libbzhelper.a libvisawrapper.a libe5270.a libpsu.a libvisawrapper.a ../include/VISA/WinNT/lib/msc/visa32.lib ../include/VISA/WinNT/Lib_x64/msc/visa64.lib -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
-  OBJECT_DIR = CMakeFiles\bz5270.dir
-  POST_BUILD = cd .
-  PRE_LINK = cd .
-  TARGET_COMPILE_PDB = CMakeFiles\bz5270.dir\
-  TARGET_FILE = bz5270.exe
-  TARGET_IMPLIB = libbz5270.dll.a
-  TARGET_PDB = bz5270.pdb
-
-# =============================================================================
-# Object build statements for EXECUTABLE target bz5270_debug
-
-
-#############################################
-# Order-only phony target for bz5270_debug
-
-build cmake_object_order_depends_target_bz5270_debug: phony || cmake_object_order_depends_target_bzhelper cmake_object_order_depends_target_e5270_debug cmake_object_order_depends_target_psu_debug cmake_object_order_depends_target_visawrapper_debug
-
-build CMakeFiles/bz5270_debug.dir/bz5270.cpp.obj: CXX_COMPILER__bz5270_debug ../bz5270.cpp || cmake_object_order_depends_target_bz5270_debug
-  DEFINES = -DDEBUG=1
-  DEP_FILE = CMakeFiles\bz5270_debug.dir\bz5270.cpp.obj.d
-  FLAGS = -Weffc++  -Wextra -pedantic -Wall -std=c++11 -Werror -Wno-unused-parameter -Wno-unused-variable -Wno-unused-but-set-variable
-  INCLUDES = -I../include -I../src
-  OBJECT_DIR = CMakeFiles\bz5270_debug.dir
-  OBJECT_FILE_DIR = CMakeFiles\bz5270_debug.dir
-  TARGET_COMPILE_PDB = CMakeFiles\bz5270_debug.dir\
-  TARGET_PDB = bz5270_debug.pdb
-
-
-# =============================================================================
-# Link build statements for EXECUTABLE target bz5270_debug
-
-
-#############################################
-# Link the executable bz5270_debug.exe
-
-build bz5270_debug.exe: CXX_EXECUTABLE_LINKER__bz5270_debug CMakeFiles/bz5270_debug.dir/bz5270.cpp.obj | libbzhelper.a libvisawrapper_debug.a libe5270_debug.a libpsu_debug.a libvisawrapper_debug.a ../include/VISA/WinNT/lib/msc/visa32.lib ../include/VISA/WinNT/Lib_x64/msc/visa64.lib || libbzhelper.a libe5270_debug.a libpsu_debug.a libvisawrapper_debug.a
-  FLAGS = -Weffc++  -Wextra -pedantic -Wall -std=c++11 -Werror -Wno-unused-parameter -Wno-unused-variable -Wno-unused-but-set-variable
-  LINK_LIBRARIES = libbzhelper.a libvisawrapper_debug.a libe5270_debug.a libpsu_debug.a libvisawrapper_debug.a ../include/VISA/WinNT/lib/msc/visa32.lib ../include/VISA/WinNT/Lib_x64/msc/visa64.lib -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
-  OBJECT_DIR = CMakeFiles\bz5270_debug.dir
-  POST_BUILD = cd .
-  PRE_LINK = cd .
-  TARGET_COMPILE_PDB = CMakeFiles\bz5270_debug.dir\
-  TARGET_FILE = bz5270_debug.exe
-  TARGET_IMPLIB = libbz5270_debug.dll.a
-  TARGET_PDB = bz5270_debug.pdb
+  TARGET_COMPILE_PDB = CMakeFiles\bz_debug.dir\
+  TARGET_FILE = bz_debug.exe
+  TARGET_IMPLIB = libbz_debug.dll.a
+  TARGET_PDB = bz_debug.pdb
 
 
 #############################################
@@ -1077,37 +702,17 @@ build edit_cache: phony CMakeFiles/edit_cache.util
 # =============================================================================
 # Target aliases.
 
-build bc66332: phony bc66332.exe
+build bc: phony bc.exe
 
-build bc66332_debug: phony bc66332_debug.exe
-
-build bch: phony bch.exe
-
-build bch_debug: phony bch_debug.exe
+build bc_debug: phony bc_debug.exe
 
 build bchelper: phony libbchelper.a
 
-build bck: phony bck.exe
+build bz: phony bz.exe
 
-build bck_debug: phony bck_debug.exe
-
-build bz5270: phony bz5270.exe
-
-build bz5270_debug: phony bz5270_debug.exe
-
-build bz66332: phony bz66332.exe
-
-build bz66332_debug: phony bz66332_debug.exe
-
-build bzh: phony bzh.exe
-
-build bzh_debug: phony bzh_debug.exe
+build bz_debug: phony bz_debug.exe
 
 build bzhelper: phony libbzhelper.a
-
-build bzk: phony bzk.exe
-
-build bzk_debug: phony bzk_debug.exe
 
 build e5270: phony libe5270.a
 
@@ -1148,7 +753,7 @@ build visawrapper_debug: phony libvisawrapper_debug.a
 #############################################
 # The main all target.
 
-build all: phony libkeithley.a libbchelper.a libhameg.a libbzhelper.a libvisawrapper_debug.a bz66332_debug.exe libpsu_debug.a libvisawrapper.a bc66332.exe libkeithley_debug.a libhameg_debug.a libhp66332_debug.a libhp66332.a libe5270.a libe5270_debug.a bz66332.exe libpsu.a bck_debug.exe bck.exe bc66332_debug.exe bch.exe bch_debug.exe bzk.exe bzk_debug.exe bzh.exe bzh_debug.exe bz5270.exe bz5270_debug.exe
+build all: phony libkeithley.a libbchelper.a libhameg.a libbzhelper.a libvisawrapper_debug.a libpsu_debug.a libvisawrapper.a libkeithley_debug.a libhameg_debug.a libhp66332_debug.a libhp66332.a libe5270.a libe5270_debug.a libpsu.a bc.exe bc_debug.exe bz.exe bz_debug.exe
 
 
 #############################################

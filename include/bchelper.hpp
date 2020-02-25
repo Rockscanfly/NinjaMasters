@@ -1,3 +1,14 @@
+#include "stdio.h"
+#include <stdlib.h>
+#include <string>
+
+enum device_list {
+    Keithley,
+    Hameg,
+    HP66332,
+    None
+};
+
 struct bcargs
 {
     int gpib_major = 0;
@@ -13,4 +24,4 @@ struct bcargs
     char filestring[255] = {'\0'};
 };
 
-bcargs bcparse(int argc, char ** argv, const char device_string[256]);
+bcargs bcparse(int argc, char ** argv, std::string device_string);

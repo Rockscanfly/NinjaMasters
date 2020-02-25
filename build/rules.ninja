@@ -117,25 +117,6 @@ rule CXX_STATIC_LIBRARY_LINKER__visawrapper_debug
 #############################################
 # Rule for compiling CXX files.
 
-rule CXX_COMPILER__bz66332_debug
-  depfile = $DEP_FILE
-  deps = gcc
-  command = C:\MinGW\bin\c++.exe  $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
-  description = Building CXX object $out
-
-
-#############################################
-# Rule for linking CXX executable.
-
-rule CXX_EXECUTABLE_LINKER__bz66332_debug
-  command = cmd.exe /C "$PRE_LINK && C:\MinGW\bin\c++.exe $FLAGS  $LINK_FLAGS $in  -o $TARGET_FILE -Wl,--out-implib,$TARGET_IMPLIB -Wl,--major-image-version,0,--minor-image-version,0 $LINK_PATH $LINK_LIBRARIES && $POST_BUILD"
-  description = Linking CXX executable $TARGET_FILE
-  restat = $RESTAT
-
-
-#############################################
-# Rule for compiling CXX files.
-
 rule CXX_COMPILER__psu_debug
   depfile = $DEP_FILE
   deps = gcc
@@ -168,25 +149,6 @@ rule CXX_COMPILER__visawrapper
 rule CXX_STATIC_LIBRARY_LINKER__visawrapper
   command = cmd.exe /C "$PRE_LINK && "C:\Program Files\CMake\bin\cmake.exe" -E remove $TARGET_FILE && C:\MinGW\bin\ar.exe qc $TARGET_FILE $LINK_FLAGS $in && C:\MinGW\bin\ranlib.exe $TARGET_FILE && $POST_BUILD"
   description = Linking CXX static library $TARGET_FILE
-  restat = $RESTAT
-
-
-#############################################
-# Rule for compiling CXX files.
-
-rule CXX_COMPILER__bc66332
-  depfile = $DEP_FILE
-  deps = gcc
-  command = C:\MinGW\bin\c++.exe  $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
-  description = Building CXX object $out
-
-
-#############################################
-# Rule for linking CXX executable.
-
-rule CXX_EXECUTABLE_LINKER__bc66332
-  command = cmd.exe /C "$PRE_LINK && C:\MinGW\bin\c++.exe $FLAGS  $LINK_FLAGS $in  -o $TARGET_FILE -Wl,--out-implib,$TARGET_IMPLIB -Wl,--major-image-version,0,--minor-image-version,0 $LINK_PATH $LINK_LIBRARIES && $POST_BUILD"
-  description = Linking CXX executable $TARGET_FILE
   restat = $RESTAT
 
 
@@ -307,25 +269,6 @@ rule CXX_STATIC_LIBRARY_LINKER__e5270_debug
 #############################################
 # Rule for compiling CXX files.
 
-rule CXX_COMPILER__bz66332
-  depfile = $DEP_FILE
-  deps = gcc
-  command = C:\MinGW\bin\c++.exe  $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
-  description = Building CXX object $out
-
-
-#############################################
-# Rule for linking CXX executable.
-
-rule CXX_EXECUTABLE_LINKER__bz66332
-  command = cmd.exe /C "$PRE_LINK && C:\MinGW\bin\c++.exe $FLAGS  $LINK_FLAGS $in  -o $TARGET_FILE -Wl,--out-implib,$TARGET_IMPLIB -Wl,--major-image-version,0,--minor-image-version,0 $LINK_PATH $LINK_LIBRARIES && $POST_BUILD"
-  description = Linking CXX executable $TARGET_FILE
-  restat = $RESTAT
-
-
-#############################################
-# Rule for compiling CXX files.
-
 rule CXX_COMPILER__psu
   depfile = $DEP_FILE
   deps = gcc
@@ -345,7 +288,7 @@ rule CXX_STATIC_LIBRARY_LINKER__psu
 #############################################
 # Rule for compiling CXX files.
 
-rule CXX_COMPILER__bck_debug
+rule CXX_COMPILER__bc
   depfile = $DEP_FILE
   deps = gcc
   command = C:\MinGW\bin\c++.exe  $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
@@ -355,7 +298,7 @@ rule CXX_COMPILER__bck_debug
 #############################################
 # Rule for linking CXX executable.
 
-rule CXX_EXECUTABLE_LINKER__bck_debug
+rule CXX_EXECUTABLE_LINKER__bc
   command = cmd.exe /C "$PRE_LINK && C:\MinGW\bin\c++.exe $FLAGS  $LINK_FLAGS $in  -o $TARGET_FILE -Wl,--out-implib,$TARGET_IMPLIB -Wl,--major-image-version,0,--minor-image-version,0 $LINK_PATH $LINK_LIBRARIES && $POST_BUILD"
   description = Linking CXX executable $TARGET_FILE
   restat = $RESTAT
@@ -364,7 +307,7 @@ rule CXX_EXECUTABLE_LINKER__bck_debug
 #############################################
 # Rule for compiling CXX files.
 
-rule CXX_COMPILER__bck
+rule CXX_COMPILER__bc_debug
   depfile = $DEP_FILE
   deps = gcc
   command = C:\MinGW\bin\c++.exe  $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
@@ -374,7 +317,7 @@ rule CXX_COMPILER__bck
 #############################################
 # Rule for linking CXX executable.
 
-rule CXX_EXECUTABLE_LINKER__bck
+rule CXX_EXECUTABLE_LINKER__bc_debug
   command = cmd.exe /C "$PRE_LINK && C:\MinGW\bin\c++.exe $FLAGS  $LINK_FLAGS $in  -o $TARGET_FILE -Wl,--out-implib,$TARGET_IMPLIB -Wl,--major-image-version,0,--minor-image-version,0 $LINK_PATH $LINK_LIBRARIES && $POST_BUILD"
   description = Linking CXX executable $TARGET_FILE
   restat = $RESTAT
@@ -383,7 +326,7 @@ rule CXX_EXECUTABLE_LINKER__bck
 #############################################
 # Rule for compiling CXX files.
 
-rule CXX_COMPILER__bc66332_debug
+rule CXX_COMPILER__bz
   depfile = $DEP_FILE
   deps = gcc
   command = C:\MinGW\bin\c++.exe  $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
@@ -393,7 +336,7 @@ rule CXX_COMPILER__bc66332_debug
 #############################################
 # Rule for linking CXX executable.
 
-rule CXX_EXECUTABLE_LINKER__bc66332_debug
+rule CXX_EXECUTABLE_LINKER__bz
   command = cmd.exe /C "$PRE_LINK && C:\MinGW\bin\c++.exe $FLAGS  $LINK_FLAGS $in  -o $TARGET_FILE -Wl,--out-implib,$TARGET_IMPLIB -Wl,--major-image-version,0,--minor-image-version,0 $LINK_PATH $LINK_LIBRARIES && $POST_BUILD"
   description = Linking CXX executable $TARGET_FILE
   restat = $RESTAT
@@ -402,7 +345,7 @@ rule CXX_EXECUTABLE_LINKER__bc66332_debug
 #############################################
 # Rule for compiling CXX files.
 
-rule CXX_COMPILER__bch
+rule CXX_COMPILER__bz_debug
   depfile = $DEP_FILE
   deps = gcc
   command = C:\MinGW\bin\c++.exe  $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
@@ -412,140 +355,7 @@ rule CXX_COMPILER__bch
 #############################################
 # Rule for linking CXX executable.
 
-rule CXX_EXECUTABLE_LINKER__bch
-  command = cmd.exe /C "$PRE_LINK && C:\MinGW\bin\c++.exe $FLAGS  $LINK_FLAGS $in  -o $TARGET_FILE -Wl,--out-implib,$TARGET_IMPLIB -Wl,--major-image-version,0,--minor-image-version,0 $LINK_PATH $LINK_LIBRARIES && $POST_BUILD"
-  description = Linking CXX executable $TARGET_FILE
-  restat = $RESTAT
-
-
-#############################################
-# Rule for compiling CXX files.
-
-rule CXX_COMPILER__bch_debug
-  depfile = $DEP_FILE
-  deps = gcc
-  command = C:\MinGW\bin\c++.exe  $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
-  description = Building CXX object $out
-
-
-#############################################
-# Rule for linking CXX executable.
-
-rule CXX_EXECUTABLE_LINKER__bch_debug
-  command = cmd.exe /C "$PRE_LINK && C:\MinGW\bin\c++.exe $FLAGS  $LINK_FLAGS $in  -o $TARGET_FILE -Wl,--out-implib,$TARGET_IMPLIB -Wl,--major-image-version,0,--minor-image-version,0 $LINK_PATH $LINK_LIBRARIES && $POST_BUILD"
-  description = Linking CXX executable $TARGET_FILE
-  restat = $RESTAT
-
-
-#############################################
-# Rule for compiling CXX files.
-
-rule CXX_COMPILER__bzk
-  depfile = $DEP_FILE
-  deps = gcc
-  command = C:\MinGW\bin\c++.exe  $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
-  description = Building CXX object $out
-
-
-#############################################
-# Rule for linking CXX executable.
-
-rule CXX_EXECUTABLE_LINKER__bzk
-  command = cmd.exe /C "$PRE_LINK && C:\MinGW\bin\c++.exe $FLAGS  $LINK_FLAGS $in  -o $TARGET_FILE -Wl,--out-implib,$TARGET_IMPLIB -Wl,--major-image-version,0,--minor-image-version,0 $LINK_PATH $LINK_LIBRARIES && $POST_BUILD"
-  description = Linking CXX executable $TARGET_FILE
-  restat = $RESTAT
-
-
-#############################################
-# Rule for compiling CXX files.
-
-rule CXX_COMPILER__bzk_debug
-  depfile = $DEP_FILE
-  deps = gcc
-  command = C:\MinGW\bin\c++.exe  $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
-  description = Building CXX object $out
-
-
-#############################################
-# Rule for linking CXX executable.
-
-rule CXX_EXECUTABLE_LINKER__bzk_debug
-  command = cmd.exe /C "$PRE_LINK && C:\MinGW\bin\c++.exe $FLAGS  $LINK_FLAGS $in  -o $TARGET_FILE -Wl,--out-implib,$TARGET_IMPLIB -Wl,--major-image-version,0,--minor-image-version,0 $LINK_PATH $LINK_LIBRARIES && $POST_BUILD"
-  description = Linking CXX executable $TARGET_FILE
-  restat = $RESTAT
-
-
-#############################################
-# Rule for compiling CXX files.
-
-rule CXX_COMPILER__bzh
-  depfile = $DEP_FILE
-  deps = gcc
-  command = C:\MinGW\bin\c++.exe  $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
-  description = Building CXX object $out
-
-
-#############################################
-# Rule for linking CXX executable.
-
-rule CXX_EXECUTABLE_LINKER__bzh
-  command = cmd.exe /C "$PRE_LINK && C:\MinGW\bin\c++.exe $FLAGS  $LINK_FLAGS $in  -o $TARGET_FILE -Wl,--out-implib,$TARGET_IMPLIB -Wl,--major-image-version,0,--minor-image-version,0 $LINK_PATH $LINK_LIBRARIES && $POST_BUILD"
-  description = Linking CXX executable $TARGET_FILE
-  restat = $RESTAT
-
-
-#############################################
-# Rule for compiling CXX files.
-
-rule CXX_COMPILER__bzh_debug
-  depfile = $DEP_FILE
-  deps = gcc
-  command = C:\MinGW\bin\c++.exe  $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
-  description = Building CXX object $out
-
-
-#############################################
-# Rule for linking CXX executable.
-
-rule CXX_EXECUTABLE_LINKER__bzh_debug
-  command = cmd.exe /C "$PRE_LINK && C:\MinGW\bin\c++.exe $FLAGS  $LINK_FLAGS $in  -o $TARGET_FILE -Wl,--out-implib,$TARGET_IMPLIB -Wl,--major-image-version,0,--minor-image-version,0 $LINK_PATH $LINK_LIBRARIES && $POST_BUILD"
-  description = Linking CXX executable $TARGET_FILE
-  restat = $RESTAT
-
-
-#############################################
-# Rule for compiling CXX files.
-
-rule CXX_COMPILER__bz5270
-  depfile = $DEP_FILE
-  deps = gcc
-  command = C:\MinGW\bin\c++.exe  $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
-  description = Building CXX object $out
-
-
-#############################################
-# Rule for linking CXX executable.
-
-rule CXX_EXECUTABLE_LINKER__bz5270
-  command = cmd.exe /C "$PRE_LINK && C:\MinGW\bin\c++.exe $FLAGS  $LINK_FLAGS $in  -o $TARGET_FILE -Wl,--out-implib,$TARGET_IMPLIB -Wl,--major-image-version,0,--minor-image-version,0 $LINK_PATH $LINK_LIBRARIES && $POST_BUILD"
-  description = Linking CXX executable $TARGET_FILE
-  restat = $RESTAT
-
-
-#############################################
-# Rule for compiling CXX files.
-
-rule CXX_COMPILER__bz5270_debug
-  depfile = $DEP_FILE
-  deps = gcc
-  command = C:\MinGW\bin\c++.exe  $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
-  description = Building CXX object $out
-
-
-#############################################
-# Rule for linking CXX executable.
-
-rule CXX_EXECUTABLE_LINKER__bz5270_debug
+rule CXX_EXECUTABLE_LINKER__bz_debug
   command = cmd.exe /C "$PRE_LINK && C:\MinGW\bin\c++.exe $FLAGS  $LINK_FLAGS $in  -o $TARGET_FILE -Wl,--out-implib,$TARGET_IMPLIB -Wl,--major-image-version,0,--minor-image-version,0 $LINK_PATH $LINK_LIBRARIES && $POST_BUILD"
   description = Linking CXX executable $TARGET_FILE
   restat = $RESTAT
