@@ -31,6 +31,7 @@ HamegInterface::HamegInterface(int id,
         exit(1);
     }
 
+    // clear old state from the machine
     sprintf(m_inst, "RM1");
     Write(m_inst);
 
@@ -39,16 +40,13 @@ HamegInterface::HamegInterface(int id,
 
     sprintf(m_inst, "STA");
     Query(m_inst, m_val);
-    #if DEBUG 
+    #if DEBUG
         printf(m_val);
         printf("\n");
     #endif // DEBUG
 
 	time(&t0);
 	printf("HamegInterface (V%.2f): VISA address %s, started at %s", 1.0, busname, ctime(&t0));
-
-    // visa::wbstr(device, "SU1:02.22"); // engage remote control mode
-	
 
     #if DEBUG
  	    printf("End of Hameg Interface Constructor\n");
@@ -63,6 +61,7 @@ HamegInterface::~HamegInterface()
         printf("Start of HamegInterface Interface Destructor\n");
     #endif // DEBUG
 
+    // turn off output and disengage remote mode
     sprintf(cmd, "OP0");
     Write(cmd);
 
@@ -84,11 +83,11 @@ int HamegInterface::SetOutput(double V, double I)
         printf(">> %f, %f\n", V, I);
     #endif // DEBUG
     sprintf(m_inst, "SU%i:%2.2f\n", this->channel, V);
-    if(Write(m_inst))   {   printf("Error: Error setting output voltage \n");    }  
+    if(Write(m_inst))   {   printf("Error: Error setting output voltage \n");    }
     sprintf(m_inst, "SI%i:%1.3f\n", this->channel, fabs(I));
-    if(Write(m_inst))   {   printf("\nError: Error setting output current: %1.3f\n", I);    }  
+    if(Write(m_inst))   {   printf("\nError: Error setting output current: %1.3f\n", I);    }
 
-    visa::mwait(200);    
+    visa::mwait(200);
     return 0;
 }
 
@@ -101,11 +100,11 @@ int HamegInterface::GetOutput(double *V, double *I)
     visa::mwait(100);
 
     sprintf(m_inst, "MU%i\n", this->channel);
-    if(Query(m_inst, m_val))   {   printf("Error: Error getting output voltage \n");    }  
+    if(Query(m_inst, m_val))   {   printf("Error: Error getting output voltage \n");    }
     *V = atof(&m_val[3]);
-    
+
     sprintf(m_inst, "MI%i\n", this->channel);
-    if(Query(m_inst, m_val))   {   printf("Error: Error getting output current \n");    }  
+    if(Query(m_inst, m_val))   {   printf("Error: Error getting output current \n");    }
     *I = atof(&m_val[3]);
 
     return 0;
@@ -131,11 +130,6 @@ int HamegInterface::SMUCurrent(double t_voltage_max, double t_voltage_min, doubl
 	    printf("Call to HamegInterface::SMUCurrent\n");
         printf("V: %f-%f, I: %f\n", t_voltage_max, t_voltage_min, t_current);
     #endif // DEBUG
-
-    // if(fabs(I) < 0.001)
-    // {
-    //     I = 0;
-    // }
 
     if (t_current >= 0)
     {
@@ -219,31 +213,10 @@ int HamegInterface::OutputOff()
 
 int HamegInterface::ClearErrors()
 {
-    char buff[256];
-    int error = 0;
-
-    // do // clear last errors if any remain
-    // {
-    //     visa::wbstr(device, "SYST:ERR?");
-    //     visa::rbstr(device, buff, 255);
-    // } while (atoi(buff) != 0);
-
     return 0;
 }
 
 int HamegInterface::CheckErrors()
-{   
-    char buff[256];
-    int error = 0;
-
-    // visa::wbstr(device, "SYST:ERR?");
-    // visa::rbstr(device, buff, 255);
-
-    // error = atoi(buff);
-    // if (error)
-    // {
-    //     printf("\n");
-    //     printf(buff);
-    // }
-    return error;
+{
+    return 0;
 }

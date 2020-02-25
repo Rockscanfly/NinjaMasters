@@ -23,6 +23,7 @@ int main (int argc, char *argv[])
     device_list device_selection = None;
     std::string device_string;
 
+    // Select correct device
     if(argc > 1)
     {
         if ((!(strcmp(argv[1], "Keithley"))) | (!(strcmp(argv[1], "keithley"))))
@@ -59,8 +60,10 @@ int main (int argc, char *argv[])
         device_string = "device";
     }
 
+    // process arguments
     bzargs args = bzparse(argc, argv, device_string);
 
+    // print processed arguments for user
     printf("VISA#: %i\n", args.gpib_major);
     printf("gpib_minor: %i\n", args.gpib_minor);
     printf("vmax: %f\n", args.vmax);
@@ -90,7 +93,10 @@ int main (int argc, char *argv[])
         exit(1);
     }
 
+    // create pointer to device
     PSUInterface* p_device = nullptr;
+
+    // create real device for pointer and assign
     switch (device_selection)
     {
         case Keithley:
@@ -124,6 +130,7 @@ int main (int argc, char *argv[])
 
     char filename[256];
 
+    // Step through frequencies and produce waveform
     if (!(args.single_sweep))
     {
         if(args.filestring[0] != '\0')

@@ -22,6 +22,7 @@ int main (int argc, char *argv[])
     device_list device_selection = None;
     std::string device_string;
 
+    // select correct device
     if(argc > 1)
     {
         if ((!(strcmp(argv[1], "Keithley"))) | (!(strcmp(argv[1], "keithley"))))
@@ -57,8 +58,11 @@ int main (int argc, char *argv[])
     {
         device_string = "device";
     }
-        bcargs args = bcparse(argc, argv, device_string);
 
+    // process arguments
+    bcargs args = bcparse(argc, argv, device_string);
+
+    // print processed arguments for user
     printf("gpib_major: %i\n", args.gpib_major);
     printf("gpib_minor: %i\n", args.gpib_minor);
     printf("ncycles: %i\n", args.ncycles);
@@ -71,7 +75,11 @@ int main (int argc, char *argv[])
     printf("trelax: %f\n", args.trelax);
     printf("filestring: %s\n", args.filestring);
 
+    // create pointer to device
     PSUInterface* p_device = nullptr;
+
+
+    // create real device for pointer and assign
     switch (device_selection)
     {
         case Keithley:
@@ -97,6 +105,7 @@ int main (int argc, char *argv[])
             exit(1);
     }
 
+    // cycle battery
     p_device->CycleBattery(args.ncycles, args.vmax, args.vmin, args.imax, args.iend, args.qend, args.timeout, args.trelax);
 
 }
