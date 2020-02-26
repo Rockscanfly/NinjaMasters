@@ -91,19 +91,20 @@ double PSUInterface::CycleBattery(int t_number_cycles, double t_voltage_max, dou
     char function_data[2048];
 
     // print and log the function call details, push scope for single use large char array
-    {
-        sprintf(function_data, "CycleBattery: VISA address %s, started\n"
-                "number_cycles: %i \nvoltage_max: %f \nvoltage_min: %f \ncurrent_max: %f"
-                "\ncurrent_end: %f \ncharge_end: %f \ntimeout: %f \nrelax_time: %f \n",
-                busname, t_number_cycles, t_voltage_max, t_voltage_min,
-                t_current_max, t_current_end, t_charge_end, t_timeout, t_relax_time);
-        printf(function_data);
-        WriteLog(function_data);
-    }
+    sprintf(function_data, "CycleBattery: VISA address %s, started\n"
+            "number_cycles: %i \nvoltage_max: %f \nvoltage_min: %f \ncurrent_max: %f"
+            "\ncurrent_end: %f \ncharge_end: %f \ntimeout: %f \nrelax_time: %f \n",
+            busname, t_number_cycles, t_voltage_max, t_voltage_min,
+            t_current_max, t_current_end, t_charge_end, t_timeout, t_relax_time);
+    printf(function_data);
+    WriteLog(function_data);
 
     // ensure that the end charge value is less than 1 so we don't over charge the battery
-    while(t_charge_end > 1) {
-        t_charge_end = t_charge_end/100;
+    if(t_charge_end > 1) {
+        printf("Error, end charge percent must be less than 100\n");
+        sprintf(function_data, "Error, end charge percent must be less than 100\n");
+        WriteLog(function_data);
+        return -1;
     }
 
     // initial charge of the battery
@@ -139,7 +140,7 @@ double PSUInterface::CycleBattery(int t_number_cycles, double t_voltage_max, dou
         WriteLog(function_data);
         sprintf(function_data, "Cycle %i Charge Moved: %f", cycle_count,  charge_moved);
         MarkData(function_data);
-        
+
     }
 
     // move the excess charge from the battery
@@ -202,7 +203,7 @@ double PSUInterface::Waveform(double t_voltage_max, double t_voltage_min, double
     // int cycle_count = 0;
     int vlimcount = 0;
     int err = 0;
-    
+
     double max_dq = 0;
     double max_fq = 0;
     double fmin = t_frequency[0];
@@ -217,7 +218,7 @@ double PSUInterface::Waveform(double t_voltage_max, double t_voltage_min, double
     }
 
     // find highest and lowest frequecies given
-    int nfrequencies = 1;   
+    int nfrequencies = 1;
     for(int i = 1; i < 16; i++)
     {
         if(t_frequency[i]!= 0)
@@ -235,7 +236,7 @@ double PSUInterface::Waveform(double t_voltage_max, double t_voltage_min, double
             else
         {
             break;
-        }    
+        }
     }
     #if DEBUG
         printf("Lowest Frequency: %f\n", fmin);
@@ -269,7 +270,7 @@ double PSUInterface::Waveform(double t_voltage_max, double t_voltage_min, double
             printf("Maximum current for frequency %e Hz: %e A\n", t_frequency[i], frequency_max_current[i]);
         // #endif // DEBUG
     }
-    
+
     // set maximum time to run
     time_end = t_number_cycles/fmin;
 
@@ -279,7 +280,7 @@ double PSUInterface::Waveform(double t_voltage_max, double t_voltage_min, double
     {
         WriteData(voltage_now, current_now);
     }
-    
+
     clock_function_start = clock();
     time_start = time_now = (double)(clock_function_start)/CLOCKS_PER_SEC;
     time_end += time_now;
@@ -297,9 +298,9 @@ double PSUInterface::Waveform(double t_voltage_max, double t_voltage_min, double
             current_now += frequency_max_current[i]*sin(2*M_PI*t_frequency[i]*(time_now - time_start));
             #if DEBUG
                 printf("F: %e, T: %e, C: %e\n",t_frequency[i], time_now - time_start, frequency_max_current[i]*sin(2*M_PI*t_frequency[i]*(time_now - time_start)));
-            #endif // DEBUG 
+            #endif // DEBUG
         }
-          
+
         SMUCurrent(t_voltage_max, t_voltage_min, current_now);
         visa::mwait(200);
 
@@ -336,7 +337,7 @@ double PSUInterface::Waveform(double t_voltage_max, double t_voltage_min, double
                 }
             }
         }
-        else 
+        else
         {
             vlimcount = 0;
         }
@@ -390,7 +391,7 @@ double PSUInterface::GetToVoltage(double t_voltage_target, double t_current_max,
         #endif // DEBUG
     } while(fabs(current_now) > t_current_end && (time_now - time_timeout_start) < t_timeout);
     printf("\n");
-  
+
     OutputOff();
 
     m_clock_now = clock();
@@ -458,7 +459,7 @@ int PSUInterface::Write(char *inst)
         printf("\nFUNCTION: Write\n");
         printf(">> %s\n", inst);
     #endif // DEBUG
-   
+
     ClearErrors();
 
     visa::wbstr(device, inst);
@@ -539,16 +540,16 @@ double PSUInterface::Test(double V, double I)
         printf(">> %f, %f\n", V, I);
     #endif // DEBUG
 
-    char filename[256]; 
+    char filename[256];
     // double flist[32] = {500e-3, 200e-3, 100e-3, 50e-3, 20e-3, 10e-3, 5e-3, 2e-3, 1e-3, 500e-6, 200e-6, 100e-6, 50e-6, 20e-6, 0};
     // double flist[32] = {500e-3, 200e-3, 100e-3, 80e-3, 50e-3, 20e-3, 10e-3, 8e-3, 5e-3, 2e-3, 1e-3, 800e-6, 500e-6, 200e-6, 0, 0};
     double flist[32] = {500e-3, 200e-3, 100e-3, 80e-3, 50e-3, 20e-3, 10e-3, 8e-3, 5e-3, 2e-3, 1e-3, 800e-6, 500e-6, 200e-6, 100e-6, 80e-6, 50e-6, 20e-6, 0, 0, 0};
 
     double frequency[16] = {0};
-    
+
     for(int i = 0; i < 18; i += 1)
     {
-        sprintf(filename, "%s_%iuHz.tvi", this->filestring, (int)(flist[i]*1e6)); 
+        sprintf(filename, "%s_%iuHz.tvi", this->filestring, (int)(flist[i]*1e6));
         ChangeDataFile(filename);
         frequency[0] = flist[i];
         // frequency[1] = flist[i+1];
@@ -562,7 +563,7 @@ double PSUInterface::Test(double V, double I)
 
     // for(int i = 0; i < 20; i += 5)
     // {
-    //     sprintf(filename, "%s_%iuHz5tone.tvi", this->filestring, (int)(flist[i]*1e6)); 
+    //     sprintf(filename, "%s_%iuHz5tone.tvi", this->filestring, (int)(flist[i]*1e6));
     //     ChangeDataFile(filename);
     //     frequency[0] = flist[i];
     //     frequency[1] = flist[i+1];

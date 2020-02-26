@@ -9,23 +9,19 @@ using namespace std;
 bzargs bzparse(int argc, char ** argv, std::string device_string)
 {
 
-    std::cout << "Things One" << std::endl;
-    std::cout.flush();
-    std::cout << "Things Two" << std::endl;
-    std::cout.flush();
     bzargs args;
 
     if((argc < 11))
     {
-        cout << "Invalid number of parameters" <<  argc-1 << endl;
+        cout << "Invalid number of parameters " <<  argc-1 << endl;
         cout << "Usage: bz <device> <VISA#> <gpib_addr> <Vmax> <Vmin> <Imax> <QMax> <Ncylces> [Single?] <Frequency List> [filestring]" << endl;
         cout << endl;
         cout << "This program requires a " << device_string << " connected to the host machine accessible at the specified" << endl;
         cout << "GPIB address, and the visa driver interface to be installed on the host" << endl;
         cout << "The expected device address is in the format: GPIB<VISA#>::<gpib_addr>::INSTR" << endl;
         cout << endl;
-        cout << "The program is designed to cycle a battery attached to the " << device_string << " between the specified maximum and" << endl;
-        cout << "minimum voltages at the specified maximum current. The program expects the voltage and current ranges to" << endl;
+        cout << "The program is designed to measure the imepedance of a battery attached to the " << device_string << endl;
+        cout << "at the specified frequencies. The program expects the voltage and current ranges to" << endl;
         cout << "accurately represent the safe operating values of the battery and provides no guarantee it will not" << endl;
         cout << "damage any attached device" << endl;
         cout << endl;
@@ -37,17 +33,19 @@ bzargs bzparse(int argc, char ** argv, std::string device_string)
         cout << endl;
         cout << "<device> is the hardware to be used to measure imepedance with. Options are: " << endl;
         cout << "Keithley Hameg HP66332 E5270" << endl;
-        cout << "<VISA#> is the GPIB address value of the primary switch that the Keithley 2460 is attached to" << endl;
-        cout << "<gpib_addr> is the GPIB subaddress value of Keithley 2460 attached to the GPIB switch at <VISA#>" << endl;
-        cout << "<vmax> is the maximum voltage up to which the battery will be charged, the program will exit if this limit is reached during cycling" << endl;
-        cout << "<vmin> is the minimum voltage down to which the battery will be discharged, the program will exit if this limit is reached during cycling" << endl;
+        cout << "<VISA#> is the GPIB address value of the primary switch that the " << device_string << " is attached to" << endl;
+        cout << "<gpib_addr> is the GPIB subaddress value of the " << device_string << " attached to the GPIB switch at <VISA#>" << endl;
+        cout << "<vmax> is the maximum voltage, in Volts,  up to which the battery will be charged, the program will exit if this limit is reached during cycling" << endl;
+        cout << "<vmin> is the minimum voltage, in Volts,  down to which the battery will be discharged, the program will exit if this limit is reached during cycling" << endl;
         cout << "<imax> is the maximum current, in Amps, that will be sourced or sunk to force a waveform into the battery" << endl;
         cout << "<qmax> is the maximum charge, in Amphere Hours, that will sourced or sunk to force a waveform into the battery" << endl;
-        cout << "<ncycles> is the number of times the attached battery will be cycled at the lowest given frequency" << endl;
+        cout << "<ncycles> is the number of sinusoidal current cycles, at the lowest given frequency, the battery will experience" << endl;
         cout << "[Single?] is an option string to specify that the given list of frequencies should be iterated over individually instead of simultaneously" << endl;
         cout << " to use this option, type the word \"Single\" BEFORE listing frequencies" << endl;
-        cout << "<frequency list> is a list of frequencies used to create the current waveform that will be produced, limit 16 frequencies, maximum 1Hz" << endl;
+        cout << "<frequency list> is a list of frequencies, in Hz,  used to create the current waveform that will be produced, limit 16 frequencies, maximum 1Hz" << endl;
         cout << "[filestring] sets the base name of the target .tvi and .log files, NOTE existing files with the same name will be OVERWRITTEN" << endl;
+        cout << "data files of the name format [filestring]_[first frequency in uHz]uHz[# of frequencies]tone.tvi will be made for multitone sweeps" << endl;
+        cout << "data files of the name format [filestring]_[frequency in uHz]uHz.tvi will be made for single tone sweeps" << endl;
         cout.flush();
 		args.gpib_major = -1;
         return args;

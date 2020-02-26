@@ -66,10 +66,10 @@ int main (int argc, char *argv[])
     // print processed arguments for user
     printf("VISA#: %i\n", args.gpib_major);
     printf("gpib_minor: %i\n", args.gpib_minor);
-    printf("vmax: %f\n", args.vmax);
-    printf("vmin: %f\n", args.vmin);
-    printf("imax: %f\n", args.imax);
-    printf("qmax: %f\n", args.qmax);
+    printf("vmax: %.3fV\n", args.vmax);
+    printf("vmin: %.3fV\n", args.vmin);
+    printf("imax: %.3fA\n", args.imax);
+    printf("qmax: %.5fAh\n", args.qmax);
     printf("ncycles: %i\n", args.ncycles);
     printf("n_freq: %i\n", args.num_frequencies);
     if(args.single_sweep)
@@ -82,7 +82,7 @@ int main (int argc, char *argv[])
     {
         if (args.frequency[i] != 0)
         {
-            printf("frequency: %f\n", args.frequency[i]);
+            printf("frequency: %.3fuHz\n", args.frequency[i]*1000000);
         }
     }
     printf("filestring: %s\n", args.filestring);

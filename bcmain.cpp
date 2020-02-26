@@ -66,13 +66,13 @@ int main (int argc, char *argv[])
     printf("gpib_major: %i\n", args.gpib_major);
     printf("gpib_minor: %i\n", args.gpib_minor);
     printf("ncycles: %i\n", args.ncycles);
-    printf("vmax: %f\n", args.vmax);
-    printf("vmin: %f\n", args.vmin);
-    printf("imax: %f\n", args.imax);
-    printf("iend: %f\n", args.iend);
-    printf("qend: %f\n", args.qend);
-    printf("timeout: %f\n", args.timeout);
-    printf("trelax: %f\n", args.trelax);
+    printf("vmax: %.3fV\n", args.vmax);
+    printf("vmin: %.3fV\n", args.vmin);
+    printf("imax: %.3fA\n", args.imax);
+    printf("iend: %.3fA\n", args.iend);
+    printf("qend: %.3f%%Q\n", args.qend*100);
+    printf("timeout: %.0fs\n", args.timeout);
+    printf("trelax: %.0fs\n", args.trelax);
     printf("filestring: %s\n", args.filestring);
 
     // create pointer to device

@@ -31,79 +31,38 @@ bcargs bcparse(int argc, char ** argv, string device_string)
         cout << "The .tvi file stores measurements in three tab separated columns time(s) volts(V) current(A)" << endl;
         cout << "The .log file stores timestamped plain english descriptions of milestones reached by the program" << endl;
         cout << endl;
-        cout << "<device> is the hardware to be used to measure imepedance with. Options are: " << endl;
+        cout << "<device> is the hardware to be used to cycle the battery with. Options are: " << endl;
         cout << "Keithley Hameg HP66332 E5270" << endl;
         cout << "<VISA#> is the GPIB address value of the primary switch that the " << device_string << " is attached to" << endl;
-        cout << "<gpib_addr> is the GPIB subaddress value of " << device_string << " attached to the GPIB switch at <VISA#>" << endl;
+        cout << "<gpib_addr> is the GPIB subaddress value of the " << device_string << " attached to the GPIB switch at <VISA#>" << endl;
         cout << "<ncycles> is the number of times the attached battery will be fully discharged and then fully charged" << endl;
-        cout << "<vmax> is the maximum voltage up to which the battery will be charged" << endl;
-        cout << "<vmin> is the minimum voltage down to which the battery will be discharged" << endl;
+        cout << "<vmax> is the maximum voltage, in Volts,  up to which the battery will be charged" << endl;
+        cout << "<vmin> is the minimum voltage, in Volts,  down to which the battery will be discharged" << endl;
         cout << "<imax> is the maximum current, in Amps, that " << device_string << " will source or sink to charge or discharge the battery" << endl;
-        cout << "<iend> is the minimum current, in Amps, flowing when the program will decide the battery is fullly charged or discharged" << endl;
-        cout << "<qend> is the final fraction of charge left in the battery as a percent of fully charged, NOTE not the same as voltage" << endl;
-        cout << "<timeout> is the maximum amount of time the current will be allowed to decay after falling below <imax>" << endl;
+        cout << "<iend> is the minimum current, in Amps, flowing when the program will decide the battery is fully charged or discharged" << endl;
+        cout << "<qend> is the final fraction of charge left in the battery as a percent of fully charged, expected values are [100 - 0]" << endl;
+        cout << "<timeout> is the maximum amount of time, in Seconds, the current will be allowed to decay after falling below <imax>" << endl;
         cout << "    before the program decides the battery is fully charged or discharged" << endl;
-        cout << "<relaxtime> is the time the voltage will be allowed to relax after all cycling is complete and the" << endl;
-        cout << "    charge level has reached <quend>, zero current will flow but the " << device_string << " will continue measurements for this time" << endl;
+        cout << "<relaxtime> is the time, in Seconds, the voltage will be allowed to relax after all cycling is complete and the" << endl;
+        cout << "    charge level has reached <qend>, zero current will flow but the " << device_string << " will continue measurements for this time" << endl;
         cout << "[filestring] sets the name of the target .tvi and .log files, NOTE existing files with the same name will be OVERWRITTEN" << endl;
         args.gpib_major = -1;
         return args;
     }
     else
     {
-        for(int i = 1; i < argc; i++)
-        {
-            switch(i) {
-                case 1:
-                    args.gpib_major = atoi(argv[i]);
-                    break;
+        args.gpib_major = atoi(argv[2]);
+        args.gpib_minor = atoi(argv[3]);
+        args.ncycles = atoi(argv[4]);
+        args.vmax = atof(argv[5]);
+        args.vmin = atof(argv[6]);
+        args.imax = atof(argv[7]);
+        args.iend = atof(argv[8]);
+        args.qend = atof(argv[9]);
+        args.qend = args.qend/100;
+        args.timeout = atof(argv[10]);
+        args.trelax = atof(argv[11]);
 
-                case 2:
-                    args.gpib_minor = atoi(argv[i]);
-                    break;
-
-                case 3:
-                    args.ncycles = atoi(argv[i]);
-                    break;
-
-                case 4:
-                    args.vmax = atof(argv[i]);
-                    break;
-
-                case 5:
-                    args.vmin = atof(argv[i]);
-                    break;
-
-                case 6:
-                    args.imax = atof(argv[i]);
-                    break;
-
-                case 7:
-                    args.iend = atof(argv[i]);
-                    break;
-
-                case 8:
-                    args.qend = atof(argv[i]);
-                    break;
-
-                case 9:
-                    args.timeout = atof(argv[i]);
-                    break;
-
-                case 10:
-                    args.trelax = atof(argv[i]);
-                    break;
-
-                case 11:
-                    sprintf(args.filestring, "%s", argv[i]);
-                    break;
-
-                default:
-                cout << "Error unknown argument " << argv[i]  << endl;
-                    args.gpib_major = -1;
-
-            }
-        }
     }
 
     return args;
