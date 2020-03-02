@@ -23,21 +23,38 @@ KeithleyInterface::KeithleyInterface(int id,
      	printf("Start of Keithley Interface Constructor\n");
     #endif // DEBUG
 
+
+
+    sprintf(cmd, "*IDN?");
+    Query(cmd, cmd);
+    printf("IDN string\n");
+    printf(cmd);
+    printf("\n");
+
+    char kstring[64] = "KEITHLEY INSTRUMENTS,MODEL 2460";
+    if(strncmp("KEITHLEY INSTRUMENTS,MODEL 2460", cmd, 5))
+    {
+        printf("\n");
+        for(int i = 0; i < 30; i++)
+        {
+            printf("%x", cmd[i]);
+        }
+        printf("\n");
+        for(int i = 0; i < 30; i++)
+        {
+            printf("%x", kstring[i]);
+        }
+        printf("\n");
+
+        printf("Device at address GPIB%i::%i::INSTR was not the expected device, exiting...\n", id, addr);
+        exit(1);
+    }
+
     Beep(210, 0.25);
     Beep(400, 0.25);
     Beep(750, 0.25);
     Beep(750, 0.25);
     Beep(600, 0.25);
-
-    sprintf(cmd, "*IDN?");
-    Query(cmd, cmd);
-    printf("%s", cmd);
-
-    // if(cmd != KeithleyIDNSTR)
-    // {
-    //     printf("Device at address GPIB%i::%i::INSTR was not the expected device, exiting...\n", id, addr);
-    //     exit(1);
-    // }
 
     sprintf(cmd, "OUTPUT:STATE OFF");
     if (Write(cmd))    {   printf("ERROR: Error setting output off\n"); }
@@ -202,6 +219,9 @@ int KeithleyInterface::SMUCurrent(double t_voltage_max, double t_voltage_min, do
 
 double KeithleyInterface::SetVoltageRange(double V)
 {
+    char inst[256];
+    char val[256];
+
     #if DEBUG
 	    printf("Call to KeithleyInterface::SetVoltageRange\n");
     #endif // DEBUG
@@ -209,7 +229,7 @@ double KeithleyInterface::SetVoltageRange(double V)
     double range = -1;
     if(V < 100e-6)
     {
-        printf("Invalid voltage %f, unable to determine range\n", V);
+        printf("\nInvalid voltage %f, unable to determine range\n", V);
         range = -1;
     }
     if (V >=100e-9)
@@ -254,6 +274,9 @@ double KeithleyInterface::SetVoltageRange(double V)
 
 double KeithleyInterface::SetCurrentRange(double I)
 {
+    char inst[256];
+    char val[256];
+
     #if DEBUG
         printf("Call to KeithleyInterface::SetVoltageRange\n");
     #endif // DEBUG
@@ -261,8 +284,8 @@ double KeithleyInterface::SetCurrentRange(double I)
     double range = -1;
     if((I < 100e-9) && (I != 0.0f))
     {
-        printf("Invalid current %f, unable to determine range\n", I);
-        range = -1;
+        I = 0.0f;
+        range = 1e-6;
     }
     if ((fabs(I) >=100e-9) || (I == 0.0f))
         range = 1e-6;
@@ -285,7 +308,10 @@ double KeithleyInterface::SetCurrentRange(double I)
     if (fabs(I) >= 5.25)
         range = 7.0;
     if (fabs(I) >= 7.35)
+    {
+        printf("\nInvalid current %f, unable to determine range\n", I);
         range = -1;
+    }
 
     if (range != -1)
     {

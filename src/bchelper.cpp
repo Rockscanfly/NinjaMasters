@@ -11,7 +11,7 @@ bcargs bcparse(int argc, char ** argv, string device_string)
 
     bcargs args;
 
-    if((argc != 11) && (argc != 12))
+    if((argc != 12) && (argc != 13))
     {
         cout << "Invalid number of parameters "  <<  argc-1 << endl;
         cout << "Usage: bc.exe <device> <VISA#> <gpib_addr> <ncycles> <Vmax> <Vmin> <Imax> <Iend> <Qend> <timeout> <relaxtime> [filestring]" << endl;
@@ -62,7 +62,10 @@ bcargs bcparse(int argc, char ** argv, string device_string)
         args.qend = args.qend/100;
         args.timeout = atof(argv[10]);
         args.trelax = atof(argv[11]);
-
+    }
+    if (!(atof(argv[argc-1])))
+    {
+        sprintf(args.filestring, "%s", argv[argc-1]);
     }
 
     return args;

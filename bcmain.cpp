@@ -84,19 +84,17 @@ int main (int argc, char *argv[])
     {
         case Keithley:
         {
-            KeithleyInterface device(args.gpib_major, args.gpib_minor, KEITHLEY_INTERFACE_CHANNEL, args.vmax, args.vmin, args.imax, args.filestring);
-            p_device = &device;
+            p_device = new KeithleyInterface(args.gpib_major, args.gpib_minor, KEITHLEY_INTERFACE_CHANNEL, args.vmax, args.vmin, args.imax, args.filestring);
             break;
         }
         case Hameg:
-        {   HamegInterface device(args.gpib_major, args.gpib_minor, HAMEG_INTERFACE_CHANNEL, args.vmax, args.vmin, args.imax, args.filestring);
-            p_device = &device;
+        {
+            p_device = new HamegInterface(args.gpib_major, args.gpib_minor, HAMEG_INTERFACE_CHANNEL, args.vmax, args.vmin, args.imax, args.filestring);
             break;
         }
         case HP66332:
         {
-            HP66332Interface device(args.gpib_major, args.gpib_minor, 0, args.vmax, args.vmin, args.imax, args.filestring);
-            p_device = &device;
+            p_device = new HP66332Interface(args.gpib_major, args.gpib_minor, 0, args.vmax, args.vmin, args.imax, args.filestring);
             break;
         }
         case None:
@@ -105,7 +103,12 @@ int main (int argc, char *argv[])
             exit(1);
     }
 
+    printf("\n Starting Cycle\n");
+    char filename[256];
+    sprintf(filename, "%s.tvi", args.filestring);
+    p_device->ChangeDataFile(filename);
+
     // cycle battery
     p_device->CycleBattery(args.ncycles, args.vmax, args.vmin, args.imax, args.iend, args.qend, args.timeout, args.trelax);
-
+    delete(p_device);
 }

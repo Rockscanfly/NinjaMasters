@@ -25,7 +25,7 @@ HP66332Interface::HP66332Interface(int id,
     printf(m_val);
     printf("\n");
 
-    if(strncmp("HEWLETT-PACKARD,66332A,0,A.01.03", m_val, 32))
+    if(strncmp("HEWLETT-PACKARD,66332A", m_val, 22))
     {
         printf("Device at address GPIB%i::%i::INSTR was not the expected device, exiting...\n", id, addr);
         exit(1);

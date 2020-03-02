@@ -101,25 +101,22 @@ int main (int argc, char *argv[])
     {
         case Keithley:
         {
-            KeithleyInterface device(args.gpib_major, args.gpib_minor, KEITHLEY_INTERFACE_CHANNEL, args.vmax, args.vmin, args.imax, args.filestring);
-            p_device = &device;
+            p_device = new KeithleyInterface(args.gpib_major, args.gpib_minor, KEITHLEY_INTERFACE_CHANNEL, args.vmax, args.vmin, args.imax, args.filestring);
             break;
         }
         case Hameg:
-        {   HamegInterface device(args.gpib_major, args.gpib_minor, HAMEG_INTERFACE_CHANNEL, args.vmax, args.vmin, args.imax, args.filestring);
-            p_device = &device;
+        {
+            p_device = new HamegInterface(args.gpib_major, args.gpib_minor, HAMEG_INTERFACE_CHANNEL, args.vmax, args.vmin, args.imax, args.filestring);
             break;
         }
         case HP66332:
         {
-            HP66332Interface device(args.gpib_major, args.gpib_minor, 0, args.vmax, args.vmin, args.imax, args.filestring);
-            p_device = &device;
+            p_device = new HP66332Interface(args.gpib_major, args.gpib_minor, 0, args.vmax, args.vmin, args.imax, args.filestring);
             break;
         }
         case E5270:
         {
-            E5270Interface device(args.gpib_major, args.gpib_minor, E5270_INTERFACE_CHANNEL, args.vmax, args.vmin, args.imax, args.filestring);
-            p_device = &device;
+            p_device = new E5270Interface(args.gpib_major, args.gpib_minor, E5270_INTERFACE_CHANNEL, args.vmax, args.vmin, args.imax, args.filestring);
             break;
         }
         case None:
@@ -130,6 +127,7 @@ int main (int argc, char *argv[])
 
     char filename[256];
 
+    printf("\n Starting Sweep\n");
     // Step through frequencies and produce waveform
     if (!(args.single_sweep))
     {
@@ -156,5 +154,5 @@ int main (int argc, char *argv[])
 
         }
     }
-
+    delete(p_device);
 }

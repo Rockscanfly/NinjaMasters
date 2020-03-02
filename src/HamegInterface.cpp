@@ -25,7 +25,7 @@ HamegInterface::HamegInterface(int id,
     printf(m_val);
     printf("\n");
 
-    if(strncmp("HAMEG Instruments,HM8143,2.45",m_val, 29))
+    if(strncmp("HAMEG Instruments,HM8143",m_val, 24))
     {
         printf("Device at address GPIB%i::%i::INSTR was not the expected device, exiting...\n", id, addr);
         exit(1);

@@ -34,19 +34,19 @@ class KeithleyInterface : public PSUInterface {
         int OutputOff(void);
 
         /*
-        * Visa Communication 
+        * Visa Communication
         * device specific
         */
         int ClearErrors(void);
         int CheckErrors(void);
-        
+
         void Beep(int f, double t);
     protected:
 
     private:
         int err = 0;
-        char inst[256];
-        char val[256];
+        char m_inst[256];
+        char m_val[256];
         int m_current_cycle = 0;
 
         void ReadRange(void);

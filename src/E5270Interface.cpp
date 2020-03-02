@@ -25,7 +25,7 @@ E5270Interface::E5270Interface(int id,
     printf(m_val);
     printf("\n");
 
-    if(strncmp("Agilent Technologies,E5270B,0,B.01.08", m_val, 29))
+    if(strncmp("Agilent Technologies,E5270B", m_val, 27))
     {
         printf("Device at address GPIB%i::%i::INSTR was not the expected device, exiting...\n", id, addr);
         exit(1);

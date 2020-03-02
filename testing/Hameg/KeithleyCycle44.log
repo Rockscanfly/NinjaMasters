@@ -1,0 +1,115 @@
+0	Mon Mar 02 15:16:43 2020
+ CycleBattery: VISA address GPIB0::1::INSTR, started
+number_cycles: 5 
+voltage_max: 3.850000 
+voltage_min: 3.750000 
+current_max: 1.000000
+current_end: 0.950000 
+charge_end: 0.600000 
+timeout: 10.000000 
+relax_time: 10.000000 
+
+8	Mon Mar 02 15:16:51 2020
+ GetToVoltage completed
+Charge Moved: 6.341231, time taken: 6.650000
+
+8	Mon Mar 02 15:16:51 2020
+ CycleBattery: initial charge completed
+Charge Moved: 6.341231, time taken: 7.931000
+
+9	Mon Mar 02 15:16:53 2020
+ GetToVoltage completed
+Charge Moved: 0.000000, time taken: 0.256000
+
+9	Mon Mar 02 15:16:53 2020
+ CycleBattery: discharge 1 completed
+Charge Moved: 0.000000, time taken: 9.445000
+
+12	Mon Mar 02 15:16:56 2020
+ GetToVoltage completed
+Charge Moved: 1.364875, time taken: 1.664000
+
+12	Mon Mar 02 15:16:56 2020
+ CycleBattery: charge 1 completed
+Charge Moved: 1.364875, time taken: 12.352000
+
+13	Mon Mar 02 15:16:57 2020
+ GetToVoltage completed
+Charge Moved: 0.000000, time taken: 0.191000
+
+13	Mon Mar 02 15:16:57 2020
+ CycleBattery: discharge 2 completed
+Charge Moved: 0.000000, time taken: 13.793000
+
+16	Mon Mar 02 15:16:59 2020
+ GetToVoltage completed
+Charge Moved: 0.841578, time taken: 1.079000
+
+16	Mon Mar 02 15:16:59 2020
+ CycleBattery: charge 2 completed
+Charge Moved: 0.841578, time taken: 16.135000
+
+17	Mon Mar 02 15:17:01 2020
+ GetToVoltage completed
+Charge Moved: 0.000000, time taken: 0.213000
+
+17	Mon Mar 02 15:17:01 2020
+ CycleBattery: discharge 3 completed
+Charge Moved: 0.000000, time taken: 17.576000
+
+19	Mon Mar 02 15:17:03 2020
+ GetToVoltage completed
+Charge Moved: 0.608662, time taken: 0.817000
+
+19	Mon Mar 02 15:17:03 2020
+ CycleBattery: charge 3 completed
+Charge Moved: 0.608662, time taken: 19.661000
+
+21	Mon Mar 02 15:17:04 2020
+ GetToVoltage completed
+Charge Moved: 0.000000, time taken: 0.192000
+
+21	Mon Mar 02 15:17:04 2020
+ CycleBattery: discharge 4 completed
+Charge Moved: 0.000000, time taken: 21.114000
+
+23	Mon Mar 02 15:17:06 2020
+ GetToVoltage completed
+Charge Moved: 0.590614, time taken: 0.832000
+
+23	Mon Mar 02 15:17:06 2020
+ CycleBattery: charge 4 completed
+Charge Moved: 0.590614, time taken: 23.213000
+
+24	Mon Mar 02 15:17:08 2020
+ GetToVoltage completed
+Charge Moved: 0.000000, time taken: 0.175000
+
+24	Mon Mar 02 15:17:08 2020
+ CycleBattery: discharge 5 completed
+Charge Moved: 0.000000, time taken: 24.616000
+
+26	Mon Mar 02 15:17:10 2020
+ GetToVoltage completed
+Charge Moved: 0.382080, time taken: 0.628000
+
+26	Mon Mar 02 15:17:10 2020
+ CycleBattery: charge 5 completed
+Charge Moved: 0.382080, time taken: 26.472000
+
+26	Mon Mar 02 15:17:10 2020
+ Call to MoveCharge
+I: 1.000000 
+Q: 0.000000
+
+28	Mon Mar 02 15:17:11 2020
+ MoveCharge completed
+Charge Moved: 0.000000, time taken: 0.198000
+
+28	Mon Mar 02 15:17:11 2020
+ CycleBattery: cycling completed
+Last full charge Q: 0.382080
+Last full discharge Q: 0.000000
+End charge depleted: 0.000000
+time taken: 27.911000
+
