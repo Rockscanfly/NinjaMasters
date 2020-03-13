@@ -19,3 +19,4 @@ testdata\
 build\
 testdata/
 build/
+build/*
