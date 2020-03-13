@@ -10,7 +10,7 @@
 
 #define VERSION_MAJOR 3
 #define VERSION_MINOR 0
-#define VERSION_PATCH 0
+#define VERSION_PATCH 1
 #define PATCH_DATE "25/02/2020"
 //#define CREATED_DATE "18/09/2019"
 
@@ -40,7 +40,7 @@ int main (int argc, char *argv[])
         else if ((!(strcmp(argv[1], "HP66332"))) | (!(strcmp(argv[1], "hp66332"))))
         {
             device_selection = HP66332;
-            device_string = "Agilent Model 66332A System DC Power Supply";
+            device_string = "66332A System DC Power Supply";
 
         }
         else if ((!(strcmp(argv[1], "E5270"))) | (!(strcmp(argv[1], "e5270"))))

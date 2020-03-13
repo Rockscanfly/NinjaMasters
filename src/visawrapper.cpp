@@ -72,7 +72,7 @@ ViSession OpenDevice(ViSession defRM, char* addrstr) // get device handle on a b
 			err( "Insufficient location info/no resource found.\n");
 		else if (returnval==VI_ERROR_ALLOC)
 			err( "Insufficient system resources.\n");
-		else 
+		else
         	fprintf(stderr,"\nUnknown Error: %i\n", returnval);
 		exit(1);
         }
