@@ -39,7 +39,7 @@ EMPTYInterface::EMPTYInterface(int id,
 
     sprintf(m_inst, "UNT?\n");
     Query(m_inst, m_val);
-    #if DEBUG 
+    #if DEBUG
         printf(m_val);
         printf("\n");
     #endif // DEBUG
@@ -48,7 +48,7 @@ EMPTYInterface::EMPTYInterface(int id,
 	printf("EMPTYInterface (V%.2f): VISA address %s, started at %s", 1.0, busname, ctime(&t0));
 
     // wbstr(device, "SU1:02.22"); // engage remote control mode
-	
+
 
     #if DEBUG
  	    printf("End of EMPTYInterface Constructor\n");
@@ -65,10 +65,10 @@ EMPTYInterface::~EMPTYInterface()
 
     sprintf(m_inst, "OUTP:REL:STAT OFF\n");
     if(Write(m_inst))   {   printf("Error: Error setting output relay off\n");   }
-    
+
     sprintf(m_inst, "OUTP:STAT OFF\n"); // connect output relay (not the same as output on)
     if(Write(m_inst))   {   printf("Error: Error setting output state off\n");   }
-    
+
     printf("Closing EMPTYInterface Device\n");
     #if DEBUG
         printf("End of  EMPTYInterface Destructor\n");
@@ -122,11 +122,11 @@ int EMPTYInterface::SMUVoltage(double V, double I)
     SetVoltageRange(fabs(V));
     SetCurrentRange(fabs(I));
     sprintf(m_inst, "SOUR:VOLT %1.3f\n", V);
-    if(Write(m_inst))   {   printf("Error: Error setting output voltage \n");    }  
+    if(Write(m_inst))   {   printf("Error: Error setting output voltage \n");    }
     sprintf(m_inst, "SOUR:CURR %1.3f\n", fabs(I));
-    if(Write(m_inst))   {   printf("\nError: Error setting output current: %1.3f\n", I);    }  
+    if(Write(m_inst))   {   printf("\nError: Error setting output current: %1.3f\n", I);    }
 
-    visa::mwait(200);
+    visa::mwait(2);
     return 0.0f;
 }
 
@@ -144,12 +144,12 @@ int EMPTYInterface::SMUCurrent(double t_voltage_max, double t_voltage_min, doubl
     SetVoltageRange(fabs(t_voltage_max));
     SetCurrentRange(fabs(t_current));
     sprintf(m_inst, "SOUR:VOLT %1.3f\n", t_voltage_max);
-    if(Write(m_inst))   {   printf("Error: Error setting output voltage \n");    }  
+    if(Write(m_inst))   {   printf("Error: Error setting output voltage \n");    }
     sprintf(m_inst, "SOUR:CURR %1.3f\n", fabs(t_current));
-    if(Write(m_inst))   {   printf("\nError: Error setting output current: %1.3f\n", t_current);    }  
+    if(Write(m_inst))   {   printf("\nError: Error setting output current: %1.3f\n", t_current);    }
 
     sprintf(m_inst, "*WAI\n");
-    if(Write(m_inst))   {   printf("\nError: Error waiting for command completion\n");    }  
+    if(Write(m_inst))   {   printf("\nError: Error waiting for command completion\n");    }
 
     return 0.0f;
 }
@@ -223,7 +223,7 @@ int EMPTYInterface::ClearErrors()
 }
 
 int EMPTYInterface::CheckErrors()
-{   
+{
     char buff[256];
     int error = 0;
 

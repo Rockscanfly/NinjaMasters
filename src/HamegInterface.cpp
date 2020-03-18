@@ -87,7 +87,7 @@ int HamegInterface::SetOutput(double V, double I)
     sprintf(m_inst, "SI%i:%1.3f\n", this->channel, fabs(I));
     if(Write(m_inst))   {   printf("\nError: Error setting output current: %1.3f\n", I);    }
 
-    visa::mwait(200);
+    visa::mwait(2);
     return 0;
 }
 
@@ -97,7 +97,7 @@ int HamegInterface::GetOutput(double *V, double *I)
         printf("Call to HamegInterface::GetOutput\n");
     #endif // DEBUG
 
-    visa::mwait(100);
+    visa::mwait(2);
 
     sprintf(m_inst, "MU%i\n", this->channel);
     if(Query(m_inst, m_val))   {   printf("Error: Error getting output voltage \n");    }

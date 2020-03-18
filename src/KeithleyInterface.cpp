@@ -190,7 +190,7 @@ int KeithleyInterface::SMUVoltage(double V, double I)
     sprintf(m_inst, "*WAI");
     if(Write(m_inst))   {printf("Error sending wait command\n"); }
 
-    visa::mwait(200);
+    visa::mwait(2);
     return 0.0f;
 }
 
@@ -213,7 +213,7 @@ int KeithleyInterface::SMUCurrent(double t_voltage_max, double t_voltage_min, do
     sprintf(m_inst, "*WAI");
     if(Write(m_inst))   {printf("Error sending wait command\n"); }
 
-    visa::mwait(200);
+    visa::mwait(2);
     return 0.0f;
 }
 

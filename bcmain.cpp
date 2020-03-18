@@ -10,8 +10,8 @@
 
 #define VERSION_MAJOR 3
 #define VERSION_MINOR 0
-#define VERSION_PATCH 1
-#define PATCH_DATE "25/02/2020"
+#define VERSION_PATCH 2
+#define PATCH_DATE "18/03/2020"
 //#define CREATED_DATE "18/09/2019"
 
 int main (int argc, char *argv[])

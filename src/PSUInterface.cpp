@@ -302,7 +302,7 @@ double PSUInterface::Waveform(double t_voltage_max, double t_voltage_min, double
         }
 
         SMUCurrent(t_voltage_max, t_voltage_min, current_now);
-        visa::mwait(200);
+        visa::mwait(100);
 
         err = GetOutput(&voltage_now, &current_now);
         if((!err) && (time_now - time_start > 1.0))
