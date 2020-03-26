@@ -1,4 +1,4 @@
-#include "KeithleyInterface.hpp"
+[]]]]]]#include "KeithleyInterface.hpp"
 #include "HamegInterface.hpp"
 #include "HP66332Interface.hpp"
 #include "PSUInterface.hpp"
@@ -63,7 +63,7 @@ int main (int argc, char *argv[])
     bcargs args = bcparse(argc, argv, device_string);
 
     // print processed arguments for user
-    printf("gpib_major: %i\n", args.gpib_major);
+    printf("VISA#: %i\n", args.gpib_major);
     printf("gpib_minor: %i\n", args.gpib_minor);
     printf("ncycles: %i\n", args.ncycles);
     printf("vmax: %.3fV\n", args.vmax);
