@@ -2,15 +2,13 @@
 #define HP66332_INTERFACE_H
 #define HP66332_INTERFACE_CHANNEL 1
 #define HP66332_INTERFACE_VERSION 1.0
-#include "PSUInterface.hpp"
+#include "PsuInterface.hpp"
 
 
-class HP66332Interface : public PSUInterface {
+class HP66332Interface : public PsuInterface {
     public:
          /** Constructor */
-        HP66332Interface(int id,
-                        int addr,
-                        int channel,
+        HP66332Interface(
                         double Vmax,
                         double Vmin,
                         double Imax,
@@ -18,17 +16,17 @@ class HP66332Interface : public PSUInterface {
         /** Default destructor */
         ~HP66332Interface();
 
-        /* 
+        /*
         * Primary High Level Functions
-        * Should be inherited from PSUInterface
+        * Should be inherited from PsuInterface
         */
         // double CycleBattery(int t_number_cycles, double t_voltage_max, double t_voltage_min,
         //                       double t_current_max, double t_current_end, double t_charge_end, double t_timeout, double t_relax_time);
         // double Waveform(double t_voltage_max, double t_voltage_min, double t_current_max, double t_charge_max, int t_number_cycles, double t_frequency[16]);
 
-        /* 
+        /*
         * Secondary High Level Functions
-        * Should be inherited from PSUInterface
+        * Should be inherited from PsuInterface
         */
         // double GetToVoltage(double t_voltage_target, double t_current_max, double t_current_end, double t_timeout);
         // double MoveCharge(double t_voltage_limit, double t_current_max, double t_charge_to_move);
@@ -60,13 +58,19 @@ class HP66332Interface : public PSUInterface {
         int ClearErrors(void);
         int CheckErrors(void);
         // bool NComplete(void);
-        
+
         // optional test function
         // double Test(double V, double I);
 
     protected:
 
     private:
+    char cmd[256];
+    char busname[256];
+
+        char m_inst[256];
+        char m_val[256];
+        int channel = 0;
 
 };
 

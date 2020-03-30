@@ -3,24 +3,26 @@
 
 #include <string.h>
 #include <time.h>
-#include "visawrapper.h"
+#include <stdio.h>
+#include <stdint.h>
 #define _USE_MATH_DEFINES
 #include <cmath>
 
 
-class PSUInterface
+
+class PsuInterface
 {
     public:
         /** Default constructor */
-        PSUInterface(int id, int addr, int channel, double Vmax, double Vmin, double  Imax, const char filestring[255]);
-        PSUInterface(const PSUInterface&) = delete;
-        int operator=(const PSUInterface&) = delete;
+        PsuInterface(double Vmax, double Vmin, double  Imax, const char filestring[255]);
+        PsuInterface(const PsuInterface&) = delete;
+        int operator=(const PsuInterface&) = delete;
         /** Default destructor */
-        virtual ~PSUInterface();
+        virtual ~PsuInterface();
 
         /*
         * Primary High Level Functions
-        * Should be inherited from PSUInterface
+        * Should be inherited from PsuInterface
         */
         double CycleBattery(int t_number_cycles, double t_voltage_max, double t_voltage_min,
                               double t_current_max, double t_current_end, double t_charge_end, double t_timeout, double t_relax_time);
@@ -28,7 +30,7 @@ class PSUInterface
 
         /*
         * Secondary High Level Functions
-        * Should be inherited from PSUInterface
+        * Should be inherited from PsuInterface
         */
         double GetToVoltage(double t_voltage_target, double t_current_max, double t_current_end, double t_timeout);
         double MoveCharge(double t_voltage_max, double t_voltage_min, double t_current_max, double t_charge_to_move);
@@ -72,24 +74,16 @@ class PSUInterface
 
     protected:
 
+        void mwait(int msecs); // wait some milliseconds in real-time work
 
 
         /** Access channel
          * \return The current value of channel
          */
-        int GetChannel() { return channel; }
 
-        int visaID;
-        int subAddr;
-        int channel;
         double vMax;
         double vMin;
         double iMax;
-
-        ViSession resourceManager = 0; //!< Member variable "resourceManager"
-        ViSession device = 0; //!< Member variable "device"
-        char busname[32]; //!< Member variable "busname"
-        char cmd[255]; //!< Member variable "cmd"
 
         time_t t = 0;
         time_t t0 = 0;

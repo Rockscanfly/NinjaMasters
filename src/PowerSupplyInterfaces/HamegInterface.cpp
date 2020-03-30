@@ -1,16 +1,11 @@
 #include "HamegInterface.hpp"
 
-HamegInterface::HamegInterface(int id,
-                       int addr,
-                       int channel,
+HamegInterface::HamegInterface(
                        double Vmax,
                        double Vmin,
                        double Imax,
                        const char filestring[255]):
-                       PSUInterface::PSUInterface(
-                                       id,
-                                       addr,
-                                       channel,
+                       PsuInterface::PsuInterface(
                                        Vmax,
                                        Vmin,
                                        Imax,
@@ -27,7 +22,7 @@ HamegInterface::HamegInterface(int id,
 
     if(strncmp("HAMEG Instruments,HM8143",m_val, 24))
     {
-        printf("Device at address GPIB%i::%i::INSTR was not the expected device, exiting...\n", id, addr);
+        printf("Device at address GPIB%i::%i::INSTR was not the expected device, exiting...\n", 1, 1);
         exit(1);
     }
 
@@ -87,7 +82,7 @@ int HamegInterface::SetOutput(double V, double I)
     sprintf(m_inst, "SI%i:%1.3f\n", this->channel, fabs(I));
     if(Write(m_inst))   {   printf("\nError: Error setting output current: %1.3f\n", I);    }
 
-    visa::mwait(2);
+    mwait(2);
     return 0;
 }
 
@@ -97,7 +92,7 @@ int HamegInterface::GetOutput(double *V, double *I)
         printf("Call to HamegInterface::GetOutput\n");
     #endif // DEBUG
 
-    visa::mwait(2);
+    mwait(2);
 
     sprintf(m_inst, "MU%i\n", this->channel);
     if(Query(m_inst, m_val))   {   printf("Error: Error getting output voltage \n");    }
@@ -120,7 +115,7 @@ int HamegInterface::SMUVoltage(double V, double I)
 
     SetOutput(V, I);
 
-    visa::mwait(20);
+    mwait(20);
     return 0;
 }
 
@@ -139,7 +134,7 @@ int HamegInterface::SMUCurrent(double t_voltage_max, double t_voltage_min, doubl
     {
         return SetOutput(t_voltage_min,t_current);
     }
-    visa::mwait(20);
+    mwait(20);
 
     return 0;
 }
@@ -201,7 +196,7 @@ int HamegInterface::OutputOn()
     int err = 0;
     sprintf(m_inst, "OP1\n"); // turn off output (not the same as output on)
     err = Write(m_inst);
-    visa::mwait(1000);
+    mwait(1000);
     return err;
 }
 

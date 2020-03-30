@@ -1,16 +1,14 @@
 #ifndef EMPTYInterface_H
 #define EMPTYInterface_H
 
-#include "PSUInterface.hpp"
+#include "PsuInterface.hpp"
 
 
-class EMPTYInterface : public PSUInterface
+class EMPTYInterface : public PsuInterface
 {
     public:
         /** Constructor */
-        EMPTYInterface(int id,
-                       int addr,
-                       int channel,
+        EMPTYInterface(
                        double Vmax,
                        double Vmin,
                        double Imax,
@@ -34,7 +32,7 @@ class EMPTYInterface : public PSUInterface
     protected:
 
     private:
-    
+
 };
 
 #endif // EMPTYInterface_H

@@ -1,7 +1,8 @@
-[]]]]]]#include "KeithleyInterface.hpp"
+#include "KeithleyInterface.hpp"
 #include "HamegInterface.hpp"
 #include "HP66332Interface.hpp"
-#include "PSUInterface.hpp"
+#include "E5270Interface.hpp"
+#include "PsuInterface.hpp"
 #include "bchelper.hpp"
 
 #include "string.h"
@@ -45,9 +46,8 @@ int main (int argc, char *argv[])
         }
         else if ((!(strcmp(argv[1], "E5270"))) | (!(strcmp(argv[1], "e5270"))))
         {
-            device_selection = None;
-            device_string = "device";
-        }
+            device_selection = E5270;
+            device_string = "Keysight E5270B Precision IV Analyzer";        }
         else
         {
             device_selection = None;
@@ -76,7 +76,7 @@ int main (int argc, char *argv[])
     printf("filestring: %s\n", args.filestring);
 
     // create pointer to device
-    PSUInterface* p_device = nullptr;
+    PsuInterface* p_device = nullptr;
 
 
     // create real device for pointer and assign
@@ -84,17 +84,22 @@ int main (int argc, char *argv[])
     {
         case Keithley:
         {
-            p_device = new KeithleyInterface(args.gpib_major, args.gpib_minor, KEITHLEY_INTERFACE_CHANNEL, args.vmax, args.vmin, args.imax, args.filestring);
+            p_device = new KeithleyInterface(args.vmax, args.vmin, args.imax, args.filestring);
             break;
         }
         case Hameg:
         {
-            p_device = new HamegInterface(args.gpib_major, args.gpib_minor, HAMEG_INTERFACE_CHANNEL, args.vmax, args.vmin, args.imax, args.filestring);
+            p_device = new HamegInterface(args.vmax, args.vmin, args.imax, args.filestring);
             break;
         }
         case HP66332:
         {
-            p_device = new HP66332Interface(args.gpib_major, args.gpib_minor, 0, args.vmax, args.vmin, args.imax, args.filestring);
+            p_device = new HP66332Interface(args.vmax, args.vmin, args.imax, args.filestring);
+            break;
+        }
+        case E5270:
+        {
+            p_device = new E5270Interface(args.vmax, args.vmin, args.imax, args.filestring);
             break;
         }
         case None:

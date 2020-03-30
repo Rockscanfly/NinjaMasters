@@ -13,9 +13,9 @@ namespace visa
 {
 
 #if DEBUG
-int VisaDebug = false;
+const int kVisaDebug = false;
 #else
-int VisaDebug = false;
+const int kVisaDebug = false;
 #endif // DEBUG
 
 void msg(std::string message)
@@ -111,7 +111,7 @@ ViUInt32 wbstr(ViSession dev, const char* cmd) // send a message to a device
 
 	returnval = viWrite(dev, (ViByte*)cmd, (ViUInt32)(strlen(cmd)), &cnt);
     if (returnval==VI_SUCCESS) {
-		if (VisaDebug) fprintf(stderr, "%s\n", cmd); // debugging only
+		if (kVisaDebug) fprintf(stderr, "%s\n", cmd); // debugging only
 		return(cnt);
 	}
 	// there was a problem
@@ -161,7 +161,7 @@ ViUInt32 rbstr(ViSession dev, char* buf, ViUInt32 maxlen) // get message from an
 			// fprintf(stderr,".");
 			// fprintf(stderr, "%s\n", buf);
 			buf[cnt]='\0';
-			if(VisaDebug) {
+			if(kVisaDebug) {
 				strncpy(deb,buf,64); deb[63]='\0';
 				fprintf(stderr,"Read:%s...", deb);
 			}
@@ -169,7 +169,7 @@ ViUInt32 rbstr(ViSession dev, char* buf, ViUInt32 maxlen) // get message from an
 		}
     	if (returnval==VI_SUCCESS_TERM_CHAR || returnval==VI_SUCCESS) {
 			buf[cnt]='\0';
-			if(VisaDebug) {
+			if(kVisaDebug) {
 				strncpy(deb,buf,64); deb[63]='\0';
 				fprintf(stderr,"Read:%s", deb);
 			}

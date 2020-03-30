@@ -1,16 +1,11 @@
 #include "EmptyInterface.hpp"
 
-EMPTYInterface::EMPTYInterface(int id,
-                       int addr,
-                       int channel,
+EMPTYInterface::EMPTYInterface(
                        double Vmax,
                        double Vmin,
                        double Imax,
                        const char filestring[255]):
-                       PSUInterface::PSUInterface(
-                                       id,
-                                       addr,
-                                       channel,
+                       PsuInterface::PsuInterface(
                                        Vmax,
                                        Vmin,
                                        Imax,
@@ -126,7 +121,7 @@ int EMPTYInterface::SMUVoltage(double V, double I)
     sprintf(m_inst, "SOUR:CURR %1.3f\n", fabs(I));
     if(Write(m_inst))   {   printf("\nError: Error setting output current: %1.3f\n", I);    }
 
-    visa::mwait(2);
+    mwait(2);
     return 0.0f;
 }
 
@@ -215,8 +210,8 @@ int EMPTYInterface::ClearErrors()
 
     do // clear last errors if any remain
     {
-        visa::wbstr(device, "SYST:ERR?");
-        visa::rbstr(device, buff, 255);
+        //visa::wbstr(device, "SYST:ERR?");
+        //visa::rbstr(device, buff, 255);
     } while (atoi(buff) != 0);
 
     return 0;
@@ -227,8 +222,8 @@ int EMPTYInterface::CheckErrors()
     char buff[256];
     int error = 0;
 
-    visa::wbstr(device, "SYST:ERR?");
-    visa::rbstr(device, buff, 255);
+    //visa::wbstr(device, "SYST:ERR?");
+    //visa::rbstr(device, buff, 255);
 
     error = atoi(buff);
     if (error)

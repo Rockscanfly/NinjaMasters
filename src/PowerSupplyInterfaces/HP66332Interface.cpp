@@ -1,16 +1,11 @@
 #include "HP66332Interface.hpp"
 
-HP66332Interface::HP66332Interface(int id,
-                       int addr,
-                       int channel,
+HP66332Interface::HP66332Interface(
                        double Vmax,
                        double Vmin,
                        double Imax,
                        const char filestring[255]):
-                       PSUInterface::PSUInterface(
-                                       id,
-                                       addr,
-                                       channel,
+                       PsuInterface::PsuInterface(
                                        Vmax,
                                        Vmin,
                                        Imax,
@@ -27,7 +22,7 @@ HP66332Interface::HP66332Interface(int id,
 
     if(strncmp("HEWLETT-PACKARD,66332A", m_val, 22))
     {
-        printf("Device at address GPIB%i::%i::INSTR was not the expected device, exiting...\n", id, addr);
+        printf("Device at address GPIB%i::%i::INSTR was not the expected device, exiting...\n", 1, 1);
         exit(1);
     }
 
@@ -87,7 +82,7 @@ int HP66332Interface::SetOutput(double V, double I)
     sprintf(m_inst, "SOUR:CURR %1.3f\n", fabs(I));
     if(Write(m_inst))   {   printf("\nError: Error setting output current: %1.3f\n", I);    }
 
-    visa::mwait(2);
+    mwait(2);
     return 0.0f;
 
     // return SMUVoltage(V,I);
@@ -218,8 +213,8 @@ int HP66332Interface::ClearErrors()
 
     do // clear last errors if any remain
     {
-        visa::wbstr(device, "SYST:ERR?");
-        visa::rbstr(device, buff, 255);
+        //visa::wbstr(device, "SYST:ERR?");
+        //visa::rbstr(device, buff, 255);
     } while (atoi(buff) != 0);
 
     return 0;
@@ -230,8 +225,8 @@ int HP66332Interface::CheckErrors()
     char buff[256];
     int error = 0;
 
-    visa::wbstr(device, "SYST:ERR?");
-    visa::rbstr(device, buff, 255);
+    //visa::wbstr(device, "SYST:ERR?");
+    //visa::rbstr(device, buff, 255);
 
     error = atoi(buff);
     if (error)

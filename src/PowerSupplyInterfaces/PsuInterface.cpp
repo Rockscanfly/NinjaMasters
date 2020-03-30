@@ -1,16 +1,13 @@
-#include "PSUInterface.hpp"
+#include "PsuInterface.hpp"
 
-PSUInterface::PSUInterface(int id, int addr, int channel, double Vmax, double Vmin, double Imax, const char filestring[255]):
-//PSUInterface::PSUInterface(id, addr, channel, Vmax, Vmin, Imax, capacity):
-visaID(id),
-subAddr(addr),
-channel(channel),
+PsuInterface::PsuInterface(double Vmax, double Vmin, double Imax, const char filestring[255]):
+//PsuInterface::PsuInterface(id, addr, channel, Vmax, Vmin, Imax, capacity):
 vMax(Vmax),
 vMin(Vmin),
 iMax(Imax)
 {
     #if DEBUG
-        printf("Start of PSU Interface Constructor\n");
+        printf("Start of PsuInterface Constructor\n");
     #endif // DEBUG
 
     // Setup data and log files
@@ -20,63 +17,49 @@ iMax(Imax)
     }
 
 	if (filestring[0] != '\0') {
-        sprintf(cmd, "%s.tvi", filestring);
+        sprintf(m_val, "%s.tvi", filestring);
     } else {
-        sprintf(cmd, "%s.tvi", "DataFile");
+        sprintf(m_val, "%s.tvi", "DataFile");
     }
-    if (ChangeDataFile(cmd)){
+    if (ChangeDataFile(m_val)){
         printf("Failed to open data file\n");
         exit(1);
 	}
 
 	if (filestring[0] != '\0') {
-        sprintf(cmd, "%s.log", filestring);
+        sprintf(m_val, "%s.log", filestring);
     } else {
-        sprintf(cmd, "%s.log", "LogFile");
+        sprintf(m_val, "%s.log", "LogFile");
     }
-    if (ChangeLogFile(cmd)) {
+    if (ChangeLogFile(m_val)) {
         printf("Failed to open log file\n");
         exit(1);
     }
-
-    // check visa device information
-	if(visaID>255 || visaID<0) visa::err("Bad GPIB number given");
-    strcpy(busname,"GPIB");
-	sprintf(cmd, "%d", visaID);
-	strcat(busname, cmd);
-
-    sprintf(busname, "%s::%d::INSTR", busname, subAddr); //open session to device
-    printf(busname);
-    printf("\n");
-
-   	visa::OpenVISA(&resourceManager); //create VISA session (PC -> VISA)
-	device = visa::OpenDevice(resourceManager, busname); //connect session identifier to psu (VISA -> device)
-	visa::setTMO(device, 9000);
 
     // start time for timed operations
 	time(&t0);
 	m_clock_initial = clock();
 
     #if DEBUG
-    	printf("End of PSU Interface Constructor\n");
+    	printf("End of PsuInterface Constructor\n");
     #endif // DEBUG
     // Connected to device, inherited constructors to take over remainder of handshake
 
-} // PSUInterface ctor
+} // PsuInterface ctor
 
-PSUInterface::~PSUInterface()
+PsuInterface::~PsuInterface()
 {
     // close log files and exit
     fclose(p_data);
     fclose(p_log);
     #if DEBUG
-    	printf("End of PSU Interface Destructor\n");
+    	printf("End of PsuInterface Destructor\n");
     #endif // DEBUG
 
 }
 
 
-double PSUInterface::CycleBattery(int t_number_cycles, double t_voltage_max, double t_voltage_min,
+double PsuInterface::CycleBattery(int t_number_cycles, double t_voltage_max, double t_voltage_min,
                                       double t_current_max, double t_current_end, double t_charge_end, double t_timeout, double t_relax_time)
 {
     int cycle_count = 0;
@@ -94,7 +77,7 @@ double PSUInterface::CycleBattery(int t_number_cycles, double t_voltage_max, dou
     sprintf(function_data, "CycleBattery: VISA address %s, started\n"
             "number_cycles: %i \nvoltage_max: %f \nvoltage_min: %f \ncurrent_max: %f"
             "\ncurrent_end: %f \ncharge_end: %f \ntimeout: %f \nrelax_time: %f \n",
-            busname, t_number_cycles, t_voltage_max, t_voltage_min,
+            m_val, t_number_cycles, t_voltage_max, t_voltage_min,
             t_current_max, t_current_end, t_charge_end, t_timeout, t_relax_time);
     printf(function_data);
     WriteLog(function_data);
@@ -184,7 +167,7 @@ double PSUInterface::CycleBattery(int t_number_cycles, double t_voltage_max, dou
     return 0.0f; // TODO return a sensible value
 }
 
-double PSUInterface::Waveform(double t_voltage_max, double t_voltage_min, double t_current_max, double t_charge_max, int t_number_cycles, double t_frequency[16])
+double PsuInterface::Waveform(double t_voltage_max, double t_voltage_min, double t_current_max, double t_charge_max, int t_number_cycles, double t_frequency[16])
 {
     #if DEBUG
         printf("Call to Waveform\n");
@@ -302,7 +285,7 @@ double PSUInterface::Waveform(double t_voltage_max, double t_voltage_min, double
         }
 
         SMUCurrent(t_voltage_max, t_voltage_min, current_now);
-        visa::mwait(100);
+        mwait(100);
 
         err = GetOutput(&voltage_now, &current_now);
         if((!err) && (time_now - time_start > 1.0))
@@ -348,7 +331,7 @@ double PSUInterface::Waveform(double t_voltage_max, double t_voltage_min, double
     return 0.0f;
 }
 
-double PSUInterface::GetToVoltage(double t_voltage_target, double t_current_max, double t_current_end, double t_timeout)
+double PsuInterface::GetToVoltage(double t_voltage_target, double t_current_max, double t_current_end, double t_timeout)
 {
     double voltage_now = 0;
     double current_now = 0;
@@ -402,7 +385,7 @@ double PSUInterface::GetToVoltage(double t_voltage_target, double t_current_max,
     return charge_moved;
 }
 
-double PSUInterface::MoveCharge(double t_voltage_max, double t_voltage_min, double t_current_max, double t_charge_to_move)
+double PsuInterface::MoveCharge(double t_voltage_max, double t_voltage_min, double t_current_max, double t_charge_to_move)
 {
     double voltage_now = 0;
     double current_now = 0;
@@ -453,7 +436,7 @@ double PSUInterface::MoveCharge(double t_voltage_max, double t_voltage_min, doub
     return charge_moved;
 }
 
-int PSUInterface::Write(char *inst)
+int PsuInterface::Write(char *inst)
 {
     #if DEBUG
         printf("\nFUNCTION: Write\n");
@@ -462,12 +445,12 @@ int PSUInterface::Write(char *inst)
 
     ClearErrors();
 
-    visa::wbstr(device, inst);
+    // //visa::wbstr(device, inst);
 
     return CheckErrors();
 }
 
-int PSUInterface::Query(char *inst, char *val)
+int PsuInterface::Query(char *inst, char *val)
 {
     #if DEBUG
         printf("FUNCTION: Query\n");
@@ -479,27 +462,27 @@ int PSUInterface::Query(char *inst, char *val)
 
     ClearErrors();
 
-    visa::wbstr(device, inst);
-    visa::rbstr(device, val, 255);
+    // //visa::wbstr(device, inst);
+    // //visa::rbstr(device, val, 255);
 
     return CheckErrors();
 
 }
 
-int PSUInterface::WriteData(const double v, const double i)
+int PsuInterface::WriteData(const double v, const double i)
 {
     m_clock_now = clock();
     fprintf(p_data, "%f\t%.8f\t%.8f\n", (float)(m_clock_now-m_clock_initial)/CLOCKS_PER_SEC, v, i);
     return 0;
 }
 
-int PSUInterface::MarkData(const char* str)
+int PsuInterface::MarkData(const char* str)
 {
     fprintf(p_data, "#%s \n", str);
     return 0;
 }
 
-int PSUInterface::WriteLog(const char* str)
+int PsuInterface::WriteLog(const char* str)
 {
     time(&t);
     m_clock_now = clock();
@@ -507,7 +490,7 @@ int PSUInterface::WriteLog(const char* str)
     return 0;
 }
 
-int PSUInterface::ChangeDataFile(const char* str)
+int PsuInterface::ChangeDataFile(const char* str)
 {
     if(p_data!=nullptr) {
         fclose(p_data);
@@ -519,7 +502,7 @@ int PSUInterface::ChangeDataFile(const char* str)
         return 0;
     return 1;
 }
-int PSUInterface::ChangeLogFile(const char* str)
+int PsuInterface::ChangeLogFile(const char* str)
 {
     if(p_log!=nullptr) {
         fclose(p_log);
@@ -533,7 +516,17 @@ int PSUInterface::ChangeLogFile(const char* str)
 
 }
 
-double PSUInterface::Test(double V, double I)
+
+void PsuInterface::mwait(int msecs) // wait some milliseconds in real-time work
+{
+    clock_t fin = clock() + (clock_t)((CLOCKS_PER_SEC * (long)msecs)/1000.0L);
+    if(msecs==0) return;
+    while ( fin - clock() > 1L ) {};
+    return;
+}
+
+
+double PsuInterface::Test(double V, double I)
 {
     #if DEBUG
         printf("\nFUNCTION:Test\n");
@@ -559,7 +552,7 @@ double PSUInterface::Test(double V, double I)
         Waveform(this->vMax, this->vMin, this->iMax, 0.042, 6, frequency);
     }
 
-    // visa::mwait(1000);
+    // mwait(1000);
 
     // for(int i = 0; i < 20; i += 5)
     // {
@@ -573,7 +566,7 @@ double PSUInterface::Test(double V, double I)
     //     Waveform(this->vMax, this->vMin, this->iMax, 0.042, 6, frequency);
     // }
 
-    visa::mwait(1000);
+    mwait(1000);
 
     return 0.0f;
 }

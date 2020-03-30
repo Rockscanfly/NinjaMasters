@@ -6,6 +6,7 @@ enum device_list {
     Keithley,
     Hameg,
     HP66332,
+    E5270,
     None
 };
 

@@ -1,17 +1,12 @@
 #include "KeithleyInterface.hpp"
 #include <cmath>
 
-KeithleyInterface::KeithleyInterface(int id,
-                       int addr,
-                       int channel,
+KeithleyInterface::KeithleyInterface(
                        double Vmax,
                        double Vmin,
                        double Imax,
                        const char filestring[255]):
-                       PSUInterface::PSUInterface(
-                                       id,
-                                       addr,
-                                       channel,
+                       PsuInterface::PsuInterface(
                                        Vmax,
                                        Vmin,
                                        Imax,
@@ -46,7 +41,7 @@ KeithleyInterface::KeithleyInterface(int id,
         }
         printf("\n");
 
-        printf("Device at address GPIB%i::%i::INSTR was not the expected device, exiting...\n", id, addr);
+        printf("Device at address GPIB%i::%i::INSTR was not the expected device, exiting...\n", 1, 1);
         exit(1);
     }
 
@@ -65,7 +60,7 @@ KeithleyInterface::KeithleyInterface(int id,
     sprintf(cmd, "*RST");
     if (Write(cmd))    {   printf("ERROR: Error setting reseting device\n"); }
 
-    visa::mwait(1000);
+    mwait(1000);
 
     sprintf(cmd, "OUTPUT1:CURRENT:SMODE HIMPEDANCE");
     if (Write(cmd))     {   printf("Failed to set current output off mode to High Impedance");  }
@@ -103,7 +98,7 @@ KeithleyInterface::~KeithleyInterface()
         printf("Start of Keithley Interface Destructor\n");
     #endif // DEBUG
 
-    visa::mwait(850);
+    mwait(850);
     Beep(750, 0.25);
     Beep(500, 0.25);
     Beep(210, 0.25);
@@ -190,7 +185,7 @@ int KeithleyInterface::SMUVoltage(double V, double I)
     sprintf(m_inst, "*WAI");
     if(Write(m_inst))   {printf("Error sending wait command\n"); }
 
-    visa::mwait(2);
+    mwait(2);
     return 0.0f;
 }
 
@@ -213,7 +208,7 @@ int KeithleyInterface::SMUCurrent(double t_voltage_max, double t_voltage_min, do
     sprintf(m_inst, "*WAI");
     if(Write(m_inst))   {printf("Error sending wait command\n"); }
 
-    visa::mwait(2);
+    mwait(2);
     return 0.0f;
 }
 
@@ -268,7 +263,7 @@ double KeithleyInterface::SetVoltageRange(double V)
     }
 
     sprintf(cmd, "*WAI");
-    visa::wbstr(device, cmd);
+    //visa::wbstr(device, cmd);
     return range;
 }
 
@@ -329,7 +324,7 @@ double KeithleyInterface::SetCurrentRange(double I)
     }
 
     sprintf(cmd, "*WAI");
-    visa::wbstr(device, cmd);
+    //visa::wbstr(device, cmd);
     return range;
 }
 
@@ -367,8 +362,8 @@ int KeithleyInterface::ClearErrors()
 
     do // clear last errors if any remain
     {
-        visa::wbstr(device, ":SYSTem:ERRor:NEXT?");
-        visa::rbstr(device, buff, 255);
+        //visa::wbstr(device, ":SYSTem:ERRor:NEXT?");
+        //visa::rbstr(device, buff, 255);
     } while (atoi(buff) != 0);
 
     return 0;
@@ -379,8 +374,8 @@ int KeithleyInterface::CheckErrors()
     char buff[256];
     int error = 0;
 
-    visa::wbstr(device, ":SYSTem:ERRor:NEXT?");
-    visa::rbstr(device, buff, 255);
+    //visa::wbstr(device, ":SYSTem:ERRor:NEXT?");
+    //visa::rbstr(device, buff, 255);
 
     error = (atoi(buff) != 0);
     return error;
@@ -393,6 +388,6 @@ void KeithleyInterface::Beep(int f, double t)
 {
     char beep[255];
     sprintf(beep, ":SYSTem:BEEPer:IMMediate %i, %.3f", f, t);
-    visa::wbstr(device, beep);
+    //visa::wbstr(device, beep);
     return;
 }

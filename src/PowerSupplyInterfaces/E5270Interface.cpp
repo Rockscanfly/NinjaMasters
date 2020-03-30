@@ -1,16 +1,11 @@
 #include "E5270Interface.hpp"
 
-E5270Interface::E5270Interface(int id,
-                       int addr,
-                       int channel,
+E5270Interface::E5270Interface(
                        double Vmax,
                        double Vmin,
                        double Imax,
                        const char filestring[255]):
-                       PSUInterface::PSUInterface(
-                                       id,
-                                       addr,
-                                       channel,
+                       PsuInterface::PsuInterface(
                                        Vmax,
                                        Vmin,
                                        Imax,
@@ -27,14 +22,14 @@ E5270Interface::E5270Interface(int id,
 
     if(strncmp("Agilent Technologies,E5270B", m_val, 27))
     {
-        printf("Device at address GPIB%i::%i::INSTR was not the expected device, exiting...\n", id, addr);
+        printf("Device at address GPIB%i::%i::INSTR was not the expected device, exiting...\n", 1, 1);
         exit(1);
     }
 
     sprintf(m_inst, "*RST\n");
     Write(m_inst);
 
-    visa::mwait(2000);
+    mwait(2000);
     // sprintf(m_inst, "CLR");
     // Write(m_inst);
 
@@ -48,7 +43,7 @@ E5270Interface::E5270Interface(int id,
 	time(&t0);
 	printf("E5270Interface (V%.2f): VISA address %s, channel %d started at %s", 1.0, busname, this->channel, ctime(&t0));
 
-    // visa::wbstr(device, "SU1:02.22"); // engage remote control mode
+    // //visa::wbstr(device, "SU1:02.22"); // engage remote control mode
 
     sprintf(m_inst, "CN %i\n", this->channel);
     Write(m_inst);
@@ -71,7 +66,7 @@ E5270Interface::E5270Interface(int id,
     sprintf(m_inst, "FMT  21\n");
     Write(m_inst);
 
-    visa::mwait(1000);
+    mwait(1000);
 
 
     #if DEBUG
@@ -305,8 +300,8 @@ int E5270Interface::ClearErrors()
     char buff[256];
 
     sprintf(buff, "ERR?\n");
-    visa::wbstr(device, buff);
-    visa::rbstr(device, buff, 255);
+    //visa::wbstr(device, buff);
+    //visa::rbstr(device, buff, 255);
 
     return 0;
 }
@@ -317,8 +312,8 @@ int E5270Interface::CheckErrors()
     char buff[256];
 
     sprintf(buff, "ERR?\n");
-    visa::wbstr(device, buff);
-    visa::rbstr(device, buff, 255);
+    //visa::wbstr(device, buff);
+    //visa::rbstr(device, buff, 255);
 
     error = strncmp(buff, "0,0,0,0", 7);
     return error;

@@ -2,15 +2,13 @@
 #define KEITHLEY_INTERFACE_H
 #define KEITHLEY_INTERFACE_CHANNEL 1
 #define KEITHLEY_INTERFACE_VERSION 1.0
-#include "PSUInterface.hpp"
+#include "PsuInterface.hpp"
 
 
-class KeithleyInterface : public PSUInterface {
+class KeithleyInterface : public PsuInterface {
     public:
          /** Constructor */
-        KeithleyInterface(int id,
-                        int addr,
-                        int channel,
+        KeithleyInterface(
                         double Vmax,
                         double Vmin,
                         double Imax,
@@ -45,11 +43,16 @@ class KeithleyInterface : public PSUInterface {
 
     private:
         int err = 0;
-        char m_inst[256];
-        char m_val[256];
+        char cmd[256];
+        char busname[256];
         int m_current_cycle = 0;
 
         void ReadRange(void);
+
+
+        char m_inst[256];
+        char m_val[256];
+        int channel = 0;
 
 };
 

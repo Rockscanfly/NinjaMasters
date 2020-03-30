@@ -2,7 +2,7 @@
 #include "HamegInterface.hpp"
 #include "HP66332Interface.hpp"
 #include "E5270Interface.hpp"
-#include "PSUInterface.hpp"
+#include "PsuInterface.hpp"
 #include "bzhelper.hpp"
 
 #include "string.h"
@@ -94,29 +94,29 @@ int main (int argc, char *argv[])
     }
 
     // create pointer to device
-    PSUInterface* p_device = nullptr;
+    PsuInterface* p_device = nullptr;
 
     // create real device for pointer and assign
     switch (device_selection)
     {
         case Keithley:
         {
-            p_device = new KeithleyInterface(args.gpib_major, args.gpib_minor, KEITHLEY_INTERFACE_CHANNEL, args.vmax, args.vmin, args.imax, args.filestring);
+            p_device = new KeithleyInterface(args.vmax, args.vmin, args.imax, args.filestring);
             break;
         }
         case Hameg:
         {
-            p_device = new HamegInterface(args.gpib_major, args.gpib_minor, HAMEG_INTERFACE_CHANNEL, args.vmax, args.vmin, args.imax, args.filestring);
+            p_device = new HamegInterface(args.vmax, args.vmin, args.imax, args.filestring);
             break;
         }
         case HP66332:
         {
-            p_device = new HP66332Interface(args.gpib_major, args.gpib_minor, 0, args.vmax, args.vmin, args.imax, args.filestring);
+            p_device = new HP66332Interface(args.vmax, args.vmin, args.imax, args.filestring);
             break;
         }
         case E5270:
         {
-            p_device = new E5270Interface(args.gpib_major, args.gpib_minor, E5270_INTERFACE_CHANNEL, args.vmax, args.vmin, args.imax, args.filestring);
+            p_device = new E5270Interface(args.vmax, args.vmin, args.imax, args.filestring);
             break;
         }
         case None:

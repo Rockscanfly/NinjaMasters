@@ -3,16 +3,14 @@
 #define E5270_INTERFACE_CHANNEL 2
 #define E5270_INTERFACE_CHANNEL_GND 4
 
-#include "PSUInterface.hpp"
+#include "PsuInterface.hpp"
 
 
-class E5270Interface : public PSUInterface
+class E5270Interface : public PsuInterface
 {
     public:
         /** Constructor */
-        E5270Interface(int id,
-                       int addr,
-                       int channel,
+        E5270Interface(
                        double Vmax,
                        double Vmin,
                        double Imax,
@@ -37,7 +35,7 @@ class E5270Interface : public PSUInterface
         int OutputOff(void);
 
         /*
-        * Visa Communication 
+        * Visa Communication
         * device specific
         */
         int ClearErrors(void);
@@ -47,13 +45,19 @@ class E5270Interface : public PSUInterface
     protected:
 
     private:
-        
+
         int err = 0;
-        char m_inst[256];
-        char m_val[256];
         int m_current_cycle = 0;
 
+        char cmd[256];
+        char busname[256];
+
+
         int DataDecode(const char t_data[256], double *t_return);
+
+        char m_inst[256];
+        char m_val[256];
+        int channel = 0;
 
 
 };

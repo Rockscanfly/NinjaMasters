@@ -1,16 +1,14 @@
 #ifndef HamegInterface_H
 #define HamegInterface_H
 #define HAMEG_INTERFACE_CHANNEL 1
-#include "PSUInterface.hpp"
+#include "PsuInterface.hpp"
 
 
-class HamegInterface : public PSUInterface
+class HamegInterface : public PsuInterface
 {
     public:
         /** Constructor */
-        HamegInterface(int id,
-                       int addr,
-                       int channel,
+        HamegInterface(
                        double Vmax,
                        double Vmin,
                        double Imax,
@@ -34,7 +32,12 @@ class HamegInterface : public PSUInterface
     protected:
 
     private:
-    
+        char cmd[256];
+        char busname[256];
+
+        char m_inst[256];
+        char m_val[256];
+        int channel = 0;
 };
 
 #endif // HamegInterface_H
