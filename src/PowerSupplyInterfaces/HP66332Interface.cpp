@@ -17,7 +17,7 @@ HP66332Interface::HP66332Interface(
 
     sprintf(m_inst, "*IDN?\n");
     Query(m_inst, m_val);
-    printf(m_val);
+    printf("%s", m_val);
     printf("\n");
 
     if(strncmp("HEWLETT-PACKARD,66332A", m_val, 22))
@@ -232,7 +232,7 @@ int HP66332Interface::CheckErrors()
     if (error)
     {
         printf("\n");
-        printf(buff);
+        printf("%s", buff);
     }
     return error;
 }

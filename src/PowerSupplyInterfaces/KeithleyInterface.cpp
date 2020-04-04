@@ -23,7 +23,7 @@ KeithleyInterface::KeithleyInterface(
     sprintf(cmd, "*IDN?");
     Query(cmd, cmd);
     printf("IDN string\n");
-    printf(cmd);
+    printf("%s", cmd);
     printf("\n");
 
     char kstring[64] = "KEITHLEY INSTRUMENTS,MODEL 2460";

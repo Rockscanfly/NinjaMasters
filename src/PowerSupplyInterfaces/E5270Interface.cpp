@@ -17,7 +17,7 @@ E5270Interface::E5270Interface(
 
     sprintf(m_inst, "*IDN?\n");
     Query(m_inst, m_val);
-    printf(m_val);
+    printf("%s", m_val);
     printf("\n");
 
     if(strncmp("Agilent Technologies,E5270B", m_val, 27))
@@ -36,8 +36,8 @@ E5270Interface::E5270Interface(
     sprintf(m_inst, "UNT?\n");
     Query(m_inst, m_val);
     #if DEBUG
-        printf(m_val);
-        printf("\n");
+    printf("%s", m_val);
+    printf("\n");
     #endif // DEBUG
 
 	time(&t0);
