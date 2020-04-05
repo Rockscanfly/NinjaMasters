@@ -14,11 +14,11 @@ bcargs bcparse(int argc, char ** argv, string device_string)
     if((argc != 12) && (argc != 13))
     {
         cout << "Invalid number of parameters "  <<  argc-1 << endl;
-        cout << "Usage: bc.exe <device> <VISA#> <gpib_addr> <ncycles> <Vmax> <Vmin> <Imax> <Iend> <Qend> <timeout> <relaxtime> [filestring]" << endl;
+        cout << "Usage: bc.exe <device> <GPIB#> <gpib_addr> <ncycles> <Vmax> <Vmin> <Imax> <Iend> <Qend> <timeout> <relaxtime> [filestring]" << endl;
         cout << endl;
         cout << "This program requires a " << device_string << " connected to the host machine accessible at the specified" << endl;
         cout << "GPIB address, and the visa driver interface to be installed on the host" << endl;
-        cout << "The expected device address is in the format: GPIB<VISA#>::<gpib_addr>::INSTR" << endl;
+        cout << "The expected device address is in the format: GPIB<GPIB#>::<gpib_addr>::INSTR" << endl;
         cout << endl;
         cout << "The program is designed to cycle a battery attached to the " << device_string << " between the specified maximum and" << endl;
         cout << "minimum voltages at the specified maximum current. The program expects the voltage and current ranges to" << endl;
@@ -33,8 +33,8 @@ bcargs bcparse(int argc, char ** argv, string device_string)
         cout << endl;
         cout << "<device> is the hardware to be used to cycle the battery with. Options are: " << endl;
         cout << "Keithley Hameg HP66332 E5270" << endl;
-        cout << "<VISA#> is the GPIB address value of the primary switch that the " << device_string << " is attached to" << endl;
-        cout << "<gpib_addr> is the GPIB subaddress value of the " << device_string << " attached to the GPIB switch at <VISA#>" << endl;
+        cout << "<GPIB#> is the GPIB address value of the primary switch that the " << device_string << " is attached to" << endl;
+        cout << "<gpib_addr> is the GPIB subaddress value of the " << device_string << " attached to the GPIB switch at <GPIB#>" << endl;
         cout << "<ncycles> is the number of times the attached battery will be fully discharged and then fully charged" << endl;
         cout << "<vmax> is the maximum voltage, in Volts,  up to which the battery will be charged" << endl;
         cout << "<vmin> is the minimum voltage, in Volts,  down to which the battery will be discharged" << endl;

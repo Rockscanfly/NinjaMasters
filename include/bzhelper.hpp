@@ -12,8 +12,8 @@ enum device_list {
 
 struct bzargs
 {
-    int gpib_major = 0;
-    int gpib_minor = 0;
+    int gpib_major = -1;
+    int gpib_minor = -1;
     double vmax = 0;
     double vmin = 0;
     double imax = 0;
@@ -23,6 +23,7 @@ struct bzargs
     bool single_sweep = false;
     int num_frequencies = 0;
     char filestring[256] = {'\0'};
+    bool args_good = false;
 };
 
 bzargs bzparse(int argc, char ** argv, std::string device_string);
