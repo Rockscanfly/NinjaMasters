@@ -79,7 +79,7 @@ double PsuInterface::CycleBattery(int t_number_cycles, double t_voltage_max, dou
             "\ncurrent_end: %f \ncharge_end: %f \ntimeout: %f \nrelax_time: %f \n",
             m_val, t_number_cycles, t_voltage_max, t_voltage_min,
             t_current_max, t_current_end, t_charge_end, t_timeout, t_relax_time);
-    printf(function_data);
+    printf("%s", function_data);
     WriteLog(function_data);
 
     // ensure that the end charge value is less than 1 so we don't over charge the battery

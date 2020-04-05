@@ -17,7 +17,7 @@ EMPTYInterface::EMPTYInterface(
 
     sprintf(m_inst, "*IDN?\n");
     Query(m_inst, m_val);
-    printf(m_val);
+    printf("%s", m_val);
     printf("\n");
 
     if(strncmp("Device IDN string",m_val, 29))
@@ -229,7 +229,7 @@ int EMPTYInterface::CheckErrors()
     if (error)
     {
         printf("\n");
-        printf(buff);
+        printf("%s", buff);
     }
     return error;
 }

@@ -17,7 +17,7 @@ HamegInterface::HamegInterface(
 
     sprintf(m_inst, "*IDN?\n");
     Query(m_inst, m_val);
-    printf(m_val);
+    printf("%s", m_val);
     printf("\n");
 
     if(strncmp("HAMEG Instruments,HM8143",m_val, 24))
@@ -36,8 +36,8 @@ HamegInterface::HamegInterface(
     sprintf(m_inst, "STA");
     Query(m_inst, m_val);
     #if DEBUG
-        printf(m_val);
-        printf("\n");
+    printf("%s", m_val);
+    printf("\n");
     #endif // DEBUG
 
 	time(&t0);
