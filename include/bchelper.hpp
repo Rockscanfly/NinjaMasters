@@ -23,6 +23,8 @@ struct bcargs
     double timeout = 0;
     double trelax = 0;
     char filestring[255] = {'\0'};
+    bool args_good = false;
+
 };
 
 bcargs bcparse(int argc, char ** argv, std::string device_string);

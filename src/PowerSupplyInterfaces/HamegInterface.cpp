@@ -1,14 +1,8 @@
 #include "HamegInterface.hpp"
 
 HamegInterface::HamegInterface(
-                       double Vmax,
-                       double Vmin,
-                       double Imax,
                        const char filestring[255]):
                        PsuInterface::PsuInterface(
-                                       Vmax,
-                                       Vmin,
-                                       Imax,
                                        filestring)
 {
     #if DEBUG
@@ -41,7 +35,7 @@ HamegInterface::HamegInterface(
     #endif // DEBUG
 
 	time(&t0);
-	printf("HamegInterface (V%.2f): VISA address %s, started at %s", 1.0, busname, ctime(&t0));
+	printf("HamegInterface (V%.2f): started at %s", HAMEG_INTERFACE_VERSION, ctime(&t0));
 
     #if DEBUG
  	    printf("End of Hameg Interface Constructor\n");
@@ -57,11 +51,11 @@ HamegInterface::~HamegInterface()
     #endif // DEBUG
 
     // turn off output and disengage remote mode
-    sprintf(cmd, "OP0");
-    Write(cmd);
+    sprintf(m_inst, "OP0");
+    Write(m_inst);
 
-    sprintf(cmd, "RM0");
-    Write(cmd);
+    sprintf(m_inst, "RM0");
+    Write(m_inst);
 
     printf("Closing HamegInterface Device\n");
     #if DEBUG
@@ -80,7 +74,7 @@ int HamegInterface::SetOutput(double V, double I)
     sprintf(m_inst, "SU%i:%2.2f\n", this->channel, V);
     if(Write(m_inst))   {   printf("Error: Error setting output voltage \n");    }
     sprintf(m_inst, "SI%i:%1.3f\n", this->channel, fabs(I));
-    if(Write(m_inst))   {   printf("\nError: Error setting output current: %1.3f\n", I);    }
+    if(Write(m_inst))   {   printf("\nError: Error setting output current_t: %1.3f\n", I);    }
 
     mwait(2);
     return 0;
@@ -99,7 +93,7 @@ int HamegInterface::GetOutput(double *V, double *I)
     *V = atof(&m_val[3]);
 
     sprintf(m_inst, "MI%i\n", this->channel);
-    if(Query(m_inst, m_val))   {   printf("Error: Error getting output current \n");    }
+    if(Query(m_inst, m_val))   {   printf("Error: Error getting output current_t \n");    }
     *I = atof(&m_val[3]);
 
     return 0;
@@ -119,20 +113,20 @@ int HamegInterface::SMUVoltage(double V, double I)
     return 0;
 }
 
-int HamegInterface::SMUCurrent(double t_voltage_max, double t_voltage_min, double t_current)
+int HamegInterface::SMUCurrent(double voltage_max, double voltage_min, double current_t)
 {
     #if DEBUG
 	    printf("Call to HamegInterface::SMUCurrent\n");
-        printf("V: %f-%f, I: %f\n", t_voltage_max, t_voltage_min, t_current);
+        printf("V: %f-%f, I: %f\n", voltage_max, voltage_min, current_t);
     #endif // DEBUG
 
-    if (t_current >= 0)
+    if (current_t >= 0)
     {
-        return SetOutput(t_voltage_max,t_current);
+        return SetOutput(voltage_max,current_t);
     }
     else
     {
-        return SetOutput(t_voltage_min,t_current);
+        return SetOutput(voltage_min,current_t);
     }
     mwait(20);
 
@@ -165,7 +159,7 @@ int HamegInterface::IsCurrentLimited(void)
 
     uint32_t status = 0;
     sprintf(m_inst, "STA?");
-    if(Query(m_inst, m_val))    {   printf("ERROR: Error reading current trip limit\n"); }
+    if(Query(m_inst, m_val))    {   printf("ERROR: Error reading current_t trip limit\n"); }
     #if DEBUG
         printf("%s\n", m_val);
     #endif // DEBUG

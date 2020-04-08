@@ -2,14 +2,8 @@
 #include <cmath>
 
 KeithleyInterface::KeithleyInterface(
-                       double Vmax,
-                       double Vmin,
-                       double Imax,
                        const char filestring[255]):
                        PsuInterface::PsuInterface(
-                                       Vmax,
-                                       Vmin,
-                                       Imax,
                                        filestring)
 
 
@@ -20,19 +14,19 @@ KeithleyInterface::KeithleyInterface(
 
 
 
-    sprintf(cmd, "*IDN?");
-    Query(cmd, cmd);
+    sprintf(m_inst, "*IDN?");
+    Query(m_inst, m_inst);
     printf("IDN string\n");
-    printf("%s", cmd);
+    printf("%s", m_inst);
     printf("\n");
 
     char kstring[64] = "KEITHLEY INSTRUMENTS,MODEL 2460";
-    if(strncmp("KEITHLEY INSTRUMENTS,MODEL 2460", cmd, 5))
+    if(strncmp("KEITHLEY INSTRUMENTS,MODEL 2460", m_inst, 5))
     {
         printf("\n");
         for(int i = 0; i < 30; i++)
         {
-            printf("%x", cmd[i]);
+            printf("%x", m_inst[i]);
         }
         printf("\n");
         for(int i = 0; i < 30; i++)
@@ -51,39 +45,39 @@ KeithleyInterface::KeithleyInterface(
     Beep(750, 0.25);
     Beep(600, 0.25);
 
-    sprintf(cmd, "OUTPUT:STATE OFF");
-    if (Write(cmd))    {   printf("ERROR: Error setting output off\n"); }
+    sprintf(m_inst, "OUTPUT:STATE OFF");
+    if (Write(m_inst))    {   printf("ERROR: Error setting output off\n"); }
 
-    sprintf(cmd, "*CLS");
-    if (Write(cmd))    {   printf("ERROR: Error clearing error buffer\n"); }
+    sprintf(m_inst, "*CLS");
+    if (Write(m_inst))    {   printf("ERROR: Error clearing error buffer\n"); }
 
-    sprintf(cmd, "*RST");
-    if (Write(cmd))    {   printf("ERROR: Error setting reseting device\n"); }
+    sprintf(m_inst, "*RST");
+    if (Write(m_inst))    {   printf("ERROR: Error setting reseting device\n"); }
 
     mwait(1000);
 
-    sprintf(cmd, "OUTPUT1:CURRENT:SMODE HIMPEDANCE");
-    if (Write(cmd))     {   printf("Failed to set current output off mode to High Impedance");  }
-    sprintf(cmd, "OUTPUT1:VOLTAGE:SMODE HIMPEDANCE");
-    if (Write(cmd))     {   printf("Failed to set voltage output off mode to High Impedance");  }
-    sprintf(cmd, "OUTPUT:STATE OFF");
-    if (Write(cmd))    {   printf("ERROR: Error setting output off\n"); }
+    sprintf(m_inst, "OUTPUT1:CURRENT:SMODE HIMPEDANCE");
+    if (Write(m_inst))     {   printf("Failed to set current_t output off mode to High Impedance");  }
+    sprintf(m_inst, "OUTPUT1:VOLTAGE:SMODE HIMPEDANCE");
+    if (Write(m_inst))     {   printf("Failed to set voltage output off mode to High Impedance");  }
+    sprintf(m_inst, "OUTPUT:STATE OFF");
+    if (Write(m_inst))    {   printf("ERROR: Error setting output off\n"); }
 
-    sprintf(cmd, "SENSE:CURRENT:RSENSE 1");
-    if (Write(cmd))    {   printf("ERROR: Error setting current sense to 4 wire method\n"); }
-    sprintf(cmd, "SENSE:VOLTAGE:RSENSE 1");
-    if (Write(cmd))    {   printf("ERROR: Error setting voltage sense to 4 wire method\n"); }
-    sprintf(cmd, "SOUR:CURR:HIGH:CAP ON");
-    if (Write(cmd))    {   printf("ERROR: Error setting output high capacitance mode on\n"); }
+    sprintf(m_inst, "SENSE:CURRENT:RSENSE 1");
+    if (Write(m_inst))    {   printf("ERROR: Error setting current_t sense to 4 wire method\n"); }
+    sprintf(m_inst, "SENSE:VOLTAGE:RSENSE 1");
+    if (Write(m_inst))    {   printf("ERROR: Error setting voltage sense to 4 wire method\n"); }
+    sprintf(m_inst, "SOUR:CURR:HIGH:CAP ON");
+    if (Write(m_inst))    {   printf("ERROR: Error setting output high capacitance mode on\n"); }
 
     do
     {
-        sprintf(cmd, "SYSTem:ERRor:NEXT?");
-        Query(cmd, cmd);
-        printf("%s\n", cmd);
-    } while (atoi(cmd) != 0);
+        sprintf(m_inst, "SYSTem:ERRor:NEXT?");
+        Query(m_inst, m_inst);
+        printf("%s\n", m_inst);
+    } while (atoi(m_inst) != 0);
 
-	printf("KeithleyInterface (V%.2f): VISA address %s, started at %s", 1.0, busname, ctime(&t0));
+	printf("KeithleyInterface (V%.2f): started at %s", KEITHLEY_INTERFACE_VERSION, ctime(&t0));
 
     #if DEBUG
         printf("End of Keithley Interface Constructor\n");
@@ -105,8 +99,8 @@ KeithleyInterface::~KeithleyInterface()
     Beep(210, 0.25);
     Beep(300, 0.25);
 
-    sprintf(cmd, "OUTPUT:STATE OFF");
-    Write(cmd);
+    sprintf(m_inst, "OUTPUT:STATE OFF");
+    Write(m_inst);
 
     printf("Closing KeithleyInterface Device\n");
     #if DEBUG
@@ -137,7 +131,7 @@ int KeithleyInterface::GetOutput(double * V, double * I)
 
     sprintf(inst, "MEASURE:CURRENT:DC?");
     Ierr = Query(inst, val);
-    if (Ierr)   {   printf("Error reading output current\n");    }
+    if (Ierr)   {   printf("Error reading output current_t\n");    }
     #if DEBUG
         printf("QUERY: %s", val);
     #endif // DEBUG
@@ -178,7 +172,7 @@ int KeithleyInterface::SMUVoltage(double V, double I)
     SetVoltageRange(fabs(V));
     SetCurrentRange(fabs(I*10));
     sprintf(m_inst, "SOUR:VOLT:ILIM %1.3e", I);
-    if(Write(m_inst))   {printf("Error Setting voltage current limit\n"); }
+    if(Write(m_inst))   {printf("Error Setting voltage current_t limit\n"); }
     sprintf(m_inst, "SOUR:VOLT %2.3e", V);
     if(Write(m_inst))   {printf("Error Setting voltage\n"); }
 
@@ -189,21 +183,21 @@ int KeithleyInterface::SMUVoltage(double V, double I)
     return 0.0f;
 }
 
-int KeithleyInterface::SMUCurrent(double t_voltage_max, double t_voltage_min, double t_current)
+int KeithleyInterface::SMUCurrent(double voltage_max, double voltage_min, double current_t)
 {
     #if DEBUG
 	    printf("Call to KeithleyInterface::SMUCurrent\n");
-        printf("V: %f, I: %f\n", t_voltage_max, t_current);
+        printf("V: %f, I: %f\n", voltage_max, current_t);
     #endif // DEBUG
 
     sprintf(m_inst, "SOUR:FUNC CURR");
-    if(Write(m_inst))   {printf("Error Setting output to current\n"); }
-    SetVoltageRange(fabs(t_voltage_max));
-    SetCurrentRange(fabs(t_current));
-    sprintf(m_inst, "SOUR:CURR:VLIM %2.3e", t_voltage_max);
-    if(Write(m_inst))   {printf("Error Setting current voltage limit\n"); }
-    sprintf(m_inst, "SOUR:CURR %1.3e", t_current);
-    if(Write(m_inst))   {printf("Error Setting current\n"); }
+    if(Write(m_inst))   {printf("Error Setting output to current_t\n"); }
+    SetVoltageRange(fabs(voltage_max));
+    SetCurrentRange(fabs(current_t));
+    sprintf(m_inst, "SOUR:CURR:VLIM %2.3e", voltage_max);
+    if(Write(m_inst))   {printf("Error Setting current_t voltage limit\n"); }
+    sprintf(m_inst, "SOUR:CURR %1.3e", current_t);
+    if(Write(m_inst))   {printf("Error Setting current_t\n"); }
 
     sprintf(m_inst, "*WAI");
     if(Write(m_inst))   {printf("Error sending wait command\n"); }
@@ -262,8 +256,8 @@ double KeithleyInterface::SetVoltageRange(double V)
         }
     }
 
-    sprintf(cmd, "*WAI");
-    //visa::wbstr(device, cmd);
+    sprintf(m_inst, "*WAI");
+    //visa::wbstr(device, m_inst);
     return range;
 }
 
@@ -304,35 +298,35 @@ double KeithleyInterface::SetCurrentRange(double I)
         range = 7.0;
     if (fabs(I) >= 7.35)
     {
-        printf("\nInvalid current %f, unable to determine range\n", I);
+        printf("\nInvalid current_t %f, unable to determine range\n", I);
         range = -1;
     }
 
     if (range != -1)
     {
         sprintf(val, "SOURCE:CURRENT:RANGE %f", range);
-        if (Write(val))    {   printf("Error setting current SOURCE range\n");    }
+        if (Write(val))    {   printf("Error setting current_t SOURCE range\n");    }
 
         sprintf(inst, "SOUR:FUNC?");
-        if (Query(inst,val))    {   printf("Error reading current SOURCE type\n");    }
+        if (Query(inst,val))    {   printf("Error reading current_t SOURCE type\n");    }
 
         if(abs(strncmp(val, "CURR", 4)))
         {
             sprintf(val, "SENSE:CURRENT:RANGE %f", range);
-            if (Write(val))    {   printf("Error setting current SENSE range\n");    }
+            if (Write(val))    {   printf("Error setting current_t SENSE range\n");    }
         }
     }
 
-    sprintf(cmd, "*WAI");
-    //visa::wbstr(device, cmd);
+    sprintf(m_inst, "*WAI");
+    //visa::wbstr(device, m_inst);
     return range;
 }
 
 int KeithleyInterface::IsCurrentLimited(void)
 {
-        // Query if supply is current limited, val is 1 if true.
+        // Query if supply is current_t limited, val is 1 if true.
     sprintf(m_inst, "SOUR:VOLT:ILIM:TRIP?");
-    if(Query(m_inst, m_val))    {   printf("ERROR: Error reading current trip limit\n"); }
+    if(Query(m_inst, m_val))    {   printf("ERROR: Error reading current_t trip limit\n"); }
     #if DEBUG
 	    printf("%s", m_val);
     #endif // DEBUG

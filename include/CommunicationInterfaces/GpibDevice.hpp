@@ -4,7 +4,7 @@
 #include "SerialDevice.hpp"
 #include "visawrapper.h"
 
-class GpibDevice
+class GpibDevice : public SerialDevice
 {
 public:
     GpibDevice( int major, int minor );

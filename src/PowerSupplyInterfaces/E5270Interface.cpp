@@ -1,14 +1,8 @@
 #include "E5270Interface.hpp"
 
 E5270Interface::E5270Interface(
-                       double Vmax,
-                       double Vmin,
-                       double Imax,
                        const char filestring[255]):
                        PsuInterface::PsuInterface(
-                                       Vmax,
-                                       Vmin,
-                                       Imax,
                                        filestring)
 {
     #if DEBUG
@@ -41,7 +35,7 @@ E5270Interface::E5270Interface(
     #endif // DEBUG
 
 	time(&t0);
-	printf("E5270Interface (V%.2f): VISA address %s, channel %d started at %s", 1.0, busname, this->channel, ctime(&t0));
+	printf("E5270Interface (V%.2f): started at %s", E5270_INTERFACE_VERSION, ctime(&t0));
 
     // //visa::wbstr(device, "SU1:02.22"); // engage remote control mode
 
@@ -208,7 +202,7 @@ int E5270Interface::GetOutput(double *V, double *I)
         printf("\n");
     #endif // DEBUG
 
-    if(fabs(*I+I_GND) > fabs(0.05*I_GND) && fabs(0.05*I_GND) > 1e-5 )
+    if(fabs(*I+I_GND) > fabs(0.05*I_GND) && fabs(0.05*I_GND) > 1e-5)
     {
         fprintf(stderr, "\nCurrent leakage detected\n");
         #ifndef DEBUG
@@ -237,21 +231,21 @@ int E5270Interface::SMUVoltage(double V, double I)
 }
 
 
-int E5270Interface::SMUCurrent(double t_voltage_max, double t_voltage_min, double t_current)
+int E5270Interface::SMUCurrent(double voltage_max, double voltage_min, double current_t)
 {
     #if DEBUG
         printf("\nFUNCTION: E5270Interface::SMUCurrent\n");
-        printf("V: %f-%f, I: %f\n", t_voltage_max, t_voltage_min, t_current);
+        printf("V: %f-%f, I: %f\n", voltage_max, voltage_min, current_t);
     #endif // DEBUG
     // DV chnum,vrange,voltage[,Icomp[,comp_polarity[,irange]]
-    sprintf(m_inst, "DV %i, 0, %.2e, %.2e, 1 \n", E5270_INTERFACE_CHANNEL_GND, 0.0, copysign(this->iMax, t_current));
+    sprintf(m_inst, "DV %i, 0, %.2e, %.2e, 1 \n", E5270_INTERFACE_CHANNEL_GND, 0.0, copysign(this->iMax, current_t));
     Write(m_inst);
-    // DI chnum,irange,current[,Vcomp[,comp_polarity[,vrange]]]
-    if(t_current >=0)
+    // DI chnum,irange,current_t[,Vcomp[,comp_polarity[,vrange]]]
+    if(current_t >=0)
     {
-        sprintf(m_inst, "DI %i, 0, %.4e, %.4e, 1 \n", this->channel, t_current, t_voltage_max);
+        sprintf(m_inst, "DI %i, 0, %.4e, %.4e, 1 \n", this->channel, current_t, voltage_max);
     }else{
-        sprintf(m_inst, "DI %i, 0, %.4e, %.4e, 1 \n", this->channel, t_current, t_voltage_min);
+        sprintf(m_inst, "DI %i, 0, %.4e, %.4e, 1 \n", this->channel, current_t, voltage_min);
     }
 
     Write(m_inst);
@@ -332,7 +326,7 @@ int E5270Interface::CheckErrors()
 *   7 Search stopped automatically
 *   8 Invalid Data Returned
 */
-int E5270Interface::DataDecode(const char t_data[256] , double *t_return)
+int E5270Interface::DataDecode(const char data[256] , double *return)
 {
 // Formatting Rules
 // A: Status. One character.
@@ -345,14 +339,14 @@ int E5270Interface::DataDecode(const char t_data[256] , double *t_return)
 //
 // Format Selected (21)
 // EEEFGDDDDDDDDDDDDD
-    *t_return = atof(&t_data[5]);
+    *return = atof(&data[5]);
     #if DEBUG
-        printf("t_return %e\n", *t_return);
+        printf("return %e\n", *return);
     #endif // DEBUG
     int rtype = 0;
 
 
-    if((int)t_data[4] == 90 || (int)t_data[4] == 122) // Invalid Data Returned, Z or z
+    if((int)data[4] == 90 || (int)data[4] == 122) // Invalid Data Returned, Z or z
     {
         #if DEBUG
             printf("Invalid Data, type Z\n");
@@ -360,7 +354,7 @@ int E5270Interface::DataDecode(const char t_data[256] , double *t_return)
         if(!rtype)
             rtype = 1;
     }
-    uint8_t status = (((int)t_data[0]) -'0')*100 + (((int)t_data[1]) -'0')*10 + ((int)t_data[2]) -'0';
+    uint8_t status = (((int)data[0]) -'0')*100 + (((int)data[1]) -'0')*10 + ((int)data[2]) -'0';
     #if DEBUG
         printf("Status: %i\n", status);
     #endif // DEBUG

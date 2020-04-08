@@ -1,5 +1,6 @@
 #ifndef E5270INTERFACE_H
 #define E5270INTERFACE_H
+#define E5270_INTERFACE_VERSION 3.0
 #define E5270_INTERFACE_CHANNEL 2
 #define E5270_INTERFACE_CHANNEL_GND 4
 
@@ -9,14 +10,8 @@
 class E5270Interface : public PsuInterface
 {
     public:
-        /** Constructor */
         E5270Interface(
-                       double Vmax,
-                       double Vmin,
-                       double Imax,
-                       const char filestring[255]);
-//        virtual E5270Interface();
-        /** Default destructor */
+                        const char filestring[255]);
         ~E5270Interface();
 
         /*
@@ -27,7 +22,7 @@ class E5270Interface : public PsuInterface
         int SetOutput(double V, double I);
         int GetOutput(double * V, double * I);
         int SMUVoltage(double V, double I);
-        int SMUCurrent(double t_voltage_max, double t_voltage_min, double t_current);
+        int SMUCurrent(double voltage_max, double voltage_min, double current_t);
         double SetVoltageRange(double V);
         double SetCurrentRange(double I);
         int IsCurrentLimited(void);
@@ -40,24 +35,14 @@ class E5270Interface : public PsuInterface
         */
         int ClearErrors(void);
         int CheckErrors(void);
-        // virtual bool NComplete(void);
 
     protected:
 
     private:
+        int DataDecode(const char data[256], double *return);
 
-        int err = 0;
-        int m_current_cycle = 0;
+        int channel = E5270_INTERFACE_CHANNEL;
 
-        char cmd[256];
-        char busname[256];
-
-
-        int DataDecode(const char t_data[256], double *t_return);
-
-        char m_inst[256];
-        char m_val[256];
-        int channel = 0;
 
 
 };

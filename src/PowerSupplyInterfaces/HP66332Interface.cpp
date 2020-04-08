@@ -1,14 +1,8 @@
 #include "HP66332Interface.hpp"
 
 HP66332Interface::HP66332Interface(
-                       double Vmax,
-                       double Vmin,
-                       double Imax,
                        const char filestring[255]):
                        PsuInterface::PsuInterface(
-                                       Vmax,
-                                       Vmin,
-                                       Imax,
                                        filestring)
 {
     #if DEBUG
@@ -39,7 +33,7 @@ HP66332Interface::HP66332Interface(
     if(Write(m_inst))   {   printf("Error: Error setting output relay state on\n");   }
 
 	time(&t0);
-	printf("HP66332Interface (V%.2f): VISA address %s, started at %s", 1.0, busname, ctime(&t0));
+	printf("HP66332Interface (V%.2f): started at %s", HP66332_INTERFACE_VERSION, ctime(&t0));
 
     #if DEBUG
  	    printf("End of HP66332 Interface Constructor\n");
@@ -80,7 +74,7 @@ int HP66332Interface::SetOutput(double V, double I)
     sprintf(m_inst, "SOUR:VOLT %1.3f\n", V);
     if(Write(m_inst))   {   printf("Error: Error setting output voltage \n");    }
     sprintf(m_inst, "SOUR:CURR %1.3f\n", fabs(I));
-    if(Write(m_inst))   {   printf("\nError: Error setting output current: %1.3f\n", I);    }
+    if(Write(m_inst))   {   printf("\nError: Error setting output current_t: %1.3f\n", I);    }
 
     mwait(2);
     return 0.0f;
@@ -97,7 +91,7 @@ int HP66332Interface::GetOutput(double *V, double *I)
 
     sprintf(m_inst, "MEAS:CURR:DC?");
     err = Query(m_inst, m_val);
-    if (err)   {   printf("Error reading output current\n");    }
+    if (err)   {   printf("Error reading output current_t\n");    }
     #if DEBUG
         printf("QUERY: %s", m_val);
     #endif // DEBUG
@@ -112,15 +106,15 @@ int HP66332Interface::GetOutput(double *V, double *I)
     #endif // DEBUG
     *V = atof(m_val);
 
-    if (*I > 1.1*this->iMax)
-    {
-        #if DEBUG
-        printf("\nWarning Faulty Current Detected: %fA\n", *I);
-        #endif // DEBUG
-        err = 1;
-    }else    {
-        // WriteData(*V, *I);
-    }
+    // if (*I > 1.1*this->iMax)
+    // {
+    //     #if DEBUG
+    //     printf("\nWarning Faulty Current Detected: %fA\n", *I);
+    //     #endif // DEBUG
+    //     err = 1;
+    // }else    {
+    //     // WriteData(*V, *I);
+    // }
     return err;
 }
 
@@ -135,20 +129,20 @@ int HP66332Interface::SMUVoltage(double V, double I)
 
 }
 
-int HP66332Interface::SMUCurrent(double t_voltage_max, double t_voltage_min, double t_current)
+int HP66332Interface::SMUCurrent(double voltage_max, double voltage_min, double current_t)
 {
     #if DEBUG
 	    printf("Call to HP66332Interface::SMUCurrent\n");
-        printf("V: %f, I: %f\n", t_voltage_max, t_current);
+        printf("V: %f, I: %f\n", voltage_max, current_t);
     #endif // DEBUG
 
-    if (t_current >= 0)
+    if (current_t >= 0)
     {
-        return SetOutput(t_voltage_max,t_current);
+        return SetOutput(voltage_max,current_t);
     }
     else
     {
-        return SetOutput(t_voltage_min,t_current);
+        return SetOutput(voltage_min,current_t);
     }
 }
 
@@ -168,7 +162,7 @@ double HP66332Interface::SetCurrentRange(double I)
     #endif // DEBUG
 
     sprintf(m_inst, "SENS:CURR:RANG %.6f", I);
-    if(Write(m_inst))   { printf("Error: Error setting current range"); }
+    if(Write(m_inst))   { printf("Error: Error setting current_t range"); }
 
     return 0.0f;
 }
@@ -182,7 +176,7 @@ int HP66332Interface::IsCurrentLimited(void)
     uint32_t status = 0;
 
     sprintf(m_inst, "STAT:OPER:COND?");
-    if(Query(m_inst, m_val))    {   printf("ERROR: Error reading current trip limit\n"); }
+    if(Query(m_inst, m_val))    {   printf("ERROR: Error reading current_t trip limit\n"); }
 
     status = atoi(m_val);
     #if DEBUG

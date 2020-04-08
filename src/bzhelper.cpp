@@ -16,7 +16,7 @@ bzargs bzparse(int argc, char ** argv, std::string device_string)
         cout << "Invalid number of parameters " <<  argc-1 << endl;
         cout << "Usage: bz <device> <GPIB#> <gpib_addr> <Vmax> <Vmin> <Imax> <QMax> <Ncylces> [S|s|Single] <Frequency List> [filestring]" << endl;
         cout << "Usage: bz <device> <serial_port> <baud> <Vmax> <Vmin> <Imax> <QMax> <Ncylces> [S|s|Single] <Frequency List> [filestring]" << endl;
-        cout << "Parameters in square brackets [] are optional"
+        cout << "Parameters in square brackets [] are optional" << endl;
         cout << endl;
         cout << "bz HP66332 2 3 ...               < connects to a HP66332 at GPIB2::3::INSTR" << endl;
         cout << "bz HP66332 GPIB2 3 ...           < connects to a HP66332 at GPIB2::3::INSTR" << endl;
@@ -48,7 +48,7 @@ bzargs bzparse(int argc, char ** argv, std::string device_string)
         cout << "<imax> is the maximum current, in Amps, that will be sourced or sunk to force a waveform into the battery" << endl;
         cout << "<qmax> is the maximum charge, in Amphere Hours, that will sourced or sunk to force a waveform into the battery" << endl;
         cout << "<ncycles> is the number of sinusoidal current cycles, at the lowest given frequency, the battery will experience" << endl;
-        cout << "[Single?] is an option string to specify that the given list of frequencies should be iterated over individually instead of simultaneously" << endl;
+        cout << "[Single] is an option string to specify that the given list of frequencies should be iterated over individually instead of simultaneously" << endl;
         cout << " to use this option, type the word \"Single\" BEFORE listing frequencies" << endl;
         cout << "<frequency list> is a list of frequencies, in Hz,  used to create the current waveform that will be produced, limit 16 frequencies, maximum 1Hz" << endl;
         cout << "[filestring] sets the base name of the target .tvi and .log files, NOTE existing files with the same name will be OVERWRITTEN" << endl;
@@ -104,7 +104,7 @@ bzargs bzparse(int argc, char ** argv, std::string device_string)
             sprintf(args.filestring, "%s", argv[argc-1]);
         }
     }
-    args_good = true;
+    args.args_good = true;
 	return args;
 }
 

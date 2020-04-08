@@ -101,22 +101,26 @@ int main (int argc, char *argv[])
     {
         case Keithley:
         {
-            p_device = new KeithleyInterface(args.vmax, args.vmin, args.imax, args.filestring);
+            // p_device = new KeithleyInterface(args.vmax, args.vmin, args.imax, args.filestring);
+            p_device = new KeithleyInterface(args.filestring);
             break;
         }
         case Hameg:
         {
-            p_device = new HamegInterface(args.vmax, args.vmin, args.imax, args.filestring);
+            // p_device = new HamegInterface(args.vmax, args.vmin, args.imax, args.filestring);
+            p_device = new HamegInterface(args.filestring);
             break;
         }
         case HP66332:
         {
-            p_device = new HP66332Interface(args.vmax, args.vmin, args.imax, args.filestring);
+            // p_device = new HP66332Interface(args.vmax, args.vmin, args.imax, args.filestring);
+            p_device = new HP66332Interface(args.filestring);
             break;
         }
         case E5270:
         {
-            p_device = new E5270Interface(args.vmax, args.vmin, args.imax, args.filestring);
+            // p_device = new E5270Interface(args.vmax, args.vmin, args.imax, args.filestring);
+            p_device = new E5270Interface(args.filestring);
             break;
         }
         case None:

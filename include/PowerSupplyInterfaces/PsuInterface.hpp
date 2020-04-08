@@ -8,13 +8,13 @@
 #define _USE_MATH_DEFINES
 #include <cmath>
 
-
+#include "SerialDevice.hpp"
 
 class PsuInterface
 {
     public:
         /** Default constructor */
-        PsuInterface(double Vmax, double Vmin, double  Imax, const char filestring[255]);
+        PsuInterface(const char filestring[255]);
         PsuInterface(const PsuInterface&) = delete;
         int operator=(const PsuInterface&) = delete;
         /** Default destructor */
@@ -24,16 +24,16 @@ class PsuInterface
         * Primary High Level Functions
         * Should be inherited from PsuInterface
         */
-        double CycleBattery(int t_number_cycles, double t_voltage_max, double t_voltage_min,
-                              double t_current_max, double t_current_end, double t_charge_end, double t_timeout, double t_relax_time);
-        double Waveform(double t_voltage_max, double t_voltage_min, double t_current_max, double t_charge_max, int t_number_cycles, double t_frequency[16]);
+        double CycleBattery(int number_cycles, double voltage_max, double voltage_min,
+                              double current_max, double current_end, double charge_end, double timeout, double relax_time);
+        double Waveform(double voltage_max, double voltage_min, double current_max, double charge_max, int number_cycles, double frequency[16]);
 
         /*
         * Secondary High Level Functions
         * Should be inherited from PsuInterface
         */
-        double GetToVoltage(double t_voltage_target, double t_current_max, double t_current_end, double t_timeout);
-        double MoveCharge(double t_voltage_max, double t_voltage_min, double t_current_max, double t_charge_to_move);
+        double GetToVoltage(double voltage_target, double current_max, double current_end, double timeout);
+        double MoveCharge(double voltage_max, double voltage_min, double current_max, double charge_to_move);
 
         /*
         * Visa Communication high level
@@ -49,7 +49,7 @@ class PsuInterface
         virtual int SetOutput(double V, double I) = 0;
         virtual int GetOutput(double * V, double * I) = 0;
         virtual int SMUVoltage(double V, double I) = 0;
-        virtual int SMUCurrent(double t_voltage_max, double t_voltage_min, double t_current) = 0;
+        virtual int SMUCurrent(double voltage_max, double voltage_min, double current_t) = 0;
          virtual double SetVoltageRange(double V) = 0;
          virtual double SetCurrentRange(double I) = 0;
         virtual int IsCurrentLimited(void) = 0;
@@ -74,16 +74,8 @@ class PsuInterface
 
     protected:
 
+        SerialDevice device;
         void mwait(int msecs); // wait some milliseconds in real-time work
-
-
-        /** Access channel
-         * \return The current value of channel
-         */
-
-        double vMax;
-        double vMin;
-        double iMax;
 
         time_t t = 0;
         time_t t0 = 0;
@@ -94,12 +86,14 @@ class PsuInterface
         char m_val[256];
         int m_current_cycle = 0;
 
+        int m_maxCurrent = 0;
+        int m_maxVoltage = 0;
+        int m_minVoltage = 0;
+
         char filestring[255];
 
-    private:
         FILE * p_data = nullptr;
         FILE * p_log = nullptr;
-
 };
 
 #endif // PSUINTERFACE_H

@@ -1,10 +1,8 @@
 #include "PsuInterface.hpp"
 
-PsuInterface::PsuInterface(double Vmax, double Vmin, double Imax, const char filestring[255]):
 //PsuInterface::PsuInterface(id, addr, channel, Vmax, Vmin, Imax, capacity):
-vMax(Vmax),
-vMin(Vmin),
-iMax(Imax)
+PsuInterface::PsuInterface(const char filestring[255]):
+device(0)
 {
     #if DEBUG
         printf("Start of PsuInterface Constructor\n");
@@ -59,8 +57,8 @@ PsuInterface::~PsuInterface()
 }
 
 
-double PsuInterface::CycleBattery(int t_number_cycles, double t_voltage_max, double t_voltage_min,
-                                      double t_current_max, double t_current_end, double t_charge_end, double t_timeout, double t_relax_time)
+double PsuInterface::CycleBattery(int number_cycles, double voltage_max, double voltage_min,
+                                      double current_max, double current_end, double charge_end, double timeout, double relax_time)
 {
     int cycle_count = 0;
     double charge_moved = 0;
@@ -77,13 +75,13 @@ double PsuInterface::CycleBattery(int t_number_cycles, double t_voltage_max, dou
     sprintf(function_data, "CycleBattery: VISA address %s, started\n"
             "number_cycles: %i \nvoltage_max: %f \nvoltage_min: %f \ncurrent_max: %f"
             "\ncurrent_end: %f \ncharge_end: %f \ntimeout: %f \nrelax_time: %f \n",
-            m_val, t_number_cycles, t_voltage_max, t_voltage_min,
-            t_current_max, t_current_end, t_charge_end, t_timeout, t_relax_time);
+            m_val, number_cycles, voltage_max, voltage_min,
+            current_max, current_end, charge_end, timeout, relax_time);
     printf("%s", function_data);
     WriteLog(function_data);
 
     // ensure that the end charge value is less than 1 so we don't over charge the battery
-    if(t_charge_end > 1) {
+    if(charge_end > 1) {
         printf("Error, end charge percent must be less than 100\n");
         sprintf(function_data, "Error, end charge percent must be less than 100\n");
         WriteLog(function_data);
@@ -91,7 +89,7 @@ double PsuInterface::CycleBattery(int t_number_cycles, double t_voltage_max, dou
     }
 
     // initial charge of the battery
-    charge_moved = GetToVoltage(t_voltage_max, t_current_max, t_current_end, t_timeout);
+    charge_moved = GetToVoltage(voltage_max, current_max, current_end, timeout);
     printf("End of inital charge\n");
     m_clock_now = clock();
     sprintf(function_data, "CycleBattery: initial charge completed\nCharge Moved: %f, time taken: %f\n",
@@ -101,11 +99,11 @@ double PsuInterface::CycleBattery(int t_number_cycles, double t_voltage_max, dou
     MarkData(function_data);
 
     // Start cycling the battery
-    while(cycle_count++ < t_number_cycles)
+    while(cycle_count++ < number_cycles)
     {
         m_current_cycle = cycle_count;
         // discharge battery to minimum voltage
-        charge_moved = GetToVoltage(t_voltage_min, t_current_max, t_current_end, t_timeout);
+        charge_moved = GetToVoltage(voltage_min, current_max, current_end, timeout);
         discharge_q = charge_moved;
         m_clock_now = clock();
         sprintf(function_data, "CycleBattery: discharge %i completed\nCharge Moved: %f, time taken: %f\n",
@@ -115,7 +113,7 @@ double PsuInterface::CycleBattery(int t_number_cycles, double t_voltage_max, dou
         MarkData(function_data);
 
         // charge battery to maximum voltage
-        charge_moved = GetToVoltage(t_voltage_max, t_current_max, t_current_end, t_timeout);
+        charge_moved = GetToVoltage(voltage_max, current_max, current_end, timeout);
         charge_q = charge_moved;
         m_clock_now = clock();
         sprintf(function_data, "CycleBattery: charge %i completed\nCharge Moved: %f, time taken: %f\n",
@@ -127,7 +125,7 @@ double PsuInterface::CycleBattery(int t_number_cycles, double t_voltage_max, dou
     }
 
     // move the excess charge from the battery
-    charge_moved = MoveCharge(t_voltage_max, t_voltage_min, t_current_max, discharge_q*(1-t_charge_end));
+    charge_moved = MoveCharge(voltage_max, voltage_min, current_max, discharge_q*(1-charge_end));
 
     sprintf(function_data, "CycleBattery: cycling completed\n"
             "Last full charge Q: %f\nLast full discharge Q: %f\nEnd charge depleted: %f\ntime taken: %f\n",
@@ -136,15 +134,15 @@ double PsuInterface::CycleBattery(int t_number_cycles, double t_voltage_max, dou
     sprintf(function_data, "Final Charge Moved: %f", charge_moved);
     MarkData(function_data);
 
-    // wait out the relaxation time, continue to measure the voltage and current on the battery
+    // wait out the relaxation time, continue to measure the voltage and current_t on the battery
     // required to have output on to read with high imedance mode on, give vmax to set measurement range to appropriate value
-    SMUCurrent(t_voltage_max, t_voltage_min, 0.0f);
+    SMUCurrent(voltage_max, voltage_min, 0.0f);
     OutputOn();
 
     clock_now = clock();
     time_now = (float)(clock_now - clock_function_start)/CLOCKS_PER_SEC;
     time_last = time_now;
-    while((time_now - time_last) < t_relax_time) {
+    while((time_now - time_last) < relax_time) {
         double voltage_now = 0;
         double current_now = 0;
         // GetOutput(&voltage_now, &current_now);
@@ -167,13 +165,13 @@ double PsuInterface::CycleBattery(int t_number_cycles, double t_voltage_max, dou
     return 0.0f; // TODO return a sensible value
 }
 
-double PsuInterface::Waveform(double t_voltage_max, double t_voltage_min, double t_current_max, double t_charge_max, int t_number_cycles, double t_frequency[16])
+double PsuInterface::Waveform(double voltage_max, double voltage_min, double current_max, double charge_max, int number_cycles, double frequency[16])
 {
     #if DEBUG
         printf("Call to Waveform\n");
-        printf("Vmax: %f, Vmin: %f, I: %f, Q: %f, F: %e\n", t_voltage_max, t_voltage_min, t_current_max, t_charge_max, t_frequency[0]);
+        printf("Vmax: %f, Vmin: %f, I: %f, Q: %f, F: %e\n", voltage_max, voltage_min, current_max, charge_max, frequency[0]);
     #endif // DEBUG
-    printf("Vmax: %f, Vmin: %f, I: %f, Q: %f, F: %e\n", t_voltage_max, t_voltage_min, t_current_max, t_charge_max, t_frequency[0]);
+    printf("Vmax: %f, Vmin: %f, I: %f, Q: %f, F: %e\n", voltage_max, voltage_min, current_max, charge_max, frequency[0]);
 
     clock_t clock_function_start = clock();
     clock_t clock_now = 0;
@@ -189,12 +187,12 @@ double PsuInterface::Waveform(double t_voltage_max, double t_voltage_min, double
 
     double max_dq = 0;
     double max_fq = 0;
-    double fmin = t_frequency[0];
-    double fmax = t_frequency[0];
-    double frequency_max_current[16] = {0};
+    double fmin = frequency[0];
+    double fmax = frequency[0];
+    double frequency_max_current_t[16] = {0};
 
     // check if valid frequencies are given
-    if(t_frequency[0] == 0)
+    if(frequency[0] == 0)
     {
         printf("Error invalid frequency 0Hz given as first frequency\n");
         return 1.0;
@@ -204,15 +202,15 @@ double PsuInterface::Waveform(double t_voltage_max, double t_voltage_min, double
     int nfrequencies = 1;
     for(int i = 1; i < 16; i++)
     {
-        if(t_frequency[i]!= 0)
+        if(frequency[i]!= 0)
         {
-            if(t_frequency[i]<fmin)
+            if(frequency[i]<fmin)
             {
-                fmin = t_frequency[i];
+                fmin = frequency[i];
             }
-            if(t_frequency[i]>fmax)
+            if(frequency[i]>fmax)
             {
-                fmax = t_frequency[i];
+                fmax = frequency[i];
             }
             nfrequencies++;
         }
@@ -226,14 +224,14 @@ double PsuInterface::Waveform(double t_voltage_max, double t_voltage_min, double
     #endif // DEBUG
 
     // what q will be moved by the slowest frequency in Ah
-    max_dq = t_current_max/(M_PI*fmin*3600);
-    if (fabs(t_charge_max) < fabs(max_dq))
+    max_dq = current_max/(M_PI*fmin*3600);
+    if (fabs(charge_max) < fabs(max_dq))
     {
-        max_dq = t_charge_max;
+        max_dq = charge_max;
     }
     #if DEBUG
-        printf("I qmax: %g\n", t_current_max/(M_PI*fmin*3600));
-        printf("Given qmax: %g\n", t_charge_max);
+        printf("I qmax: %g\n", current_max/(M_PI*fmin*3600));
+        printf("Given qmax: %g\n", charge_max);
         printf("dQ: %f\n", max_dq);
     #endif // DEBUG
 
@@ -244,20 +242,20 @@ double PsuInterface::Waveform(double t_voltage_max, double t_voltage_min, double
         // dQ_f = -2*nfreq*I_f/(2*pi*f)
         // dI_f = Q_f*(2*pi*f)/2*nfreq
         // dI_f = Q_f*(pi*f)/nfreq
-        frequency_max_current[i] = max_dq * M_PI * t_frequency[i]*3600/(nfrequencies);
-        if( fabs(frequency_max_current[i]) > fabs(t_current_max/nfrequencies))
+        frequency_max_current_t[i] = max_dq * M_PI * frequency[i]*3600/(nfrequencies);
+        if(fabs(frequency_max_current_t[i]) > fabs(current_max/nfrequencies))
         {
-            frequency_max_current[i] = t_current_max/nfrequencies;
+            frequency_max_current_t[i] = current_max/nfrequencies;
         }
         // #if DEBUG
-            printf("Maximum current for frequency %e Hz: %e A\n", t_frequency[i], frequency_max_current[i]);
+            printf("Maximum current_t for frequency %e Hz: %e A\n", frequency[i], frequency_max_current_t[i]);
         // #endif // DEBUG
     }
 
     // set maximum time to run
-    time_end = t_number_cycles/fmin;
+    time_end = number_cycles/fmin;
 
-    SMUCurrent(t_voltage_max, t_voltage_min, 0);
+    SMUCurrent(voltage_max, voltage_min, 0);
     OutputOn();
     if(!GetOutput(&voltage_now, &current_now))
     {
@@ -278,13 +276,13 @@ double PsuInterface::Waveform(double t_voltage_max, double t_voltage_min, double
         time_now = (double)(clock_now)/CLOCKS_PER_SEC;
         for(int i = 0; i < nfrequencies; i++)
         {
-            current_now += frequency_max_current[i]*sin(2*M_PI*t_frequency[i]*(time_now - time_start));
+            current_now += frequency_max_current_t[i]*sin(2*M_PI*frequency[i]*(time_now - time_start));
             #if DEBUG
-                printf("F: %e, T: %e, C: %e\n",t_frequency[i], time_now - time_start, frequency_max_current[i]*sin(2*M_PI*t_frequency[i]*(time_now - time_start)));
+                printf("F: %e, T: %e, C: %e\n",frequency[i], time_now - time_start, frequency_max_current_t[i]*sin(2*M_PI*frequency[i]*(time_now - time_start)));
             #endif // DEBUG
         }
 
-        SMUCurrent(t_voltage_max, t_voltage_min, current_now);
+        SMUCurrent(voltage_max, voltage_min, current_now);
         mwait(100);
 
         err = GetOutput(&voltage_now, &current_now);
@@ -296,26 +294,26 @@ double PsuInterface::Waveform(double t_voltage_max, double t_voltage_min, double
         printf("Voltage: %2.4fV, Current: %2.4eA, Cycle Number: %i, time remaining: %5.2fs\r", voltage_now, current_now, 1, time_end - time_now);
         #endif // DEBUG
 
-        if((!err) && (voltage_now >= t_voltage_max))
+        if((!err) && (voltage_now >= voltage_max))
         {
             if(time_now - time_start > 1.0)
             {
                 vlimcount ++;
                 if(vlimcount > 10)
                 {
-                    printf("Fatal Error: Voltage Reached Upper Limit %fV, exiting...\n", t_voltage_max);
+                    printf("Fatal Error: Voltage Reached Upper Limit %fV, exiting...\n", voltage_max);
                     return 1.0;
                 }
             }
         }
-        else if((!err) && (voltage_now <= t_voltage_min))
+        else if((!err) && (voltage_now <= voltage_min))
         {
             if(time_now - time_start > 1.0)
             {
                 vlimcount ++;
                 if(vlimcount > 10)
                 {
-                printf("Fatal Error: Voltage Reached Lower Limit %fV, exiting...\n", t_voltage_min);
+                printf("Fatal Error: Voltage Reached Lower Limit %fV, exiting...\n", voltage_min);
                 return 1.0;
                 }
             }
@@ -331,7 +329,7 @@ double PsuInterface::Waveform(double t_voltage_max, double t_voltage_min, double
     return 0.0f;
 }
 
-double PsuInterface::GetToVoltage(double t_voltage_target, double t_current_max, double t_current_end, double t_timeout)
+double PsuInterface::GetToVoltage(double voltage_target, double current_max, double current_end, double timeout)
 {
     double voltage_now = 0;
     double current_now = 0;
@@ -340,12 +338,12 @@ double PsuInterface::GetToVoltage(double t_voltage_target, double t_current_max,
     clock_t clock_now = 0;
     double time_now = 0;
     double time_last = 0;
-    double time_timeout_start = 0;
+    double time_timeoustart = 0;
     char function_data[2048];
 
     OutputOff();
 
-    SMUVoltage(t_voltage_target, t_current_max);
+    SMUVoltage(voltage_target, current_max);
 
     OutputOn();
 
@@ -353,8 +351,8 @@ double PsuInterface::GetToVoltage(double t_voltage_target, double t_current_max,
     clock_now = clock();
     time_last = (float)(clock_now - clock_function_start)/CLOCKS_PER_SEC;
     time_now = time_last;
-    time_timeout_start = time_now;
-    do { // integrate the current while waiting for the current to drop to the minimum level or the timeout condition
+    time_timeoustart = time_now;
+    do { // integrate the current_t while waiting for the current_t to drop to the minimum level or the timeout condition
         // GetOutput(&voltage_now, &current_now);
         clock_now = clock();
         time_now = (float)(clock_now - clock_function_start)/CLOCKS_PER_SEC;
@@ -364,15 +362,15 @@ double PsuInterface::GetToVoltage(double t_voltage_target, double t_current_max,
         {
             WriteData(voltage_now, current_now);
         }
-        // Query if supply is current limited, val is 1 if true. Reset timeout if true
-        // printf("\nCurrent Limited: %i, %f\n", IsCurrentLimited(), time_timeout_start);
+        // Query if supply is current_t limited, val is 1 if true. Reset timeout if true
+        // printf("\nCurrent Limited: %i, %f\n", IsCurrentLimited(), time_timeoustart);
         if (IsCurrentLimited()) {
-            time_timeout_start = time_now;
+            time_timeoustart = time_now;
         }
         #ifndef DEBUG
-        printf("Voltage: %f, Current: %f, Cycle Number: %i, Charge Moved: %.0f mAh, wait time: %.2fs\r", voltage_now, current_now, m_current_cycle, charge_moved/3.6, time_now - time_timeout_start);
+        printf("Voltage: %f, Current: %f, Cycle Number: %i, Charge Moved: %.0f mAh, wait time: %.2fs\r", voltage_now, current_now, m_current_cycle, charge_moved/3.6, time_now - time_timeoustart);
         #endif // DEBUG
-    } while(fabs(current_now) > t_current_end && (time_now - time_timeout_start) < t_timeout);
+    } while(fabs(current_now) > current_end && (time_now - time_timeoustart) < timeout);
     printf("\n");
 
     OutputOff();
@@ -385,7 +383,7 @@ double PsuInterface::GetToVoltage(double t_voltage_target, double t_current_max,
     return charge_moved;
 }
 
-double PsuInterface::MoveCharge(double t_voltage_max, double t_voltage_min, double t_current_max, double t_charge_to_move)
+double PsuInterface::MoveCharge(double voltage_max, double voltage_min, double current_max, double charge_to_move)
 {
     double voltage_now = 0;
     double current_now = 0;
@@ -396,19 +394,19 @@ double PsuInterface::MoveCharge(double t_voltage_max, double t_voltage_min, doub
     double time_last = 0;
     char function_data[2048];
 
-    sprintf(function_data, "Call to MoveCharge\nI: %f \nQ: %f\n", t_current_max, t_charge_to_move);
+    sprintf(function_data, "Call to MoveCharge\nI: %f \nQ: %f\n", current_max, charge_to_move);
     WriteLog(function_data);
 
     OutputOff();
-    // set output to voltage limited current source of correct polarity
-    SMUCurrent(t_voltage_max, t_voltage_min , copysign(t_current_max, t_charge_to_move));
+    // set output to voltage limited current_t source of correct polarity
+    SMUCurrent(voltage_max, voltage_min , copysign(current_max, charge_to_move));
     OutputOn();
 
     clock_function_start = clock();
     clock_now = clock();
     time_last = (float)(clock_now - clock_function_start)/CLOCKS_PER_SEC;
 
-    // integrate current while charge moved is less than target
+    // integrate current_t while charge moved is less than target
     do {
         // GetOutput(&voltage_now, &current_now);
         clock_now = clock();
@@ -424,7 +422,7 @@ double PsuInterface::MoveCharge(double t_voltage_max, double t_voltage_min, doub
         printf("Voltage: %f, Current: %f, Charge Moved: %.0f mAh, wait time: %.2fs\r", voltage_now, current_now, charge_moved/3.6, time_now);
         #endif //DEBUG
 
-    } while(fabs(charge_moved) < fabs(t_charge_to_move));
+    } while(fabs(charge_moved) < fabs(charge_to_move));
 
     OutputOff();
 
@@ -496,7 +494,7 @@ int PsuInterface::ChangeDataFile(const char* str)
         fclose(p_data);
     }
     p_data = fopen(str, "w+");
-    setbuf ( p_data , NULL );
+    setbuf (p_data , NULL);
 
     if(p_data!=nullptr)
         return 0;
@@ -508,7 +506,7 @@ int PsuInterface::ChangeLogFile(const char* str)
         fclose(p_log);
     }
     p_log = fopen(str, "w+");
-    setbuf ( p_log , NULL );
+    setbuf (p_log , NULL);
 
     if(p_log!=nullptr)
         return 0;
@@ -521,52 +519,52 @@ void PsuInterface::mwait(int msecs) // wait some milliseconds in real-time work
 {
     clock_t fin = clock() + (clock_t)((CLOCKS_PER_SEC * (long)msecs)/1000.0L);
     if(msecs==0) return;
-    while ( fin - clock() > 1L ) {};
+    while (fin - clock() > 1L) {};
     return;
 }
 
 
 double PsuInterface::Test(double V, double I)
 {
-    #if DEBUG
-        printf("\nFUNCTION:Test\n");
-        printf(">> %f, %f\n", V, I);
-    #endif // DEBUG
+    // #if DEBUG
+    //     printf("\nFUNCTION:Test\n");
+    //     printf(">> %f, %f\n", V, I);
+    // #endif // DEBUG
 
-    char filename[256];
-    // double flist[32] = {500e-3, 200e-3, 100e-3, 50e-3, 20e-3, 10e-3, 5e-3, 2e-3, 1e-3, 500e-6, 200e-6, 100e-6, 50e-6, 20e-6, 0};
-    // double flist[32] = {500e-3, 200e-3, 100e-3, 80e-3, 50e-3, 20e-3, 10e-3, 8e-3, 5e-3, 2e-3, 1e-3, 800e-6, 500e-6, 200e-6, 0, 0};
-    double flist[32] = {500e-3, 200e-3, 100e-3, 80e-3, 50e-3, 20e-3, 10e-3, 8e-3, 5e-3, 2e-3, 1e-3, 800e-6, 500e-6, 200e-6, 100e-6, 80e-6, 50e-6, 20e-6, 0, 0, 0};
+    // char filename[256];
+    // // double flist[32] = {500e-3, 200e-3, 100e-3, 50e-3, 20e-3, 10e-3, 5e-3, 2e-3, 1e-3, 500e-6, 200e-6, 100e-6, 50e-6, 20e-6, 0};
+    // // double flist[32] = {500e-3, 200e-3, 100e-3, 80e-3, 50e-3, 20e-3, 10e-3, 8e-3, 5e-3, 2e-3, 1e-3, 800e-6, 500e-6, 200e-6, 0, 0};
+    // double flist[32] = {500e-3, 200e-3, 100e-3, 80e-3, 50e-3, 20e-3, 10e-3, 8e-3, 5e-3, 2e-3, 1e-3, 800e-6, 500e-6, 200e-6, 100e-6, 80e-6, 50e-6, 20e-6, 0, 0, 0};
 
-    double frequency[16] = {0};
+    // double frequency[16] = {0};
 
-    for(int i = 0; i < 18; i += 1)
-    {
-        sprintf(filename, "%s_%iuHz.tvi", this->filestring, (int)(flist[i]*1e6));
-        ChangeDataFile(filename);
-        frequency[0] = flist[i];
-        // frequency[1] = flist[i+1];
-        // frequency[2] = flist[i+2];
-        // frequency[3] = flist[i+3];
-        // frequency[4] = flist[i+4];
-        Waveform(this->vMax, this->vMin, this->iMax, 0.042, 6, frequency);
-    }
-
-    // mwait(1000);
-
-    // for(int i = 0; i < 20; i += 5)
+    // for(int i = 0; i < 18; i += 1)
     // {
-    //     sprintf(filename, "%s_%iuHz5tone.tvi", this->filestring, (int)(flist[i]*1e6));
+    //     sprintf(filename, "%s_%iuHz.tvi", this->filestring, (int)(flist[i]*1e6));
     //     ChangeDataFile(filename);
     //     frequency[0] = flist[i];
-    //     frequency[1] = flist[i+1];
-    //     frequency[2] = flist[i+2];
-    //     frequency[3] = flist[i+3];
-    //     frequency[4] = flist[i+4];
+    //     // frequency[1] = flist[i+1];
+    //     // frequency[2] = flist[i+2];
+    //     // frequency[3] = flist[i+3];
+    //     // frequency[4] = flist[i+4];
     //     Waveform(this->vMax, this->vMin, this->iMax, 0.042, 6, frequency);
     // }
 
-    mwait(1000);
+    // // mwait(1000);
+
+    // // for(int i = 0; i < 20; i += 5)
+    // // {
+    // //     sprintf(filename, "%s_%iuHz5tone.tvi", this->filestring, (int)(flist[i]*1e6));
+    // //     ChangeDataFile(filename);
+    // //     frequency[0] = flist[i];
+    // //     frequency[1] = flist[i+1];
+    // //     frequency[2] = flist[i+2];
+    // //     frequency[3] = flist[i+3];
+    // //     frequency[4] = flist[i+4];
+    // //     Waveform(this->vMax, this->vMin, this->iMax, 0.042, 6, frequency);
+    // // }
+
+    // mwait(1000);
 
     return 0.0f;
 }

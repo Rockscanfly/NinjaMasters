@@ -1,19 +1,14 @@
 #ifndef KEITHLEY_INTERFACE_H
 #define KEITHLEY_INTERFACE_H
 #define KEITHLEY_INTERFACE_CHANNEL 1
-#define KEITHLEY_INTERFACE_VERSION 1.0
+#define KEITHLEY_INTERFACE_VERSION 3.0
 #include "PsuInterface.hpp"
 
 
 class KeithleyInterface : public PsuInterface {
     public:
-         /** Constructor */
         KeithleyInterface(
-                        double Vmax,
-                        double Vmin,
-                        double Imax,
                         const char filestring[255]);
-        /** Default destructor */
         ~KeithleyInterface();
 
         /*
@@ -24,7 +19,7 @@ class KeithleyInterface : public PsuInterface {
         int SetOutput(double V, double I);
         int GetOutput(double * V, double * I);
         int SMUVoltage(double V, double I);
-        int SMUCurrent(double t_voltage_max, double t_voltage_min, double t_current);
+        int SMUCurrent(double voltage_max, double voltage_min, double current_t);
         double SetVoltageRange(double V);
         double SetCurrentRange(double I);
         int IsCurrentLimited(void);
@@ -38,21 +33,11 @@ class KeithleyInterface : public PsuInterface {
         int ClearErrors(void);
         int CheckErrors(void);
 
+        /*
+        * Unique to this hardware device
+        */
         void Beep(int f, double t);
-    protected:
-
-    private:
-        int err = 0;
-        char cmd[256];
-        char busname[256];
-        int m_current_cycle = 0;
-
         void ReadRange(void);
-
-
-        char m_inst[256];
-        char m_val[256];
-        int channel = 0;
 
 };
 

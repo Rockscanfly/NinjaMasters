@@ -1,14 +1,8 @@
 #include "EmptyInterface.hpp"
 
 EMPTYInterface::EMPTYInterface(
-                       double Vmax,
-                       double Vmin,
-                       double Imax,
                        const char filestring[255]):
                        PsuInterface::PsuInterface(
-                                       Vmax,
-                                       Vmin,
-                                       Imax,
                                        filestring)
 {
     #if DEBUG
@@ -40,8 +34,7 @@ EMPTYInterface::EMPTYInterface(
     #endif // DEBUG
 
 	time(&t0);
-	printf("EMPTYInterface (V%.2f): VISA address %s, started at %s", 1.0, busname, ctime(&t0));
-
+	printf("EMPTYInterface (V%.2f): started at %s", EMPTY_INTERFACE_VERSION, ctime(&t0));
     // wbstr(device, "SU1:02.22"); // engage remote control mode
 
 
@@ -89,7 +82,7 @@ int EMPTYInterface::GetOutput(double *V, double *I)
 
     sprintf(m_inst, "MEAS:CURR:DC?");
     err = Query(m_inst, m_val);
-    if (err)   {   printf("Error reading output current\n");    }
+    if (err)   {   printf("Error reading output current_t\n");    }
     #if DEBUG
         printf("QUERY: %s", m_val);
     #endif // DEBUG
@@ -119,29 +112,29 @@ int EMPTYInterface::SMUVoltage(double V, double I)
     sprintf(m_inst, "SOUR:VOLT %1.3f\n", V);
     if(Write(m_inst))   {   printf("Error: Error setting output voltage \n");    }
     sprintf(m_inst, "SOUR:CURR %1.3f\n", fabs(I));
-    if(Write(m_inst))   {   printf("\nError: Error setting output current: %1.3f\n", I);    }
+    if(Write(m_inst))   {   printf("\nError: Error setting output current_t: %1.3f\n", I);    }
 
     mwait(2);
     return 0.0f;
 }
 
-int EMPTYInterface::SMUCurrent(double t_voltage_max, double t_voltage_min, double t_current)
+int EMPTYInterface::SMUCurrent(double voltage_max, double voltage_min, double current_t)
 {
     #if DEBUG
 	    printf("Call to EMPTYInterface::SMUCurrent\n");
-        printf("V: %f-%f, I: %f\n", t_voltage_max, t_voltage_min, t_current);
+        printf("V: %f-%f, I: %f\n", voltage_max, voltage_min, current_t);
     #endif // DEBUG
 
     // if(fabs(I) < 0.001)
     // {
     //     I = 0;
     // }
-    SetVoltageRange(fabs(t_voltage_max));
-    SetCurrentRange(fabs(t_current));
-    sprintf(m_inst, "SOUR:VOLT %1.3f\n", t_voltage_max);
+    SetVoltageRange(fabs(voltage_max));
+    SetCurrentRange(fabs(current_t));
+    sprintf(m_inst, "SOUR:VOLT %1.3f\n", voltage_max);
     if(Write(m_inst))   {   printf("Error: Error setting output voltage \n");    }
-    sprintf(m_inst, "SOUR:CURR %1.3f\n", fabs(t_current));
-    if(Write(m_inst))   {   printf("\nError: Error setting output current: %1.3f\n", t_current);    }
+    sprintf(m_inst, "SOUR:CURR %1.3f\n", fabs(current_t));
+    if(Write(m_inst))   {   printf("\nError: Error setting output current_t: %1.3f\n", current_t);    }
 
     sprintf(m_inst, "*WAI\n");
     if(Write(m_inst))   {   printf("\nError: Error waiting for command completion\n");    }
@@ -165,7 +158,7 @@ double EMPTYInterface::SetCurrentRange(double I)
     #endif // DEBUG
 
     sprintf(m_inst, "SENS:CURR:RANG %.6f", I);
-    if(Write(m_inst))   { printf("Error: Error setting current range"); }
+    if(Write(m_inst))   { printf("Error: Error setting current_t range"); }
 
     return 0.0f;
 }
@@ -179,7 +172,7 @@ int EMPTYInterface::IsCurrentLimited(void)
     uint32_t status = 0;
 
     sprintf(m_inst, "STAT:OPER:COND?");
-    if(Query(m_inst, m_val))    {   printf("ERROR: Error reading current trip limit\n"); }
+    if(Query(m_inst, m_val))    {   printf("ERROR: Error reading current_t trip limit\n"); }
 
     status = atoi(m_val);
     #if DEBUG
