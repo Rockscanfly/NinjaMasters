@@ -1,36 +1,35 @@
 #include "E5270Interface.hpp"
 
-E5270Interface::E5270Interface(
-                       const char filestring[255]):
-                       PsuInterface::PsuInterface(
-                                       filestring)
+E5270Interface::E5270Interface(char serial_mode[256], char serial_value[256],
+            double max_voltage, double min_voltage, double max_current, char filestring[255]):
+               PsuInterface::PsuInterface(serial_mode, serial_value, max_voltage, min_voltage, max_current, filestring)
 {
     #if DEBUG
      	printf("Start of E5270 Interface Constructor\n");
     #endif // DEBUG
 
-    sprintf(m_inst, "*IDN?\n");
-    Query(m_inst, m_val);
-    printf("%s", m_val);
+    sprintf(inst_, "*IDN?\n");
+    Query(inst_, val_);
+    printf("%s", val_);
     printf("\n");
 
-    if(strncmp("Agilent Technologies,E5270B", m_val, 27))
+    if(strncmp("Agilent Technologies,E5270B", val_, 27))
     {
         printf("Device at address GPIB%i::%i::INSTR was not the expected device, exiting...\n", 1, 1);
         exit(1);
     }
 
-    sprintf(m_inst, "*RST\n");
-    Write(m_inst);
+    sprintf(inst_, "*RST\n");
+    Write(inst_);
 
     mwait(2000);
-    // sprintf(m_inst, "CLR");
-    // Write(m_inst);
+    // sprintf(inst_, "CLR");
+    // Write(inst_);
 
-    sprintf(m_inst, "UNT?\n");
-    Query(m_inst, m_val);
+    sprintf(inst_, "UNT?\n");
+    Query(inst_, val_);
     #if DEBUG
-    printf("%s", m_val);
+    printf("%s", val_);
     printf("\n");
     #endif // DEBUG
 
@@ -39,26 +38,26 @@ E5270Interface::E5270Interface(
 
     // //visa::wbstr(device, "SU1:02.22"); // engage remote control mode
 
-    sprintf(m_inst, "CN %i\n", this->channel);
-    Write(m_inst);
+    sprintf(inst_, "CN %i\n", this->channel);
+    Write(inst_);
 
-    sprintf(m_inst, "CN %i\n", E5270_INTERFACE_CHANNEL_GND);
-    Write(m_inst);
+    sprintf(inst_, "CN %i\n", E5270_INTERFACE_CHANNEL_GND);
+    Write(inst_);
 
-    sprintf(m_inst, "RED 1\n");
-    Write(m_inst);
+    sprintf(inst_, "RED 1\n");
+    Write(inst_);
 
-    sprintf(m_inst, "SCH %i\n", this->channel);
-    Write(m_inst);
+    sprintf(inst_, "SCH %i\n", this->channel);
+    Write(inst_);
 
-    sprintf(m_inst, "MCH %i\n", this->channel);
-    Write(m_inst);
+    sprintf(inst_, "MCH %i\n", this->channel);
+    Write(inst_);
 
-    // sprintf(m_inst, "AV 256, 1\n");
-    // Write(m_inst);
+    // sprintf(inst_, "AV 256, 1\n");
+    // Write(inst_);
 
-    sprintf(m_inst, "FMT  21\n");
-    Write(m_inst);
+    sprintf(inst_, "FMT  21\n");
+    Write(inst_);
 
     mwait(1000);
 
@@ -76,10 +75,10 @@ E5270Interface::~E5270Interface()
         printf("Start of E5270Interface Interface Destructor\n");
     #endif // DEBUG
 
-    sprintf(m_inst, "CL %i\n", this->channel);
-    Write(m_inst);
-    sprintf(m_inst, "CL %i\n", E5270_INTERFACE_CHANNEL_GND);
-    Write(m_inst);
+    sprintf(inst_, "CL %i\n", this->channel);
+    Write(inst_);
+    sprintf(inst_, "CL %i\n", E5270_INTERFACE_CHANNEL_GND);
+    Write(inst_);
 
     printf("Closing E5270Interface Device\n");
     #if DEBUG
@@ -113,12 +112,12 @@ int E5270Interface::GetOutput(double *V, double *I)
 
     int data_return = 0;
     // read once and throw away
-    sprintf(m_inst, "TV %i, 0\n", E5270_INTERFACE_CHANNEL_GND);
-    Query(m_inst, m_val);
+    sprintf(inst_, "TV %i, 0\n", E5270_INTERFACE_CHANNEL_GND);
+    Query(inst_, val_);
 
-    sprintf(m_inst, "TV %i, 0\n", E5270_INTERFACE_CHANNEL_GND);
-    Query(m_inst, m_val);
-    data_return = DataDecode(m_val, &V_TMP) ;
+    sprintf(inst_, "TV %i, 0\n", E5270_INTERFACE_CHANNEL_GND);
+    Query(inst_, val_);
+    data_return = DataDecode(val_, &V_TMP) ;
     if (!(data_return == 0 || data_return == 4 || data_return == 5))
     {
         printf("\nBad Data %i\n", data_return);
@@ -135,12 +134,12 @@ int E5270Interface::GetOutput(double *V, double *I)
     #endif // DEBUG
 
     // read once and throw away
-    sprintf(m_inst, "TV %i, 0\n", this->channel);
-    Query(m_inst, m_val);
+    sprintf(inst_, "TV %i, 0\n", this->channel);
+    Query(inst_, val_);
 
-    sprintf(m_inst, "TV %i, 0\n", this->channel);
-    Query(m_inst, m_val);
-    data_return = DataDecode(m_val, &V_TMP) ;
+    sprintf(inst_, "TV %i, 0\n", this->channel);
+    Query(inst_, val_);
+    data_return = DataDecode(val_, &V_TMP) ;
     if (!(data_return == 0 || data_return == 4 || data_return == 5))
     {
         printf("\nBad Data %i\n", data_return);
@@ -159,12 +158,12 @@ int E5270Interface::GetOutput(double *V, double *I)
     #endif // DEBUG
 
     // read once and throw away
-    sprintf(m_inst, "TI %i, 0\n", E5270_INTERFACE_CHANNEL_GND);
-    Query(m_inst, m_val);
+    sprintf(inst_, "TI %i, 0\n", E5270_INTERFACE_CHANNEL_GND);
+    Query(inst_, val_);
 
-    sprintf(m_inst, "TI %i, 0\n", E5270_INTERFACE_CHANNEL_GND);
-    Query(m_inst, m_val);
-    data_return = DataDecode(m_val, &I_TMP) ;
+    sprintf(inst_, "TI %i, 0\n", E5270_INTERFACE_CHANNEL_GND);
+    Query(inst_, val_);
+    data_return = DataDecode(val_, &I_TMP) ;
     if (!(data_return == 0 || data_return == 4 || data_return == 5))
     {
         printf("\nBad Data %i\n", data_return);
@@ -181,12 +180,12 @@ int E5270Interface::GetOutput(double *V, double *I)
     #endif // DEBUG
 
     // read once and throw away
-    sprintf(m_inst, "TI %i, 0\n", this->channel);
-    Query(m_inst, m_val);
+    sprintf(inst_, "TI %i, 0\n", this->channel);
+    Query(inst_, val_);
 
-    sprintf(m_inst, "TI %i, 0\n", this->channel);
-    Query(m_inst, m_val);
-    data_return = DataDecode(m_val, &I_TMP) ;
+    sprintf(inst_, "TI %i, 0\n", this->channel);
+    Query(inst_, val_);
+    data_return = DataDecode(val_, &I_TMP) ;
     if (!(data_return == 0 || data_return == 4 || data_return == 5))
     {
         printf("\nBad Data %i\n", data_return);
@@ -222,10 +221,10 @@ int E5270Interface::SMUVoltage(double V, double I)
         printf(">> %f, %f\n", V, I);
     #endif // DEBUG
     // DV chnum,vrange,voltage[,Icomp[,comp_polarity[,irange]]
-    sprintf(m_inst, "DV %i, 0, %.4f, %.4f \n", E5270_INTERFACE_CHANNEL_GND, 0.0, -I);
-    Write(m_inst);
-    sprintf(m_inst, "DV %i, 0, %.4f, %.4f \n", this->channel, V, I);
-    Write(m_inst);
+    sprintf(inst_, "DV %i, 0, %.4f, %.4f \n", E5270_INTERFACE_CHANNEL_GND, 0.0, -I);
+    Write(inst_);
+    sprintf(inst_, "DV %i, 0, %.4f, %.4f \n", this->channel, V, I);
+    Write(inst_);
 
     return 0;
 }
@@ -238,17 +237,17 @@ int E5270Interface::SMUCurrent(double voltage_max, double voltage_min, double cu
         printf("V: %f-%f, I: %f\n", voltage_max, voltage_min, current_t);
     #endif // DEBUG
     // DV chnum,vrange,voltage[,Icomp[,comp_polarity[,irange]]
-    sprintf(m_inst, "DV %i, 0, %.2e, %.2e, 1 \n", E5270_INTERFACE_CHANNEL_GND, 0.0, copysign(this->iMax, current_t));
-    Write(m_inst);
+    sprintf(inst_, "DV %i, 0, %.2e, %.2e, 1 \n", E5270_INTERFACE_CHANNEL_GND, 0.0, copysign(this->iMax, current_t));
+    Write(inst_);
     // DI chnum,irange,current_t[,Vcomp[,comp_polarity[,vrange]]]
     if(current_t >=0)
     {
-        sprintf(m_inst, "DI %i, 0, %.4e, %.4e, 1 \n", this->channel, current_t, voltage_max);
+        sprintf(inst_, "DI %i, 0, %.4e, %.4e, 1 \n", this->channel, current_t, voltage_max);
     }else{
-        sprintf(m_inst, "DI %i, 0, %.4e, %.4e, 1 \n", this->channel, current_t, voltage_min);
+        sprintf(inst_, "DI %i, 0, %.4e, %.4e, 1 \n", this->channel, current_t, voltage_min);
     }
 
-    Write(m_inst);
+    Write(inst_);
 
     return 0;
 }
@@ -270,19 +269,19 @@ int E5270Interface::IsCurrentLimited(void)
 
 int E5270Interface::OutputOn(void)
 {
-    sprintf(m_inst, "CN %i\n", this->channel);
-    Write(m_inst);
-    sprintf(m_inst, "CN %i\n", E5270_INTERFACE_CHANNEL_GND);
-    Write(m_inst);
+    sprintf(inst_, "CN %i\n", this->channel);
+    Write(inst_);
+    sprintf(inst_, "CN %i\n", E5270_INTERFACE_CHANNEL_GND);
+    Write(inst_);
     return 0;
 }
 
 int E5270Interface::OutputOff(void)
 {
-    sprintf(m_inst, "CL %i\n", this->channel);
-    Write(m_inst);
-    sprintf(m_inst, "CL %i\n", E5270_INTERFACE_CHANNEL_GND);
-    Write(m_inst);
+    sprintf(inst_, "CL %i\n", this->channel);
+    Write(inst_);
+    sprintf(inst_, "CL %i\n", E5270_INTERFACE_CHANNEL_GND);
+    Write(inst_);
 
     return 0;
 
@@ -290,12 +289,13 @@ int E5270Interface::OutputOff(void)
 
 int E5270Interface::ClearErrors()
 {
-    int error = 0;
     char buff[256];
 
-    sprintf(buff, "ERR?\n");
     //visa::wbstr(device, buff);
     //visa::rbstr(device, buff, 255);
+    sprintf(buff, "ERR?\n");
+    device_->Write(buff);
+    device_->Read(buff);
 
     return 0;
 }
@@ -305,9 +305,11 @@ int E5270Interface::CheckErrors()
     int error = 0;
     char buff[256];
 
-    sprintf(buff, "ERR?\n");
     //visa::wbstr(device, buff);
     //visa::rbstr(device, buff, 255);
+    sprintf(buff, "ERR?\n");
+    device_->Write(buff);
+    device_->Read(buff);
 
     error = strncmp(buff, "0,0,0,0", 7);
     return error;
@@ -326,7 +328,7 @@ int E5270Interface::CheckErrors()
 *   7 Search stopped automatically
 *   8 Invalid Data Returned
 */
-int E5270Interface::DataDecode(const char data[256] , double *return)
+int E5270Interface::DataDecode(char data[256] , double *value)
 {
 // Formatting Rules
 // A: Status. One character.
@@ -339,9 +341,9 @@ int E5270Interface::DataDecode(const char data[256] , double *return)
 //
 // Format Selected (21)
 // EEEFGDDDDDDDDDDDDD
-    *return = atof(&data[5]);
+    *value = atof(&data[5]);
     #if DEBUG
-        printf("return %e\n", *return);
+        printf("value %e\n", *value);
     #endif // DEBUG
     int rtype = 0;
 

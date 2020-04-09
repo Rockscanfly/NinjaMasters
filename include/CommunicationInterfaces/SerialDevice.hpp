@@ -7,11 +7,13 @@
 class SerialDevice
 {
 public:
-    SerialDevice( void );
-    virtual ~SerialDevice( void );
+    SerialDevice(void);
+    virtual ~SerialDevice(void);
 
-    virtual int Read( char *data );
-    virtual int Write( char *data );
+    virtual int Read(char *data);
+    virtual int Write(char *data);
+
+    char device_name_[256] = {'\0'};
 
 };
 

@@ -7,15 +7,15 @@
 class GpibDevice : public SerialDevice
 {
 public:
-    GpibDevice( int major, int minor );
-    ~GpibDevice( void );
+    GpibDevice(int board_index, int primary_address);
+    ~GpibDevice(void);
 
-    int Read( char *data );
-    int Write( char *data );
+    int Read(char *data);
+    int Write(char *data);
 
 private:
-    ViSession resourceManager = 0;
-    ViSession device = 0;
+    ViSession resourceManager_ = 0;
+    ViSession device_ = 0;
 
 };
 

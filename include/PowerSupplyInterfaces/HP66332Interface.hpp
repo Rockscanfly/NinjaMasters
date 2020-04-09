@@ -4,11 +4,10 @@
 #define HP66332_INTERFACE_VERSION 3.0
 #include "PsuInterface.hpp"
 
-
 class HP66332Interface : public PsuInterface {
     public:
-        HP66332Interface(
-                        const char filestring[255]);
+        HP66332Interface(char serial_mode[256], char serial_value[256],
+            double max_voltage, double min_voltage, double max_current, char filestring[255]);
         ~HP66332Interface();
 
         /*
@@ -16,12 +15,12 @@ class HP66332Interface : public PsuInterface {
         * Required by high level functions
         * Should be implemented by new devices
         */
-        int SetOutput(double V, double I);
-        int GetOutput(double * V, double * I);
-        int SMUVoltage(double V, double I);
+        int SetOutput(const double voltage, const double current);
+        int GetOutput(double *voltage, double *current);
+        int SMUVoltage(double voltage, double current);
         int SMUCurrent(double voltage_max, double voltage_min, double current_t);
-        double SetVoltageRange(double V);
-        double SetCurrentRange(double I);
+        double SetVoltageRange(double voltage);
+        double SetCurrentRange(double current);
         int IsCurrentLimited(void);
         int OutputOn(void);
         int OutputOff(void);

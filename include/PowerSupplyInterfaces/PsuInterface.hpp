@@ -14,44 +14,41 @@ class PsuInterface
 {
     public:
         /** Default constructor */
-        PsuInterface(const char filestring[255]);
-        PsuInterface(const PsuInterface&) = delete;
-        int operator=(const PsuInterface&) = delete;
+        PsuInterface(char serial_mode[256], char serial_value[256],
+            double max_voltage, double min_voltage, double max_current, char filestring[255]);
+
+
+        PsuInterface(PsuInterface&) = delete;
+        int operator=(PsuInterface&) = delete;
         /** Default destructor */
         virtual ~PsuInterface();
 
         /*
-        * Primary High Level Functions
+        * Primary functions
         * Should be inherited from PsuInterface
         */
-        double CycleBattery(int number_cycles, double voltage_max, double voltage_min,
-                              double current_max, double current_end, double charge_end, double timeout, double relax_time);
-        double Waveform(double voltage_max, double voltage_min, double current_max, double charge_max, int number_cycles, double frequency[16]);
+        double CycleBattery(const int number_cycles, const double voltage_max, const double voltage_min,
+                              const double current_max, const double current_end, const double charge_end,
+                              const double timeout, const double relax_time);
 
-        /*
-        * Secondary High Level Functions
-        * Should be inherited from PsuInterface
-        */
-        double GetToVoltage(double voltage_target, double current_max, double current_end, double timeout);
-        double MoveCharge(double voltage_max, double voltage_min, double current_max, double charge_to_move);
+        double Waveform(const double voltage_max, const double voltage_min, const double current_max, const double charge_max,
+                        const int number_cycles, const double frequency[16]);
 
-        /*
-        * Visa Communication high level
-        */
+        double GetToVoltage(const double voltage_target, const double current_max, const double current_end, const double timeout);
+        double MoveCharge(const double voltage_max, const double voltage_min, const double current_max, const double charge_to_move);
         int Write(char *inst);
         int Query(char *inst, char *val);
 
         /*
         * Device Specific Functions
-        * Required by high level functions
-        * Should be implemented by new devices
+        * Must be implemented by new devices
         */
-        virtual int SetOutput(double V, double I) = 0;
-        virtual int GetOutput(double * V, double * I) = 0;
-        virtual int SMUVoltage(double V, double I) = 0;
+        virtual int SetOutput(const double voltage, const double current) = 0;
+        virtual int GetOutput(double *voltage, double *current) = 0;
+        virtual int SMUVoltage(double voltage, double current) = 0;
         virtual int SMUCurrent(double voltage_max, double voltage_min, double current_t) = 0;
-         virtual double SetVoltageRange(double V) = 0;
-         virtual double SetCurrentRange(double I) = 0;
+        virtual double SetVoltageRange(double voltage) = 0;
+        virtual double SetCurrentRange(double current) = 0;
         virtual int IsCurrentLimited(void) = 0;
         virtual int OutputOn(void) = 0;
         virtual int OutputOff(void) = 0;
@@ -60,37 +57,37 @@ class PsuInterface
 
 
         /*
-        * Data File Management
+        * File Management
+        * Should be inherited from PsuInterface
         */
-        int WriteData(const double v, const double i);
+        int WriteData(const double voltage, const double current);
         int MarkData(const char* str);
         int WriteLog(const char* str);
         int ChangeDataFile(const char* str);
         int ChangeLogFile(const char* str);
 
-
-        // optional test function
-        double Test(double V, double I);
+        // test function
+        // double Test(double V, double I);
 
     protected:
 
-        SerialDevice device;
+        SerialDevice *device_ = nullptr;
         void mwait(int msecs); // wait some milliseconds in real-time work
 
         time_t t = 0;
         time_t t0 = 0;
-        clock_t m_clock_initial = 0;
-        clock_t m_clock_now = 0;
+        clock_t clock_initial_ = 0;
+        clock_t clock_now_ = 0;
 
-        char m_inst[256];
-        char m_val[256];
-        int m_current_cycle = 0;
+        char inst_[256] = {'\0'};
+        char val_[256] = {'\0'};
+        int current_cycle_ = 0;
 
-        int m_maxCurrent = 0;
-        int m_maxVoltage = 0;
-        int m_minVoltage = 0;
+        double max_voltage_;
+        double min_voltage_;
+        double max_current_;
 
-        char filestring[255];
+        char filestring_[255] = {'\0'};
 
         FILE * p_data = nullptr;
         FILE * p_log = nullptr;

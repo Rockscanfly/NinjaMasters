@@ -1,8 +1,8 @@
 #include "PsuInterface.hpp"
 
-//PsuInterface::PsuInterface(id, addr, channel, Vmax, Vmin, Imax, capacity):
-PsuInterface::PsuInterface(const char filestring[255]):
-device(0)
+PsuInterface::PsuInterface(char serial_mode[256], char serial_value[256],
+            double max_voltage, double min_voltage, double max_current, char filestring[255]):
+max_voltage_(max_voltage), min_voltage_(min_voltage), max_current_(max_current)
 {
     #if DEBUG
         printf("Start of PsuInterface Constructor\n");
@@ -11,32 +11,32 @@ device(0)
     // Setup data and log files
 	if (filestring[0] != '\0') {
         for(int i = 0; i < 256; i++)
-            this->filestring[i] = filestring[i];
+            this->filestring_[i] = filestring[i];
     }
 
 	if (filestring[0] != '\0') {
-        sprintf(m_val, "%s.tvi", filestring);
+        sprintf(val_, "%s.tvi", filestring);
     } else {
-        sprintf(m_val, "%s.tvi", "DataFile");
+        sprintf(val_, "%s.tvi", "DataFile");
     }
-    if (ChangeDataFile(m_val)){
+    if (ChangeDataFile(val_)){
         printf("Failed to open data file\n");
         exit(1);
 	}
 
 	if (filestring[0] != '\0') {
-        sprintf(m_val, "%s.log", filestring);
+        sprintf(val_, "%s.log", filestring);
     } else {
-        sprintf(m_val, "%s.log", "LogFile");
+        sprintf(val_, "%s.log", "LogFile");
     }
-    if (ChangeLogFile(m_val)) {
+    if (ChangeLogFile(val_)) {
         printf("Failed to open log file\n");
         exit(1);
     }
 
     // start time for timed operations
 	time(&t0);
-	m_clock_initial = clock();
+	clock_initial_ = clock();
 
     #if DEBUG
     	printf("End of PsuInterface Constructor\n");
@@ -57,8 +57,8 @@ PsuInterface::~PsuInterface()
 }
 
 
-double PsuInterface::CycleBattery(int number_cycles, double voltage_max, double voltage_min,
-                                      double current_max, double current_end, double charge_end, double timeout, double relax_time)
+double PsuInterface::CycleBattery(const int number_cycles, const double voltage_max, const double voltage_min,
+                          const double current_max, const double current_end, const double charge_end, const double timeout, const double relax_time)
 {
     int cycle_count = 0;
     double charge_moved = 0;
@@ -68,14 +68,14 @@ double PsuInterface::CycleBattery(int number_cycles, double voltage_max, double 
     clock_t clock_now = 0;
     double time_now = 0;
     double time_last = 0;
-    m_current_cycle = 0;
+    current_cycle_ = 0;
     char function_data[2048];
 
     // print and log the function call details, push scope for single use large char array
     sprintf(function_data, "CycleBattery: VISA address %s, started\n"
             "number_cycles: %i \nvoltage_max: %f \nvoltage_min: %f \ncurrent_max: %f"
             "\ncurrent_end: %f \ncharge_end: %f \ntimeout: %f \nrelax_time: %f \n",
-            m_val, number_cycles, voltage_max, voltage_min,
+            val_, number_cycles, voltage_max, voltage_min,
             current_max, current_end, charge_end, timeout, relax_time);
     printf("%s", function_data);
     WriteLog(function_data);
@@ -91,9 +91,9 @@ double PsuInterface::CycleBattery(int number_cycles, double voltage_max, double 
     // initial charge of the battery
     charge_moved = GetToVoltage(voltage_max, current_max, current_end, timeout);
     printf("End of inital charge\n");
-    m_clock_now = clock();
+    clock_now_ = clock();
     sprintf(function_data, "CycleBattery: initial charge completed\nCharge Moved: %f, time taken: %f\n",
-                charge_moved, (float)(m_clock_now-clock_function_start)/CLOCKS_PER_SEC);
+                charge_moved, (float)(clock_now_-clock_function_start)/CLOCKS_PER_SEC);
     WriteLog(function_data);
     sprintf(function_data, "Cycle %i Charge Moved: %f", 0,  charge_moved);
     MarkData(function_data);
@@ -101,13 +101,13 @@ double PsuInterface::CycleBattery(int number_cycles, double voltage_max, double 
     // Start cycling the battery
     while(cycle_count++ < number_cycles)
     {
-        m_current_cycle = cycle_count;
+        current_cycle_ = cycle_count;
         // discharge battery to minimum voltage
         charge_moved = GetToVoltage(voltage_min, current_max, current_end, timeout);
         discharge_q = charge_moved;
-        m_clock_now = clock();
+        clock_now_ = clock();
         sprintf(function_data, "CycleBattery: discharge %i completed\nCharge Moved: %f, time taken: %f\n",
-                cycle_count, discharge_q, (float)(m_clock_now-clock_function_start)/CLOCKS_PER_SEC);
+                cycle_count, discharge_q, (float)(clock_now_-clock_function_start)/CLOCKS_PER_SEC);
         WriteLog(function_data);
         sprintf(function_data, "Cycle %i Charge Moved: %f", cycle_count,  charge_moved);
         MarkData(function_data);
@@ -115,9 +115,9 @@ double PsuInterface::CycleBattery(int number_cycles, double voltage_max, double 
         // charge battery to maximum voltage
         charge_moved = GetToVoltage(voltage_max, current_max, current_end, timeout);
         charge_q = charge_moved;
-        m_clock_now = clock();
+        clock_now_ = clock();
         sprintf(function_data, "CycleBattery: charge %i completed\nCharge Moved: %f, time taken: %f\n",
-                cycle_count, charge_q, (float)(m_clock_now-clock_function_start)/CLOCKS_PER_SEC);
+                cycle_count, charge_q, (float)(clock_now_-clock_function_start)/CLOCKS_PER_SEC);
         WriteLog(function_data);
         sprintf(function_data, "Cycle %i Charge Moved: %f", cycle_count,  charge_moved);
         MarkData(function_data);
@@ -129,7 +129,7 @@ double PsuInterface::CycleBattery(int number_cycles, double voltage_max, double 
 
     sprintf(function_data, "CycleBattery: cycling completed\n"
             "Last full charge Q: %f\nLast full discharge Q: %f\nEnd charge depleted: %f\ntime taken: %f\n",
-            charge_q, discharge_q, charge_moved, (float)(m_clock_now-clock_function_start)/CLOCKS_PER_SEC);
+            charge_q, discharge_q, charge_moved, (float)(clock_now_-clock_function_start)/CLOCKS_PER_SEC);
     WriteLog(function_data);
     sprintf(function_data, "Final Charge Moved: %f", charge_moved);
     MarkData(function_data);
@@ -165,7 +165,8 @@ double PsuInterface::CycleBattery(int number_cycles, double voltage_max, double 
     return 0.0f; // TODO return a sensible value
 }
 
-double PsuInterface::Waveform(double voltage_max, double voltage_min, double current_max, double charge_max, int number_cycles, double frequency[16])
+double PsuInterface::Waveform(const double voltage_max, const double voltage_min, const double current_max,
+                                const double charge_max, const int number_cycles, const double frequency[16])
 {
     #if DEBUG
         printf("Call to Waveform\n");
@@ -329,7 +330,7 @@ double PsuInterface::Waveform(double voltage_max, double voltage_min, double cur
     return 0.0f;
 }
 
-double PsuInterface::GetToVoltage(double voltage_target, double current_max, double current_end, double timeout)
+double PsuInterface::GetToVoltage(const double voltage_target, const double current_max, const double current_end, const double timeout)
 {
     double voltage_now = 0;
     double current_now = 0;
@@ -368,22 +369,22 @@ double PsuInterface::GetToVoltage(double voltage_target, double current_max, dou
             time_timeoustart = time_now;
         }
         #ifndef DEBUG
-        printf("Voltage: %f, Current: %f, Cycle Number: %i, Charge Moved: %.0f mAh, wait time: %.2fs\r", voltage_now, current_now, m_current_cycle, charge_moved/3.6, time_now - time_timeoustart);
+        printf("Voltage: %f, Current: %f, Cycle Number: %i, Charge Moved: %.0f mAh, wait time: %.2fs\r", voltage_now, current_now, current_cycle_, charge_moved/3.6, time_now - time_timeoustart);
         #endif // DEBUG
     } while(fabs(current_now) > current_end && (time_now - time_timeoustart) < timeout);
     printf("\n");
 
     OutputOff();
 
-    m_clock_now = clock();
+    clock_now_ = clock();
     sprintf(function_data, "GetToVoltage completed\nCharge Moved: %f, time taken: %f\n",
-            charge_moved, (float)(m_clock_now-clock_function_start)/CLOCKS_PER_SEC);
+            charge_moved, (float)(clock_now_-clock_function_start)/CLOCKS_PER_SEC);
     WriteLog(function_data);
 
     return charge_moved;
 }
 
-double PsuInterface::MoveCharge(double voltage_max, double voltage_min, double current_max, double charge_to_move)
+double PsuInterface::MoveCharge(const double voltage_max, const double voltage_min, const double current_max, const double charge_to_move)
 {
     double voltage_now = 0;
     double current_now = 0;
@@ -426,9 +427,9 @@ double PsuInterface::MoveCharge(double voltage_max, double voltage_min, double c
 
     OutputOff();
 
-    m_clock_now = clock();
+    clock_now_ = clock();
     sprintf(function_data, "MoveCharge completed\nCharge Moved: %f, time taken: %f\n",
-            charge_moved, (float)(m_clock_now-clock_function_start)/CLOCKS_PER_SEC);
+            charge_moved, (float)(clock_now_-clock_function_start)/CLOCKS_PER_SEC);
     WriteLog(function_data);
 
     return charge_moved;
@@ -443,7 +444,7 @@ int PsuInterface::Write(char *inst)
 
     ClearErrors();
 
-    // //visa::wbstr(device, inst);
+    device_->Write(inst);
 
     return CheckErrors();
 }
@@ -460,35 +461,34 @@ int PsuInterface::Query(char *inst, char *val)
 
     ClearErrors();
 
-    // //visa::wbstr(device, inst);
-    // //visa::rbstr(device, val, 255);
+    device_->Write(inst);
+    device_->Read(val);
 
     return CheckErrors();
-
 }
 
-int PsuInterface::WriteData(const double v, const double i)
+int PsuInterface::WriteData(double voltage, double current)
 {
-    m_clock_now = clock();
-    fprintf(p_data, "%f\t%.8f\t%.8f\n", (float)(m_clock_now-m_clock_initial)/CLOCKS_PER_SEC, v, i);
+    clock_now_ = clock();
+    fprintf(p_data, "%f\t%.8f\t%.8f\n", (float)(clock_now_-clock_initial_)/CLOCKS_PER_SEC, voltage, current);
     return 0;
 }
 
-int PsuInterface::MarkData(const char* str)
+int PsuInterface::MarkData(const char *str)
 {
     fprintf(p_data, "#%s \n", str);
     return 0;
 }
 
-int PsuInterface::WriteLog(const char* str)
+int PsuInterface::WriteLog(const char *str)
 {
     time(&t);
-    m_clock_now = clock();
-    fprintf(p_log, "%li\t%s %s\n", (int)(m_clock_now-m_clock_initial)/CLOCKS_PER_SEC, ctime(&t), str);
+    clock_now_ = clock();
+    fprintf(p_log, "%li\t%s %s\n", (int)(clock_now_-clock_initial_)/CLOCKS_PER_SEC, ctime(&t), str);
     return 0;
 }
 
-int PsuInterface::ChangeDataFile(const char* str)
+int PsuInterface::ChangeDataFile(const char *str)
 {
     if(p_data!=nullptr) {
         fclose(p_data);
@@ -500,7 +500,7 @@ int PsuInterface::ChangeDataFile(const char* str)
         return 0;
     return 1;
 }
-int PsuInterface::ChangeLogFile(const char* str)
+int PsuInterface::ChangeLogFile(const char *str)
 {
     if(p_log!=nullptr) {
         fclose(p_log);
@@ -524,47 +524,49 @@ void PsuInterface::mwait(int msecs) // wait some milliseconds in real-time work
 }
 
 
+/*
 double PsuInterface::Test(double V, double I)
 {
-    // #if DEBUG
-    //     printf("\nFUNCTION:Test\n");
-    //     printf(">> %f, %f\n", V, I);
-    // #endif // DEBUG
+    #if DEBUG
+        printf("\nFUNCTION:Test\n");
+        printf(">> %f, %f\n", V, I);
+    #endif // DEBUG
 
-    // char filename[256];
-    // // double flist[32] = {500e-3, 200e-3, 100e-3, 50e-3, 20e-3, 10e-3, 5e-3, 2e-3, 1e-3, 500e-6, 200e-6, 100e-6, 50e-6, 20e-6, 0};
-    // // double flist[32] = {500e-3, 200e-3, 100e-3, 80e-3, 50e-3, 20e-3, 10e-3, 8e-3, 5e-3, 2e-3, 1e-3, 800e-6, 500e-6, 200e-6, 0, 0};
-    // double flist[32] = {500e-3, 200e-3, 100e-3, 80e-3, 50e-3, 20e-3, 10e-3, 8e-3, 5e-3, 2e-3, 1e-3, 800e-6, 500e-6, 200e-6, 100e-6, 80e-6, 50e-6, 20e-6, 0, 0, 0};
+    char filename[256];
+    // double flist[32] = {500e-3, 200e-3, 100e-3, 50e-3, 20e-3, 10e-3, 5e-3, 2e-3, 1e-3, 500e-6, 200e-6, 100e-6, 50e-6, 20e-6, 0};
+    // double flist[32] = {500e-3, 200e-3, 100e-3, 80e-3, 50e-3, 20e-3, 10e-3, 8e-3, 5e-3, 2e-3, 1e-3, 800e-6, 500e-6, 200e-6, 0, 0};
+    double flist[32] = {500e-3, 200e-3, 100e-3, 80e-3, 50e-3, 20e-3, 10e-3, 8e-3, 5e-3, 2e-3, 1e-3, 800e-6, 500e-6, 200e-6, 100e-6, 80e-6, 50e-6, 20e-6, 0, 0, 0};
 
-    // double frequency[16] = {0};
+    double frequency[16] = {0};
 
-    // for(int i = 0; i < 18; i += 1)
-    // {
-    //     sprintf(filename, "%s_%iuHz.tvi", this->filestring, (int)(flist[i]*1e6));
-    //     ChangeDataFile(filename);
-    //     frequency[0] = flist[i];
-    //     // frequency[1] = flist[i+1];
-    //     // frequency[2] = flist[i+2];
-    //     // frequency[3] = flist[i+3];
-    //     // frequency[4] = flist[i+4];
-    //     Waveform(this->vMax, this->vMin, this->iMax, 0.042, 6, frequency);
-    // }
-
-    // // mwait(1000);
-
-    // // for(int i = 0; i < 20; i += 5)
-    // // {
-    // //     sprintf(filename, "%s_%iuHz5tone.tvi", this->filestring, (int)(flist[i]*1e6));
-    // //     ChangeDataFile(filename);
-    // //     frequency[0] = flist[i];
-    // //     frequency[1] = flist[i+1];
-    // //     frequency[2] = flist[i+2];
-    // //     frequency[3] = flist[i+3];
-    // //     frequency[4] = flist[i+4];
-    // //     Waveform(this->vMax, this->vMin, this->iMax, 0.042, 6, frequency);
-    // // }
+    for(int i = 0; i < 18; i += 1)
+    {
+        sprintf(filename, "%s_%iuHz.tvi", this->filestring, (int)(flist[i]*1e6));
+        ChangeDataFile(filename);
+        frequency[0] = flist[i];
+        // frequency[1] = flist[i+1];
+        // frequency[2] = flist[i+2];
+        // frequency[3] = flist[i+3];
+        // frequency[4] = flist[i+4];
+        Waveform(this->vMax, this->vMin, this->iMax, 0.042, 6, frequency);
+    }
 
     // mwait(1000);
 
+    // for(int i = 0; i < 20; i += 5)
+    // {
+    //     sprintf(filename, "%s_%iuHz5tone.tvi", this->filestring, (int)(flist[i]*1e6));
+    //     ChangeDataFile(filename);
+    //     frequency[0] = flist[i];
+    //     frequency[1] = flist[i+1];
+    //     frequency[2] = flist[i+2];
+    //     frequency[3] = flist[i+3];
+    //     frequency[4] = flist[i+4];
+    //     Waveform(this->vMax, this->vMin, this->iMax, 0.042, 6, frequency);
+    // }
+
+    mwait(1000);
+
     return 0.0f;
 }
+*/

@@ -1,35 +1,34 @@
 #include "EmptyInterface.hpp"
 
-EMPTYInterface::EMPTYInterface(
-                       const char filestring[255]):
-                       PsuInterface::PsuInterface(
-                                       filestring)
+EMPTYInterface::EMPTYInterface(char serial_mode[256], char serial_value[256],
+            double max_voltage, double min_voltage, double max_current, char filestring[255]):
+               PsuInterface::PsuInterface(serial_mode, serial_value, max_voltage, min_voltage, max_current, filestring)
 {
     #if DEBUG
      	printf("Start of EMPTYInterface Constructor\n");
     #endif // DEBUG
 
-    sprintf(m_inst, "*IDN?\n");
-    Query(m_inst, m_val);
-    printf("%s", m_val);
+    sprintf(inst_, "*IDN?\n");
+    Query(inst_, val_);
+    printf("%s", val_);
     printf("\n");
 
-    if(strncmp("Device IDN string",m_val, 29))
+    if(strncmp("Device IDN string",val_, 29))
     {
         printf("Device at address GPIB%i::%i::INSTR was not the expected device, exiting...\n", id, addr);
         exit(1);
     }
 
-    sprintf(m_inst, "*RST\n");
-    Write(m_inst);
+    sprintf(inst_, "*RST\n");
+    Write(inst_);
 
-    // sprintf(m_inst, "CLR");
-    // Write(m_inst);
+    // sprintf(inst_, "CLR");
+    // Write(inst_);
 
-    sprintf(m_inst, "UNT?\n");
-    Query(m_inst, m_val);
+    sprintf(inst_, "UNT?\n");
+    Query(inst_, val_);
     #if DEBUG
-        printf(m_val);
+        printf(val_);
         printf("\n");
     #endif // DEBUG
 
@@ -51,11 +50,11 @@ EMPTYInterface::~EMPTYInterface()
         printf("Start of EMPTYInterface Destructor\n");
     #endif // DEBUG
 
-    sprintf(m_inst, "OUTP:REL:STAT OFF\n");
-    if(Write(m_inst))   {   printf("Error: Error setting output relay off\n");   }
+    sprintf(inst_, "OUTP:REL:STAT OFF\n");
+    if(Write(inst_))   {   printf("Error: Error setting output relay off\n");   }
 
-    sprintf(m_inst, "OUTP:STAT OFF\n"); // connect output relay (not the same as output on)
-    if(Write(m_inst))   {   printf("Error: Error setting output state off\n");   }
+    sprintf(inst_, "OUTP:STAT OFF\n"); // connect output relay (not the same as output on)
+    if(Write(inst_))   {   printf("Error: Error setting output state off\n");   }
 
     printf("Closing EMPTYInterface Device\n");
     #if DEBUG
@@ -80,22 +79,22 @@ int EMPTYInterface::GetOutput(double *V, double *I)
 	    printf("Call to EMPTYInterface::GetOutput\n");
     #endif // DEBUG
 
-    sprintf(m_inst, "MEAS:CURR:DC?");
-    err = Query(m_inst, m_val);
+    sprintf(inst_, "MEAS:CURR:DC?");
+    err = Query(inst_, val_);
     if (err)   {   printf("Error reading output current_t\n");    }
     #if DEBUG
-        printf("QUERY: %s", m_val);
+        printf("QUERY: %s", val_);
     #endif // DEBUG
 
-    *I = atof(m_val);
+    *I = atof(val_);
 
-    sprintf(m_inst, "MEAS:VOLT:DC?");
-    err = Query(m_inst, m_val);
+    sprintf(inst_, "MEAS:VOLT:DC?");
+    err = Query(inst_, val_);
     if (err)    {  printf("Error reading output voltage\n");    }
     #if DEBUG
-        printf("QUERY: %s", m_val);
+        printf("QUERY: %s", val_);
     #endif // DEBUG
-    *V = atof(m_val);
+    *V = atof(val_);
 
     return err;
 }
@@ -109,10 +108,10 @@ int EMPTYInterface::SMUVoltage(double V, double I)
 
     SetVoltageRange(fabs(V));
     SetCurrentRange(fabs(I));
-    sprintf(m_inst, "SOUR:VOLT %1.3f\n", V);
-    if(Write(m_inst))   {   printf("Error: Error setting output voltage \n");    }
-    sprintf(m_inst, "SOUR:CURR %1.3f\n", fabs(I));
-    if(Write(m_inst))   {   printf("\nError: Error setting output current_t: %1.3f\n", I);    }
+    sprintf(inst_, "SOUR:VOLT %1.3f\n", V);
+    if(Write(inst_))   {   printf("Error: Error setting output voltage \n");    }
+    sprintf(inst_, "SOUR:CURR %1.3f\n", fabs(I));
+    if(Write(inst_))   {   printf("\nError: Error setting output current_t: %1.3f\n", I);    }
 
     mwait(2);
     return 0.0f;
@@ -131,13 +130,13 @@ int EMPTYInterface::SMUCurrent(double voltage_max, double voltage_min, double cu
     // }
     SetVoltageRange(fabs(voltage_max));
     SetCurrentRange(fabs(current_t));
-    sprintf(m_inst, "SOUR:VOLT %1.3f\n", voltage_max);
-    if(Write(m_inst))   {   printf("Error: Error setting output voltage \n");    }
-    sprintf(m_inst, "SOUR:CURR %1.3f\n", fabs(current_t));
-    if(Write(m_inst))   {   printf("\nError: Error setting output current_t: %1.3f\n", current_t);    }
+    sprintf(inst_, "SOUR:VOLT %1.3f\n", voltage_max);
+    if(Write(inst_))   {   printf("Error: Error setting output voltage \n");    }
+    sprintf(inst_, "SOUR:CURR %1.3f\n", fabs(current_t));
+    if(Write(inst_))   {   printf("\nError: Error setting output current_t: %1.3f\n", current_t);    }
 
-    sprintf(m_inst, "*WAI\n");
-    if(Write(m_inst))   {   printf("\nError: Error waiting for command completion\n");    }
+    sprintf(inst_, "*WAI\n");
+    if(Write(inst_))   {   printf("\nError: Error waiting for command completion\n");    }
 
     return 0.0f;
 }
@@ -157,8 +156,8 @@ double EMPTYInterface::SetCurrentRange(double I)
 	    printf("Call to EMPTYInterface::SetCurrentRange\n");
     #endif // DEBUG
 
-    sprintf(m_inst, "SENS:CURR:RANG %.6f", I);
-    if(Write(m_inst))   { printf("Error: Error setting current_t range"); }
+    sprintf(inst_, "SENS:CURR:RANG %.6f", I);
+    if(Write(inst_))   { printf("Error: Error setting current_t range"); }
 
     return 0.0f;
 }
@@ -171,10 +170,10 @@ int EMPTYInterface::IsCurrentLimited(void)
 
     uint32_t status = 0;
 
-    sprintf(m_inst, "STAT:OPER:COND?");
-    if(Query(m_inst, m_val))    {   printf("ERROR: Error reading current_t trip limit\n"); }
+    sprintf(inst_, "STAT:OPER:COND?");
+    if(Query(inst_, val_))    {   printf("ERROR: Error reading current_t trip limit\n"); }
 
-    status = atoi(m_val);
+    status = atoi(val_);
     #if DEBUG
         printf("Operaton Status Condition Register: \n");
         printf("0x%04x %i\n", status, status);
@@ -186,14 +185,14 @@ int EMPTYInterface::IsCurrentLimited(void)
 
 int EMPTYInterface::OutputOn()
 {
-    sprintf(m_inst, "OUTP:STAT ON\n"); // turn off output (not the same as output on)
-    return Write(m_inst);
+    sprintf(inst_, "OUTP:STAT ON\n"); // turn off output (not the same as output on)
+    return Write(inst_);
 }
 
 int EMPTYInterface::OutputOff()
 {
-    sprintf(m_inst, "OUTP:STAT OFF\n"); // turn off output (not the same as output on)
-    return Write(m_inst);
+    sprintf(inst_, "OUTP:STAT OFF\n"); // turn off output (not the same as output on)
+    return Write(inst_);
 }
 
 int EMPTYInterface::ClearErrors()

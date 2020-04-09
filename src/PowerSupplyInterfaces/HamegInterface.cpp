@@ -1,36 +1,35 @@
 #include "HamegInterface.hpp"
 
-HamegInterface::HamegInterface(
-                       const char filestring[255]):
-                       PsuInterface::PsuInterface(
-                                       filestring)
+HamegInterface::HamegInterface(char serial_mode[256], char serial_value[256],
+            double max_voltage, double min_voltage, double max_current, char filestring[255]):
+               PsuInterface::PsuInterface(serial_mode, serial_value, max_voltage, min_voltage, max_current, filestring)
 {
     #if DEBUG
      	printf("Start of Hameg Interface Constructor\n");
     #endif // DEBUG
 
-    sprintf(m_inst, "*IDN?\n");
-    Query(m_inst, m_val);
-    printf("%s", m_val);
+    sprintf(inst_, "*IDN?\n");
+    Query(inst_, val_);
+    printf("%s", val_);
     printf("\n");
 
-    if(strncmp("HAMEG Instruments,HM8143",m_val, 24))
+    if(strncmp("HAMEG Instruments,HM8143",val_, 24))
     {
         printf("Device at address GPIB%i::%i::INSTR was not the expected device, exiting...\n", 1, 1);
         exit(1);
     }
 
     // clear old state from the machine
-    sprintf(m_inst, "RM1");
-    Write(m_inst);
+    sprintf(inst_, "RM1");
+    Write(inst_);
 
-    sprintf(m_inst, "CLR");
-    Write(m_inst);
+    sprintf(inst_, "CLR");
+    Write(inst_);
 
-    sprintf(m_inst, "STA");
-    Query(m_inst, m_val);
+    sprintf(inst_, "STA");
+    Query(inst_, val_);
     #if DEBUG
-    printf("%s", m_val);
+    printf("%s", val_);
     printf("\n");
     #endif // DEBUG
 
@@ -51,11 +50,11 @@ HamegInterface::~HamegInterface()
     #endif // DEBUG
 
     // turn off output and disengage remote mode
-    sprintf(m_inst, "OP0");
-    Write(m_inst);
+    sprintf(inst_, "OP0");
+    Write(inst_);
 
-    sprintf(m_inst, "RM0");
-    Write(m_inst);
+    sprintf(inst_, "RM0");
+    Write(inst_);
 
     printf("Closing HamegInterface Device\n");
     #if DEBUG
@@ -71,10 +70,10 @@ int HamegInterface::SetOutput(double V, double I)
         printf("Call to HamegInterface::SetOutput\n");
         printf(">> %f, %f\n", V, I);
     #endif // DEBUG
-    sprintf(m_inst, "SU%i:%2.2f\n", this->channel, V);
-    if(Write(m_inst))   {   printf("Error: Error setting output voltage \n");    }
-    sprintf(m_inst, "SI%i:%1.3f\n", this->channel, fabs(I));
-    if(Write(m_inst))   {   printf("\nError: Error setting output current_t: %1.3f\n", I);    }
+    sprintf(inst_, "SU%i:%2.2f\n", this->channel, V);
+    if(Write(inst_))   {   printf("Error: Error setting output voltage \n");    }
+    sprintf(inst_, "SI%i:%1.3f\n", this->channel, fabs(I));
+    if(Write(inst_))   {   printf("\nError: Error setting output current_t: %1.3f\n", I);    }
 
     mwait(2);
     return 0;
@@ -88,13 +87,13 @@ int HamegInterface::GetOutput(double *V, double *I)
 
     mwait(2);
 
-    sprintf(m_inst, "MU%i\n", this->channel);
-    if(Query(m_inst, m_val))   {   printf("Error: Error getting output voltage \n");    }
-    *V = atof(&m_val[3]);
+    sprintf(inst_, "MU%i\n", this->channel);
+    if(Query(inst_, val_))   {   printf("Error: Error getting output voltage \n");    }
+    *V = atof(&val_[3]);
 
-    sprintf(m_inst, "MI%i\n", this->channel);
-    if(Query(m_inst, m_val))   {   printf("Error: Error getting output current_t \n");    }
-    *I = atof(&m_val[3]);
+    sprintf(inst_, "MI%i\n", this->channel);
+    if(Query(inst_, val_))   {   printf("Error: Error getting output current_t \n");    }
+    *I = atof(&val_[3]);
 
     return 0;
 }
@@ -158,25 +157,25 @@ int HamegInterface::IsCurrentLimited(void)
     #endif // DEBUG
 
     uint32_t status = 0;
-    sprintf(m_inst, "STA?");
-    if(Query(m_inst, m_val))    {   printf("ERROR: Error reading current_t trip limit\n"); }
+    sprintf(inst_, "STA?");
+    if(Query(inst_, val_))    {   printf("ERROR: Error reading current_t trip limit\n"); }
     #if DEBUG
-        printf("%s\n", m_val);
+        printf("%s\n", val_);
     #endif // DEBUG
 
     if(this->channel == 1)
     {
         #if DEBUG
-            printf("%i\n", (strncmp(&m_val[4], "CC1", 3) == 0));
+            printf("%i\n", (strncmp(&val_[4], "CC1", 3) == 0));
         #endif // DEBUG
-        return (strncmp(&m_val[4], "CC1", 3) == 0);
+        return (strncmp(&val_[4], "CC1", 3) == 0);
     }
     else if(this->channel == 2)
     {
         #if DEBUG
-            printf("%i\n", (strncmp(&m_val[8], "CC2", 3) == 0));
+            printf("%i\n", (strncmp(&val_[8], "CC2", 3) == 0));
         #endif // DEBUG
-        return (strncmp(&m_val[8], "CC2", 3) == 0);
+        return (strncmp(&val_[8], "CC2", 3) == 0);
     }
     else
     {
@@ -188,16 +187,16 @@ int HamegInterface::IsCurrentLimited(void)
 int HamegInterface::OutputOn()
 {
     int err = 0;
-    sprintf(m_inst, "OP1\n"); // turn off output (not the same as output on)
-    err = Write(m_inst);
+    sprintf(inst_, "OP1\n"); // turn off output (not the same as output on)
+    err = Write(inst_);
     mwait(1000);
     return err;
 }
 
 int HamegInterface::OutputOff()
 {
-    sprintf(m_inst, "OP0\n"); // turn off output (not the same as output on)
-    return Write(m_inst);
+    sprintf(inst_, "OP0\n"); // turn off output (not the same as output on)
+    return Write(inst_);
 }
 
 int HamegInterface::ClearErrors()
