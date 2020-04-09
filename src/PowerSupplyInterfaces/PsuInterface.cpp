@@ -1,5 +1,6 @@
 #include "PsuInterface.hpp"
 #include "GpibDevice.hpp"
+#include "LinuxSerialDevice.hpp"
 
 PsuInterface::PsuInterface(char serial_mode[256], char serial_value[256],
             double max_voltage, double min_voltage, double max_current, char filestring[255]):
@@ -35,21 +36,23 @@ max_voltage_(max_voltage), min_voltage_(min_voltage), max_current_(max_current)
         exit(1);
     }
 
- /*
-    #ifdef LINUX
+
+    #ifdef __linux__
     if(strncmp(serial_mode, "/dev/", 5) == 0)
     {
         device_ = new LinuxSerialDevice(serial_mode, atoi(serial_value));
     }
     #endif
+
+    /*
     #ifdef WINDOWS
     if(strncmp(serial_mode, "COM", 3) == 0)
     {
         device_ = new WindowsSerialDevice(serial_mode, atoi(serial_value));
     }
     #endif
+    */
 
-*/
     if(strncmp(serial_mode, "GPIB", 4) == 0)
     {
         device_ = new GpibDevice(serial_mode, atoi(serial_value));
