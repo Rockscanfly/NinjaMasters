@@ -8,6 +8,8 @@ class GpibDevice : public SerialDevice
 {
 public:
     GpibDevice(int board_index, int primary_address);
+    GpibDevice(char* board_label, int primary_address);
+
     ~GpibDevice(void);
 
     int Read(char *data);

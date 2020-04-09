@@ -1,8 +1,8 @@
 #ifndef SERIALDEVICE_H
 #define SERIALDEVICE_H
 
-#include <string>
-#include "string.h"
+#include <cstring>
+#include <cstdio>
 
 class SerialDevice
 {
@@ -10,8 +10,8 @@ public:
     SerialDevice(void);
     virtual ~SerialDevice(void);
 
-    virtual int Read(char *data);
-    virtual int Write(char *data);
+    virtual int Read(char *data) = 0;
+    virtual int Write(char *data) = 0;
 
     char device_name_[256] = {'\0'};
 

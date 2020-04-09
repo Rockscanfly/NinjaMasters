@@ -9,10 +9,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define VERSION_MAJOR 3
+#define VERSION_MAJOR 4
 #define VERSION_MINOR 0
-#define VERSION_PATCH 2
-#define PATCH_DATE "18/03/2020"
+#define VERSION_PATCH 0
+#define PATCH_DATE "10/04/2020"
 //#define CREATED_DATE "18/09/2019"
 
 int main (int argc, char *argv[])
@@ -47,7 +47,8 @@ int main (int argc, char *argv[])
         else if ((!(strcmp(argv[1], "E5270"))) | (!(strcmp(argv[1], "e5270"))))
         {
             device_selection = E5270;
-            device_string = "Keysight E5270B Precision IV Analyzer";        }
+            device_string = "Keysight E5270B Precision IV Analyzer";
+        }
         else
         {
             device_selection = None;
@@ -62,17 +63,17 @@ int main (int argc, char *argv[])
     // process arguments
     bcargs args = bcparse(argc, argv, device_string);
 
-    // print processed arguments for user
-    printf("VISA#: %i\n", args.gpib_major);
-    printf("gpib_minor: %i\n", args.gpib_minor);
-    printf("ncycles: %i\n", args.ncycles);
-    printf("vmax: %.3fV\n", args.vmax);
-    printf("vmin: %.3fV\n", args.vmin);
-    printf("imax: %.3fA\n", args.imax);
-    printf("iend: %.3fA\n", args.iend);
-    printf("qend: %.3f%%Q\n", args.qend*100);
+    // // print processed arguments for user
+    // printf("VISA#: %i\n", args.gpib_major);
+    // printf("gpib_minor: %i\n", args.gpib_minor);
+    printf("ncycles: %i\n", args.num_cycles);
+    printf("vmax: %.3fV\n", args.max_voltage);
+    printf("vmin: %.3fV\n", args.min_voltage);
+    printf("imax: %.3fA\n", args.max_current);
+    printf("iend: %.3fA\n", args.end_current);
+    printf("qend: %.3f%%Q\n", args.end_charge*100);
     printf("timeout: %.0fs\n", args.timeout);
-    printf("trelax: %.0fs\n", args.trelax);
+    printf("trelax: %.0fs\n", args.relax_time);
     printf("filestring: %s\n", args.filestring);
 
     // create pointer to device
@@ -85,19 +86,19 @@ int main (int argc, char *argv[])
         case Keithley:
         {
             // p_device = new KeithleyInterface(args.vmax, args.vmin, args.imax, args.filestring);
-            p_device = new KeithleyInterface(args.filestring, args.filestring, 1, 2, 3, args.filestring);
+            p_device = new KeithleyInterface(argv[2], argv[3], args.max_voltage, args.min_voltage, args.max_current, args.filestring);
             break;
         }
         case Hameg:
         {
             // p_device = new HamegInterface(args.vmax, args.vmin, args.imax, args.filestring);
-            p_device = new HamegInterface(args.filestring, args.filestring, 1, 2, 3, args.filestring);
+            p_device = new HamegInterface(argv[2], argv[3], args.max_voltage, args.min_voltage, args.max_current, args.filestring);
             break;
         }
         case HP66332:
         {
             // p_device = new HP66332Interface(args.vmax, args.vmin, args.imax, args.filestring);
-            p_device = new HP66332Interface(args.filestring, args.filestring, 1, 2, 3, args.filestring);
+            p_device = new HP66332Interface(argv[2], argv[3], args.max_voltage, args.min_voltage, args.max_current, args.filestring);
             break;
         }
         case E5270:
@@ -106,7 +107,7 @@ int main (int argc, char *argv[])
             printf("Error, E5270Interface::IsCurrentLimited() not defined, Exiting...\n");
             exit(1);
             // p_device = new E5270Interface(args.vmax, args.vmin, args.imax, args.filestring);
-            p_device = new E5270Interface(args.filestring, args.filestring, 1, 2, 3, args.filestring);
+            p_device = new E5270Interface(argv[2], argv[3], args.max_voltage, args.min_voltage, args.max_current, args.filestring);
             break;
 
         }
@@ -122,6 +123,7 @@ int main (int argc, char *argv[])
     p_device->ChangeDataFile(filename);
 
     // cycle battery
-    p_device->CycleBattery(args.ncycles, args.vmax, args.vmin, args.imax, args.iend, args.qend, args.timeout, args.trelax);
+    p_device->CycleBattery(args.num_cycles, args.max_voltage, args.min_voltage, args.max_current,
+        args.end_current, args.end_charge, args.timeout, args.relax_time);
     delete(p_device);
 }

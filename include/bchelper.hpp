@@ -12,16 +12,16 @@ enum device_list {
 
 struct bcargs
 {
-    int gpib_major = 0;
-    int gpib_minor = 0;
-    int ncycles = 0;
-    double vmin = 0;
-    double vmax = 0;
-    double imax = 0;
-    double iend = 0;
-    double qend = 0;
+    char serial_mode[255] = {'\0'};
+    char serial_value[255] = {'\0'};
+    int num_cycles = 0;
+    double max_voltage = 0;
+    double min_voltage = 0;
+    double max_current = 0;
+    double end_current = 0;
+    double end_charge = 0;
     double timeout = 0;
-    double trelax = 0;
+    double relax_time = 0;
     char filestring[255] = {'\0'};
     bool args_good = false;
 

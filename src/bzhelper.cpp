@@ -61,11 +61,11 @@ bzargs bzparse(int argc, char ** argv, std::string device_string)
 
         // args.gpib_major = atoi(argv[2]);
         // args.gpib_minor = atoi(argv[3]);
-        args.vmax = atof(argv[4]);
-        args.vmin = atof(argv[5]);
-        args.imax = atof(argv[6]);
-        args.qmax = atof(argv[7]);
-        args.ncycles = atoi(argv[8]);
+        args.max_voltage = atof(argv[4]);
+        args.min_voltage = atof(argv[5]);
+        args.max_current = atof(argv[6]);
+        args.max_charge = atof(argv[7]);
+        args.num_cycles = atoi(argv[8]);
 
         int i = 9;
         if ( ( argv[9][0] == 'S' ) | ( argv[9][0] == 's' ) )

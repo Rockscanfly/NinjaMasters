@@ -46,22 +46,22 @@ bcargs bcparse(int argc, char ** argv, string device_string)
         cout << "<relaxtime> is the time, in Seconds, the voltage will be allowed to relax after all cycling is complete and the" << endl;
         cout << "    charge level has reached <qend>, zero current will flow but the " << device_string << " will continue measurements for this time" << endl;
         cout << "[filestring] sets the name of the target .tvi and .log files, NOTE existing files with the same name will be OVERWRITTEN" << endl;
-        args.gpib_major = -1;
+        // args.gpib_major = -1;
         return args;
     }
     else
     {
-        args.gpib_major = atoi(argv[2]);
-        args.gpib_minor = atoi(argv[3]);
-        args.ncycles = atoi(argv[4]);
-        args.vmax = atof(argv[5]);
-        args.vmin = atof(argv[6]);
-        args.imax = atof(argv[7]);
-        args.iend = atof(argv[8]);
-        args.qend = atof(argv[9]);
-        args.qend = args.qend/100;
+        // args.gpib_major = atoi(argv[2]);
+        // args.gpib_minor = atoi(argv[3]);
+        args.num_cycles = atoi(argv[4]);
+        args.max_voltage = atof(argv[5]);
+        args.min_voltage = atof(argv[6]);
+        args.max_current = atof(argv[7]);
+        args.end_current = atof(argv[8]);
+        args.end_charge = atof(argv[9]);
+        args.end_charge = args.end_charge/100;
         args.timeout = atof(argv[10]);
-        args.trelax = atof(argv[11]);
+        args.relax_time = atof(argv[11]);
     }
     if (!(atof(argv[argc-1])))
     {

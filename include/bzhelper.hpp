@@ -12,13 +12,13 @@ enum device_list {
 
 struct bzargs
 {
-    int gpib_major = -1;
-    int gpib_minor = -1;
-    double vmax = 0;
-    double vmin = 0;
-    double imax = 0;
-    double qmax = 0;
-    int ncycles = 0;
+    char serial_mode[255] = {'\0'};
+    char serial_value[255] = {'\0'};
+    double max_voltage = 0;
+    double min_voltage = 0;
+    double max_current = 0;
+    double max_charge = 0;
+    int num_cycles = 0;
     double frequency[16] = {0};
     bool single_sweep = false;
     int num_frequencies = 0;

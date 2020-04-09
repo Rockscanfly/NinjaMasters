@@ -9,10 +9,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define VERSION_MAJOR 3
+#define VERSION_MAJOR 4
 #define VERSION_MINOR 0
-#define VERSION_PATCH 2
-#define PATCH_DATE "18/03/2020"
+#define VERSION_PATCH 0
+#define PATCH_DATE "10/04/2020"
 //#define CREATED_DATE "18/09/2019"
 
 int main (int argc, char *argv[])
@@ -64,13 +64,13 @@ int main (int argc, char *argv[])
     bzargs args = bzparse(argc, argv, device_string);
 
     // print processed arguments for user
-    printf("VISA#: %i\n", args.gpib_major);
-    printf("gpib_minor: %i\n", args.gpib_minor);
-    printf("vmax: %.3fV\n", args.vmax);
-    printf("vmin: %.3fV\n", args.vmin);
-    printf("imax: %.3fA\n", args.imax);
-    printf("qmax: %.5fAh\n", args.qmax);
-    printf("ncycles: %i\n", args.ncycles);
+    // printf("VISA#: %i\n", args.gpib_major);
+    // printf("gpib_minor: %i\n", args.gpib_minor);
+    printf("vmax: %.3fV\n", args.max_voltage);
+    printf("vmin: %.3fV\n", args.min_voltage);
+    printf("imax: %.3fA\n", args.max_current);
+    printf("qmax: %.5fAh\n", args.max_charge);
+    printf("ncycles: %i\n", args.num_cycles);
     printf("n_freq: %i\n", args.num_frequencies);
     if(args.single_sweep)
     {
@@ -102,25 +102,25 @@ int main (int argc, char *argv[])
         case Keithley:
         {
             // p_device = new KeithleyInterface(args.vmax, args.vmin, args.imax, args.filestring);
-            p_device = new KeithleyInterface(args.filestring, args.filestring, 1, 2, 3, args.filestring);
+            p_device = new KeithleyInterface(argv[2], argv[3], args.max_voltage, args.min_voltage, args.max_current, args.filestring);
             break;
         }
         case Hameg:
         {
             // p_device = new HamegInterface(args.vmax, args.vmin, args.imax, args.filestring);
-            p_device = new HamegInterface(args.filestring, args.filestring, 1, 2, 3, args.filestring);
+            p_device = new HamegInterface(argv[2], argv[3], args.max_voltage, args.min_voltage, args.max_current, args.filestring);
             break;
         }
         case HP66332:
         {
             // p_device = new HP66332Interface(args.vmax, args.vmin, args.imax, args.filestring);
-            p_device = new HP66332Interface(args.filestring, args.filestring, 1, 2, 3, args.filestring);
+            p_device = new HP66332Interface(argv[2], argv[3], args.max_voltage, args.min_voltage, args.max_current, args.filestring);
             break;
         }
         case E5270:
         {
             // p_device = new E5270Interface(args.vmax, args.vmin, args.imax, args.filestring);
-            p_device = new E5270Interface(args.filestring, args.filestring, 1, 2, 3, args.filestring);
+            p_device = new E5270Interface(argv[2], argv[3], args.max_voltage, args.min_voltage, args.max_current, args.filestring);
             break;
         }
         case None:
@@ -140,7 +140,7 @@ int main (int argc, char *argv[])
             sprintf(filename, "%s_%iuHz%itone.tvi", args.filestring, (int)(args.frequency[0]*1e6), args.num_frequencies);
             p_device->ChangeDataFile(filename);
         }
-        p_device->Waveform(args.vmax, args.vmin, args.imax, args.qmax, args.ncycles, args.frequency);
+        p_device->Waveform(args.max_voltage, args.min_voltage, args.max_current, args.max_charge, args.num_cycles, args.frequency);
 
     } else {
 
@@ -154,7 +154,7 @@ int main (int argc, char *argv[])
                 p_device->ChangeDataFile(filename);
             }
             frequency_holder[0] = args.frequency[i];
-            p_device->Waveform(args.vmax, args.vmin, args.imax, args.qmax, args.ncycles, frequency_holder);
+            p_device->Waveform(args.max_voltage, args.min_voltage, args.max_current, args.max_charge, args.num_cycles, frequency_holder);
 
         }
     }
