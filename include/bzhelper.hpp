@@ -22,7 +22,7 @@ struct bzargs
     double frequency[16] = {0};
     bool single_sweep = false;
     int num_frequencies = 0;
-    char filestring[256] = {'\0'};
+    char filestring[128] = {'\0'};
     bool args_good = false;
 };
 

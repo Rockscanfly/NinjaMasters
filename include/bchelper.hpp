@@ -22,7 +22,7 @@ struct bcargs
     double end_charge = 0;
     double timeout = 0;
     double relax_time = 0;
-    char filestring[255] = {'\0'};
+    char filestring[128] = {'\0'};
     bool args_good = false;
 
 };
