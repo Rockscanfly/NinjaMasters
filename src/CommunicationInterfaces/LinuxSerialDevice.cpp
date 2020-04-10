@@ -8,7 +8,7 @@ LinuxSerialDevice::LinuxSerialDevice(char* device, int baud)
 {
 
     #ifdef DEBUG
-        printf("Opening LinuxSerialDevice\n")
+        printf("Opening LinuxSerialDevice\n");
         printf("Device: %s\n", device);
         printf("Baud: %i\n", baud);
     #endif
@@ -62,7 +62,7 @@ LinuxSerialDevice::LinuxSerialDevice(char* device, int baud)
     }
 
     #ifdef DEBUG
-        printf("Successfully opened LinuxSerialDevice\n")
+        printf("Successfully opened LinuxSerialDevice\n");
     #endif
 }
 
