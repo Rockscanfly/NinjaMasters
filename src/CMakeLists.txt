@@ -17,7 +17,7 @@ target_link_libraries(bz bzhelper Psu keithley hameg hp66332 e5270)
 add_executable(bz_debug bzmain.cpp)
 target_link_libraries(bz_debug bzhelper Psu_debug keithley_debug hameg_debug hp66332_debug e5270_debug)
 
-set_target_properties( bz bc
+set_target_properties( bz bc bz_debug bc_debug
   PROPERTIES
   RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}"
 )
