@@ -8,7 +8,7 @@
 #define VISAWRAPPER_H_INCLUDED
 
 #include <string>
-#include    ".\VISA\WinNT\Include\visa.h"
+#include    "../VISA/WinNT/Include/visa.h"
 
 namespace visa
 {

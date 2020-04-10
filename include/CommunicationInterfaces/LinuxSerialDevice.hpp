@@ -29,8 +29,6 @@ public:
 
 private:
     int serial_port_ = 0;
-    unsigned char msg_[256] = {'\0'};
-
 };
 
 

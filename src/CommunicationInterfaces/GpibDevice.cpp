@@ -10,8 +10,7 @@ GpibDevice::GpibDevice(int board_index, int primary_address)
 
     strcpy(busname, "GPIB");
     sprintf(busname, "%s%d::%d::INSTR", busname, board_index, primary_address); //open session to device_
-    printf(busname);
-    printf("\n");
+    printf("%s\n", busname);
     if(board_index > 255 || board_index < 0) visa::err("Bad GPIB board index number given");
     if(primary_address > 30 || primary_address < 0)  visa::err("Bad GPIB primary address number given");
 
@@ -35,8 +34,7 @@ GpibDevice::GpibDevice(char *board_label, int primary_address)
     char busname[128];
 
     sprintf(busname, "%s::%d::INSTR", board_label, primary_address); //open session to device_
-    printf(busname);
-    printf("\n");
+    printf("%s\n", busname);
     // if(board_index > 255 || board_index < 0) visa::err("Bad GPIB board index number given");
     if(primary_address > 30 || primary_address < 0)  visa::err("Bad GPIB primary address number given");
 

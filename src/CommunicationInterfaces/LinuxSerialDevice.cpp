@@ -65,7 +65,7 @@ LinuxSerialDevice::~LinuxSerialDevice(void)
     }
 }
 
-LinuxSerialDevice::Read(char *data)
+int LinuxSerialDevice::Read(char *data)
 {
     // Allocate memory for read buffer, set size according to your needs
     int num_bytes = read(serial_port_, &data, 256);
@@ -77,12 +77,13 @@ LinuxSerialDevice::Read(char *data)
     {
         printf("Read %i bytes. Received message: %s", num_bytes, data);
     }
-    return
+    return num_bytes;
 }
 
-LinuxSerialDevice::Write(char *data)
+int LinuxSerialDevice::Write(char *data)
 {
     write(serial_port_, data, 256);
+	return sizeof(data);
 }
 #endif // __linux__
 
