@@ -7,6 +7,12 @@
 LinuxSerialDevice::LinuxSerialDevice(char* device, int baud)
 {
 
+    #ifdef DEBUG
+        printf("Opening LinuxSerialDevice\n")
+        printf("Device: %s\n", device);
+        printf("Baud: %i\n", baud);
+    #endif
+
     // Open the serial port. Change device path as needed (currently set to an standard FTDI USB-UART cable type device)
     serial_port_ = open(device, O_RDWR);
 
@@ -55,10 +61,17 @@ LinuxSerialDevice::LinuxSerialDevice(char* device, int baud)
         exit(1);
     }
 
+    #ifdef DEBUG
+        printf("Successfully opened LinuxSerialDevice\n")
+    #endif
 }
 
 LinuxSerialDevice::~LinuxSerialDevice(void)
 {
+    #ifdef DEBUG
+        printf("Closing LinuxSerialDevice\n");
+    #endif
+
     if (serial_port_ != -1)
     {
         close(serial_port_);
@@ -70,19 +83,23 @@ int LinuxSerialDevice::Read(char *data)
     // Allocate memory for read buffer, set size according to your needs
     int num_bytes = read(serial_port_, &data, 256);
 
-    if (num_bytes < 0) {
-        printf("Error reading: %s\n", strerror(errno));
-    }
-    else
-    {
-        printf("Read %i bytes. Received message: %s\n", num_bytes, data);
-    }
+        if (num_bytes < 0) {
+            printf("Error reading: %s\n", strerror(errno));
+        }
+    #ifdef DEBUG
+        else
+        {
+            printf("Read %i bytes. Received message: %s\n", num_bytes, data);
+        }
+    #endif
     return num_bytes;
 }
 
 int LinuxSerialDevice::Write(char *data)
 {
-    printf("Writing Data: %s\n", data);
+    #ifdef DEBUG
+        printf("Writing Data: %s\n", data);
+    #endif
     write(serial_port_, data, 256);
 	return sizeof(data);
 }
