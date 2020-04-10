@@ -71,17 +71,18 @@ int LinuxSerialDevice::Read(char *data)
     int num_bytes = read(serial_port_, &data, 256);
 
     if (num_bytes < 0) {
-        printf("Error reading: %s", strerror(errno));
+        printf("Error reading: %s\n", strerror(errno));
     }
     else
     {
-        printf("Read %i bytes. Received message: %s", num_bytes, data);
+        printf("Read %i bytes. Received message: %s\n", num_bytes, data);
     }
     return num_bytes;
 }
 
 int LinuxSerialDevice::Write(char *data)
 {
+    printf("Writing Data: %s\n", data);
     write(serial_port_, data, 256);
 	return sizeof(data);
 }

@@ -10,8 +10,7 @@ HP66332Interface::HP66332Interface(char serial_mode[256], char serial_value[256]
 
     sprintf(inst_, "*IDN?\n");
     Query(inst_, val_);
-    printf("%s", val_);
-    printf("\n");
+    printf("%s\n", val_);
 
     if(strncmp("HEWLETT-PACKARD,66332A", val_, 22))
     {
