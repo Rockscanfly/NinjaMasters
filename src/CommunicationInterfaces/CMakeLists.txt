@@ -8,8 +8,8 @@ add_library(linuxdevice_debug LinuxSerialDevice.cpp)
 add_library(serialdevice SerialDevice.cpp)
 add_library(serialdevice_debug SerialDevice.cpp)
 
-target_link_libraries(visawrapper ${CMAKE_SOURCE_DIR}/include/VISA/WinNT/lib/msc/visa32.lib ${CMAKE_SOURCE_DIR}/include/VISA/WinNT/Lib_x64/msc/visa64.lib)
-target_link_libraries(visawrapper_debug ${CMAKE_SOURCE_DIR}/include/VISA/WinNT/lib/msc/visa32.lib ${CMAKE_SOURCE_DIR}/include/VISA/WinNT/Lib_x64/msc/visa64.lib)
+# target_link_libraries(visawrapper ${CMAKE_SOURCE_DIR}/include/VISA/WinNT/lib/msc/visa32.lib ${CMAKE_SOURCE_DIR}/include/VISA/WinNT/Lib_x64/msc/visa64.lib)
+# target_link_libraries(visawrapper_debug ${CMAKE_SOURCE_DIR}/include/VISA/WinNT/lib/msc/visa32.lib ${CMAKE_SOURCE_DIR}/include/VISA/WinNT/Lib_x64/msc/visa64.lib)
 
 target_link_libraries(gpibdevice visawrapper)
 target_link_libraries(gpibdevice_debug visawrapper_debug)
