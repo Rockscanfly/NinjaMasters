@@ -183,15 +183,15 @@ int LinuxSerialDevice::Write(char *data)
 
     int num_bytes = write(serial_port_, data, 256);
 
-    if (num_bytes == 0)
-    {
-        printf("Error no bytes written\n")
-    }
+        if (num_bytes == 0)
+        {
+            printf("Error no bytes written\n");
+        }
     #ifdef DEBUG
-    else
-    {
-        printf("Data Written: %i bytes\n", num_bytes);
-    }
+        else
+        {
+            printf("Data Written: %i bytes\n", num_bytes);
+        }
     #endif
 	return sizeof(data);
 }
