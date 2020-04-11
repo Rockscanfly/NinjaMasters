@@ -185,7 +185,7 @@ int LinuxSerialDevice::Write(char *data)
     num_bytes_to_send = snprintf(tx_buffer_, 256, "%s\r\n", data);
 
     #ifdef DEBUG
-        printf("Writing %i bytes: %s\n", num_bytes_to_send, tx_buffer_, );
+        printf("Writing %i bytes: %s\n", num_bytes_to_send, tx_buffer_);
     #endif
 
     int num_bytes_sent = write(serial_port_, tx_buffer_, num_bytes_to_send);
