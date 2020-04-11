@@ -8,8 +8,10 @@ HP66332Interface::HP66332Interface(char serial_mode[256], char serial_value[256]
      	printf("Start of HP66332 Interface Constructor\n");
     #endif // DEBUG
 
-    sprintf(inst_, "*IDN?\n");
-    Query(inst_, val_);
+    printf("Checking Device ID\n");
+    sprintf(inst_, "*IDN?\r\n");
+    device_->Write(inst_);
+    device_->Read(val_);
     printf("%s\n", val_);
 
     if(strncmp("HEWLETT-PACKARD,66332A", val_, 22))
@@ -19,7 +21,7 @@ HP66332Interface::HP66332Interface(char serial_mode[256], char serial_value[256]
     }
 
     sprintf(inst_, "*RST\n"); // reset
-    if(Write(inst_))   {   printf("Error: Error during initial reset\n");    }
+    if(device_->Write(inst_))   {   printf("Error: Error during initial reset\n");    }
 
     sprintf(inst_, "OUTP:PON:STAT RST\n"); // reset on power failure
     if(Write(inst_))   {   printf("Error: Error setting reset state\n");   }
