@@ -159,19 +159,23 @@ int LinuxSerialDevice::Read(char *data)
         printf("LinuxSerialDevice Read()\n");
     #endif
 
-    memset(&data, 0, 256); // clear data buffer
+    memset(&rx_buffer_, '\0', 256); // clear data buffer
 
-    int num_bytes = read(serial_port_, &data, 256);
+    int num_bytes = read(serial_port_, &rx_buffer_, 256);
 
         if (num_bytes < 0) {
             printf("Error reading: %s\n", strerror(errno));
         }
-    #ifdef DEBUG
+        else if (num_bytes > 256) {
+            printf("Error read too many bytes: %i\n" numbytes);
+        }
         else
         {
+            snprintf(data, num_bytes+1, "%s\n", rx_buffer_);
+            #ifdef DEBUG
             printf("Read %i bytes. Received message: %s\n", num_bytes, data);
+            #endif
         }
-    #endif
     return num_bytes;
 }
 
@@ -180,7 +184,7 @@ int LinuxSerialDevice::Write(char *data)
     #ifdef DEBUG
         printf("LinuxSerialDevice Write()\n");
     #endif
-    memset(&tx_buffer_, 0, 256); // clear data buffer
+    memset(&tx_buffer_, '\0', 256); // clear data buffer
     int num_bytes_to_send = 0;
     num_bytes_to_send = snprintf(tx_buffer_, 256, "%s\r\n", data);
 
