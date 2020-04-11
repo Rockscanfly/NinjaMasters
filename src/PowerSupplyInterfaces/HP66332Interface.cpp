@@ -9,7 +9,7 @@ HP66332Interface::HP66332Interface(char serial_mode[256], char serial_value[256]
     #endif // DEBUG
 
     printf("Checking Device ID\n");
-    sprintf(inst_, "*IDN?\r\n");
+    sprintf(inst_, "*IDN?");
     device_->Write(inst_);
     device_->Read(val_);
     printf("%s\n", val_);
@@ -23,13 +23,13 @@ HP66332Interface::HP66332Interface(char serial_mode[256], char serial_value[256]
     sprintf(inst_, "*RST\n"); // reset
     if(device_->Write(inst_))   {   printf("Error: Error during initial reset\n");    }
 
-    sprintf(inst_, "OUTP:PON:STAT RST\n"); // reset on power failure
+    sprintf(inst_, ":OUTP:PON:STAT RST\n"); // reset on power failure
     if(Write(inst_))   {   printf("Error: Error setting reset state\n");   }
 
-    sprintf(inst_, "OUTP:STAT OFF\n"); // turn off output (not the same as output on)
+    sprintf(inst_, ":OUTP:STAT OFF\n"); // turn off output (not the same as output on)
     if(Write(inst_))   {   printf("Error: Error output state off\n");   }
 
-    sprintf(inst_, "OUTP:REL:STAT ON\n"); // connect output relay (not the same as output on)
+    sprintf(inst_, ":OUTP:REL:STAT ON\n"); // connect output relay (not the same as output on)
     if(Write(inst_))   {   printf("Error: Error setting output relay state on\n");   }
 
 	time(&t0);
@@ -48,10 +48,10 @@ HP66332Interface::~HP66332Interface()
         printf("Start of HP66332 Interface Destructor\n");
     #endif // DEBUG
 
-    sprintf(inst_, "OUTP:REL:STAT OFF\n");
+    sprintf(inst_, ":OUTP:REL:STAT OFF\n");
     if(Write(inst_))   {   printf("Error: Error setting output relay off\n");   }
 
-    sprintf(inst_, "OUTP:STAT OFF\n"); // connect output relay (not the same as output on)
+    sprintf(inst_, ":OUTP:STAT OFF\n");
     if(Write(inst_))   {   printf("Error: Error setting output state off\n");   }
 
     printf("Closing HP66332Interface Device\n");
@@ -71,9 +71,9 @@ int HP66332Interface::SetOutput(double V, double I)
 
     SetVoltageRange(fabs(V));
     SetCurrentRange(fabs(I));
-    sprintf(inst_, "SOUR:VOLT %1.3f\n", V);
+    sprintf(inst_, ":SOUR:VOLT %1.3f\n", V);
     if(Write(inst_))   {   printf("Error: Error setting output voltage \n");    }
-    sprintf(inst_, "SOUR:CURR %1.3f\n", fabs(I));
+    sprintf(inst_, ":SOUR:CURR %1.3f\n", fabs(I));
     if(Write(inst_))   {   printf("\nError: Error setting output current_t: %1.3f\n", I);    }
 
     mwait(20);
@@ -89,7 +89,7 @@ int HP66332Interface::GetOutput(double *V, double *I)
 	    printf("Call to HP66332Interface::GetOutput\n");
     #endif // DEBUG
 
-    sprintf(inst_, "MEAS:CURR:DC?");
+    sprintf(inst_, ":MEAS:CURR:DC?");
     err = Query(inst_, val_);
     if (err)   {   printf("Error reading output current_t\n");    }
     #if DEBUG
@@ -98,7 +98,7 @@ int HP66332Interface::GetOutput(double *V, double *I)
 
     *I = atof(val_);
 
-    sprintf(inst_, "MEAS:VOLT:DC?");
+    sprintf(inst_, ":MEAS:VOLT:DC?");
     err = Query(inst_, val_);
     if (err)    {  printf("Error reading output voltage\n");    }
     #if DEBUG
@@ -161,7 +161,7 @@ double HP66332Interface::SetCurrentRange(double I)
 	    printf("Call to HP66332Interface::SetCurrentRange\n");
     #endif // DEBUG
 
-    sprintf(inst_, "SENS:CURR:RANG %.6f", I);
+    sprintf(inst_, ":SENS:CURR:RANG %.6f", I);
     if(Write(inst_))   { printf("Error: Error setting current_t range"); }
 
     return 0.0f;
@@ -175,7 +175,7 @@ int HP66332Interface::IsCurrentLimited(void)
 
     uint32_t status = 0;
 
-    sprintf(inst_, "STAT:OPER:COND?");
+    sprintf(inst_, ":STAT:OPER:COND?");
     if(Query(inst_, val_))    {   printf("ERROR: Error reading current_t trip limit\n"); }
 
     status = atoi(val_);
@@ -190,13 +190,13 @@ int HP66332Interface::IsCurrentLimited(void)
 
 int HP66332Interface::OutputOn()
 {
-    sprintf(inst_, "OUTP:STAT ON\n"); // turn off output (not the same as output on)
+    sprintf(inst_, ":OUTP:STAT ON\n"); // turn on output
     return Write(inst_);
 }
 
 int HP66332Interface::OutputOff()
 {
-    sprintf(inst_, "OUTP:STAT OFF\n"); // turn off output (not the same as output on)
+    sprintf(inst_, ":OUTP:STAT OFF\n"); // turn off output
     return Write(inst_);
 }
 

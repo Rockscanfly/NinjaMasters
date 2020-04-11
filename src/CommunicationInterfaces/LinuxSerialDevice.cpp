@@ -156,10 +156,10 @@ LinuxSerialDevice::~LinuxSerialDevice(void)
 int LinuxSerialDevice::Read(char *data)
 {
     #ifdef DEBUG
-        printf("LinuxSerialDevice Reading\n");
+        printf("LinuxSerialDevice Read()\n");
     #endif
 
-    memset(&data, 0, sizeof data); // clear data buffer
+    memset(&data, 0, 256); // clear data buffer
 
     int num_bytes = read(serial_port_, &data, 256);
 
@@ -178,19 +178,26 @@ int LinuxSerialDevice::Read(char *data)
 int LinuxSerialDevice::Write(char *data)
 {
     #ifdef DEBUG
-        printf("Writing Data: %s\n", data);
+        printf("LinuxSerialDevice Write()\n");
+    #endif
+    memset(&tx_buffer_, 0, 256); // clear data buffer
+    int num_bytes_to_send = 0;
+    num_bytes_to_send = snprintf(tx_buffer_, 256, "%s\r\n", data);
+
+    #ifdef DEBUG
+        printf("Writing %i bytes: %s\n", num_bytes_to_send, tx_buffer_, );
     #endif
 
-    int num_bytes = write(serial_port_, data, 256);
+    int num_bytes_sent = write(serial_port_, tx_buffer_, num_bytes_to_send);
 
-        if (num_bytes == 0)
+        if (num_bytes_sent == 0)
         {
             printf("Error no bytes written\n");
         }
     #ifdef DEBUG
         else
         {
-            printf("Data Written: %i bytes\n", num_bytes);
+            printf("Data written: %i bytes\n", num_bytes_sent);
         }
     #endif
 	return sizeof(data);

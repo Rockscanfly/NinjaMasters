@@ -17,7 +17,7 @@ private:
     int serial_port_ = 0;
 
     // char rx_buffer_[256] = {'\0'};
-    // char tx_buffer_[256] = {'\0'};
+    char tx_buffer_[256] = {'\0'};
 };
 
 
