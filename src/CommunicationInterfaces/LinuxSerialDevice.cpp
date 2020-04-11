@@ -97,7 +97,7 @@ LinuxSerialDevice::LinuxSerialDevice(char* device, int baud)
 
     struct termios SerialPortSettings;  /* Create the structure                          */
 
-    tcgetattr(fd, &SerialPortSettings); /* Get the current attributes of the Serial port */
+    tcgetattr(serial_port_, &SerialPortSettings); /* Get the current attributes of the Serial port */
 
     /* Setting the Baud rate */
     cfsetispeed(&SerialPortSettings,B9600); /* Set Read  Speed as 9600                       */
@@ -155,7 +155,7 @@ LinuxSerialDevice::~LinuxSerialDevice(void)
 
 int LinuxSerialDevice::Read(char *data)
 {
-    memset(&data, 0, sizeof data) // clear data buffer
+    memset(&data, 0, sizeof data); // clear data buffer
 
     int num_bytes = read(serial_port_, &data, 256);
 
