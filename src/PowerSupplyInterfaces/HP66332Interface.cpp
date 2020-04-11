@@ -74,7 +74,7 @@ int HP66332Interface::SetOutput(double V, double I)
     sprintf(inst_, "SOUR:CURR %1.3f\n", fabs(I));
     if(Write(inst_))   {   printf("\nError: Error setting output current_t: %1.3f\n", I);    }
 
-    mwait(2);
+    mwait(20);
     return 0.0f;
 
     // return SMUVoltage(V,I);
