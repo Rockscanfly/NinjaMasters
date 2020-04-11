@@ -167,7 +167,7 @@ int LinuxSerialDevice::Read(char *data)
             printf("Error reading: %s\n", strerror(errno));
         }
         else if (num_bytes > 256) {
-            printf("Error read too many bytes: %i\n" numbytes);
+            printf("Error read too many bytes: %i\n", num_bytes);
         }
         else
         {
