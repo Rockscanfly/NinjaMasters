@@ -3,20 +3,6 @@
 
 #include "SerialDevice.hpp"
 
-// C library headers
-#include <stdio.h>
-#include <string.h>
-#include <cstdlib>
-
-#ifdef __linux__
-// Linux headers
-#include <fcntl.h> // Contains file controls like O_RDWR
-#include <errno.h> // Error integer and strerror() function
-#include <termios.h> // Contains POSIX terminal control definitions
-#include <unistd.h> // write(), read(), close()
-#endif //__linux__
-
-
 class LinuxSerialDevice : public SerialDevice
 {
 public:
@@ -29,6 +15,9 @@ public:
 
 private:
     int serial_port_ = 0;
+
+    // char rx_buffer_[256] = {'\0'};
+    // char tx_buffer_[256] = {'\0'};
 };
 
 

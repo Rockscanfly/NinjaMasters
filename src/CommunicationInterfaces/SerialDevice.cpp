@@ -1,3 +1,6 @@
+#include <cstring>
+#include <cstdio>
+
 #include "SerialDevice.hpp"
 
 SerialDevice::SerialDevice(void)

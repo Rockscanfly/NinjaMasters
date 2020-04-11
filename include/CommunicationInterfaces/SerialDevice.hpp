@@ -1,9 +1,6 @@
 #ifndef SERIALDEVICE_H
 #define SERIALDEVICE_H
 
-#include <cstring>
-#include <cstdio>
-
 class SerialDevice
 {
 public:
