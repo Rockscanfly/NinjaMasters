@@ -223,6 +223,7 @@ int HP66332Interface::CheckErrors()
     int error = 0;
     int error_last = 0;
     do
+    {
         sprintf(buff, ":SYST:ERR?");
         device_->Write(buff);
         device_->Read(buff);
@@ -236,7 +237,7 @@ int HP66332Interface::CheckErrors()
             printf("%s\n", buff);
             error_last = error;
         }
-    while(error != 0)
+    } while(error != 0);
 
     return error_last;
 }
