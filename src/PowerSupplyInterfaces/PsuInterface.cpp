@@ -499,12 +499,13 @@ int PsuInterface::Query(char *inst, char *val)
         printf(">> %s\n", inst);
     #endif // DEBUG
 
-    char buff[256];
+    char buff[256] = {'\0'};
     int error = 0;
 
     ClearErrors();
 
     device_->Write(inst);
+    mwait(20);
     device_->Read(val);
 
     return CheckErrors();

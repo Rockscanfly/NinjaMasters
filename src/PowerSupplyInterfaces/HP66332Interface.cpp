@@ -221,18 +221,22 @@ int HP66332Interface::CheckErrors()
 {
     char buff[256];
     int error = 0;
+    int error_last = 0;
+    do
+        sprintf(buff, ":SYST:ERR?");
+        device_->Write(buff);
+        device_->Read(buff);
+        error = atoi(buff);
+        if (error)
+        {
+            if(error_last == 0)
+            {
+                printf("\n");
+            }
+            printf("%s\n", buff);
+            error_last = error;
+        }
+    while(error != 0)
 
-    //visa::wbstr(device, "SYST:ERR?");
-    //visa::rbstr(device, buff, 255);
-    sprintf(buff, ":SYST:ERR?");
-    device_->Write(buff);
-    device_->Read(buff);
-
-    error = atoi(buff);
-    if (error)
-    {
-        printf("\n");
-        printf("%s\n", buff);
-    }
-    return error;
+    return error_last;
 }

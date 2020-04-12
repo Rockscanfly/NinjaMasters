@@ -67,7 +67,7 @@ LinuxSerialDevice::LinuxSerialDevice(char* device, int baud)
     serial_port_settings.c_oflag &= ~OPOST;/*No Output Processing*/
 
     /* Setting Time outs */
-    serial_port_settings.c_cc[VMIN] = 2; /* Read at least 2 characters */
+    serial_port_settings.c_cc[VMIN] = 1; /* Read at least 1 characters */
     serial_port_settings.c_cc[VTIME] = 1; /* Wait up to 10 miliseconds from first character recieved */
 
 
