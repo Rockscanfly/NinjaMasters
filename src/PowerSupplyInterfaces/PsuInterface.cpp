@@ -1,5 +1,3 @@
-
-
 #include "PsuInterface.hpp"
 // #include "GpibDevice.hpp"
 #include "LinuxSerialDevice.hpp"
@@ -136,7 +134,7 @@ double PsuInterface::CycleBattery(const int number_cycles, const double voltage_
     printf("End of inital charge\n");
     clock_now_ = clock();
     sprintf(function_data, "CycleBattery: initial charge completed\nCharge Moved: %f, time taken: %f\n",
-                charge_moved, (float)(clock_now_-clock_function_start)/CLOCKS_PER_SEC);
+                charge_moved, (double)(clock_now_-clock_function_start)/CLOCKS_PER_SEC);
     WriteLog(function_data);
     sprintf(function_data, "Cycle %i Charge Moved: %f", 0,  charge_moved);
     MarkData(function_data);
@@ -150,7 +148,7 @@ double PsuInterface::CycleBattery(const int number_cycles, const double voltage_
         discharge_q = charge_moved;
         clock_now_ = clock();
         sprintf(function_data, "CycleBattery: discharge %i completed\nCharge Moved: %f, time taken: %f\n",
-                cycle_count, discharge_q, (float)(clock_now_-clock_function_start)/CLOCKS_PER_SEC);
+                cycle_count, discharge_q, (double)(clock_now_-clock_function_start)/CLOCKS_PER_SEC);
         WriteLog(function_data);
         sprintf(function_data, "Cycle %i Charge Moved: %f", cycle_count,  charge_moved);
         MarkData(function_data);
@@ -160,7 +158,7 @@ double PsuInterface::CycleBattery(const int number_cycles, const double voltage_
         charge_q = charge_moved;
         clock_now_ = clock();
         sprintf(function_data, "CycleBattery: charge %i completed\nCharge Moved: %f, time taken: %f\n",
-                cycle_count, charge_q, (float)(clock_now_-clock_function_start)/CLOCKS_PER_SEC);
+                cycle_count, charge_q, (double)(clock_now_-clock_function_start)/CLOCKS_PER_SEC);
         WriteLog(function_data);
         sprintf(function_data, "Cycle %i Charge Moved: %f", cycle_count,  charge_moved);
         MarkData(function_data);
@@ -172,7 +170,7 @@ double PsuInterface::CycleBattery(const int number_cycles, const double voltage_
 
     sprintf(function_data, "CycleBattery: cycling completed\n"
             "Last full charge Q: %f\nLast full discharge Q: %f\nEnd charge depleted: %f\ntime taken: %f\n",
-            charge_q, discharge_q, charge_moved, (float)(clock_now_-clock_function_start)/CLOCKS_PER_SEC);
+            charge_q, discharge_q, charge_moved, (double)(clock_now_-clock_function_start)/CLOCKS_PER_SEC);
     WriteLog(function_data);
     sprintf(function_data, "Final Charge Moved: %f", charge_moved);
     MarkData(function_data);
@@ -183,14 +181,14 @@ double PsuInterface::CycleBattery(const int number_cycles, const double voltage_
     OutputOn();
 
     clock_now = clock();
-    time_now = (float)(clock_now - clock_function_start)/CLOCKS_PER_SEC;
+    time_now = (double)(clock_now - clock_function_start)/CLOCKS_PER_SEC;
     time_last = time_now;
     while((time_now - time_last) < relax_time) {
         double voltage_now = 0;
         double current_now = 0;
         // GetOutput(&voltage_now, &current_now);
         clock_now = clock();
-        time_now = (float)(clock_now - clock_function_start)/CLOCKS_PER_SEC;
+        time_now = (double)(clock_now - clock_function_start)/CLOCKS_PER_SEC;
         if(!GetOutput(&voltage_now, &current_now))
         {
             WriteData(voltage_now, current_now);
@@ -393,13 +391,13 @@ double PsuInterface::GetToVoltage(const double voltage_target, const double curr
 
     clock_function_start = clock();
     clock_now = clock();
-    time_last = (float)(clock_now - clock_function_start)/CLOCKS_PER_SEC;
+    time_last = (double)(clock_now - clock_function_start)/CLOCKS_PER_SEC;
     time_now = time_last;
     time_timeoustart = time_now;
     do { // integrate the current_t while waiting for the current_t to drop to the minimum level or the timeout condition
         // GetOutput(&voltage_now, &current_now);
         clock_now = clock();
-        time_now = (float)(clock_now - clock_function_start)/CLOCKS_PER_SEC;
+        time_now = (double)(clock_now - clock_function_start)/CLOCKS_PER_SEC;
         charge_moved += (time_now-time_last) * current_now;
         time_last = time_now;
         if (!GetOutput(&voltage_now, &current_now))
@@ -421,7 +419,7 @@ double PsuInterface::GetToVoltage(const double voltage_target, const double curr
 
     clock_now_ = clock();
     sprintf(function_data, "GetToVoltage completed\nCharge Moved: %f, time taken: %f\n",
-            charge_moved, (float)(clock_now_-clock_function_start)/CLOCKS_PER_SEC);
+            charge_moved, (double)(clock_now_-clock_function_start)/CLOCKS_PER_SEC);
     WriteLog(function_data);
 
     return charge_moved;
@@ -448,13 +446,13 @@ double PsuInterface::MoveCharge(const double voltage_max, const double voltage_m
 
     clock_function_start = clock();
     clock_now = clock();
-    time_last = (float)(clock_now - clock_function_start)/CLOCKS_PER_SEC;
+    time_last = (double)(clock_now - clock_function_start)/CLOCKS_PER_SEC;
 
     // integrate current_t while charge moved is less than target
     do {
         // GetOutput(&voltage_now, &current_now);
         clock_now = clock();
-        time_now = (float)(clock_now - clock_function_start)/CLOCKS_PER_SEC;
+        time_now = (double)(clock_now - clock_function_start)/CLOCKS_PER_SEC;
         charge_moved += (time_now-time_last) * current_now;
         time_last = time_now;
         if(!GetOutput(&voltage_now, &current_now))
@@ -472,7 +470,7 @@ double PsuInterface::MoveCharge(const double voltage_max, const double voltage_m
 
     clock_now_ = clock();
     sprintf(function_data, "MoveCharge completed\nCharge Moved: %f, time taken: %f\n",
-            charge_moved, (float)(clock_now_-clock_function_start)/CLOCKS_PER_SEC);
+            charge_moved, (double)(clock_now_-clock_function_start)/CLOCKS_PER_SEC);
     WriteLog(function_data);
 
     return charge_moved;
@@ -514,7 +512,7 @@ int PsuInterface::Query(char *inst, char *val)
 int PsuInterface::WriteData(double voltage, double current)
 {
     clock_now_ = clock();
-    fprintf(p_data, "%f\t%.8f\t%.8f\n", (float)(clock_now_-clock_initial_)/CLOCKS_PER_SEC, voltage, current);
+    fprintf(p_data, "%f\t%.8f\t%.8f\n", (double)(clock_now_-clock_initial_)/CLOCKS_PER_SEC, voltage, current);
     return 0;
 }
 
