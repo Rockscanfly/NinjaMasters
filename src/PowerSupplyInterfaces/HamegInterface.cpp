@@ -73,7 +73,7 @@ int HamegInterface::SetOutput(double V, double I)
     sprintf(inst_, "SU%i:%2.2f\n", this->channel, V);
     if(Write(inst_))   {   printf("Error: Error setting output voltage \n");    }
     sprintf(inst_, "SI%i:%1.3f\n", this->channel, fabs(I));
-    if(Write(inst_))   {   printf("\nError: Error setting output current_t: %1.3f\n", I);    }
+    if(Write(inst_))   {   printf("\nError: Error setting output current: %1.3f\n", I);    }
 
     mwait(2);
     return 0;
@@ -92,7 +92,7 @@ int HamegInterface::GetOutput(double *V, double *I)
     *V = atof(&val_[3]);
 
     sprintf(inst_, "MI%i\n", this->channel);
-    if(Query(inst_, val_))   {   printf("Error: Error getting output current_t \n");    }
+    if(Query(inst_, val_))   {   printf("Error: Error getting output current \n");    }
     *I = atof(&val_[3]);
 
     return 0;

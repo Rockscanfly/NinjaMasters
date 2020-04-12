@@ -81,7 +81,7 @@ int EMPTYInterface::GetOutput(double *V, double *I)
 
     sprintf(inst_, "MEAS:CURR:DC?");
     err = Query(inst_, val_);
-    if (err)   {   printf("Error reading output current_t\n");    }
+    if (err)   {   printf("Error reading output current\n");    }
     #if DEBUG
         printf("QUERY: %s", val_);
     #endif // DEBUG
@@ -111,7 +111,7 @@ int EMPTYInterface::SMUVoltage(double V, double I)
     sprintf(inst_, "SOUR:VOLT %1.3f\n", V);
     if(Write(inst_))   {   printf("Error: Error setting output voltage \n");    }
     sprintf(inst_, "SOUR:CURR %1.3f\n", fabs(I));
-    if(Write(inst_))   {   printf("\nError: Error setting output current_t: %1.3f\n", I);    }
+    if(Write(inst_))   {   printf("\nError: Error setting output current: %1.3f\n", I);    }
 
     mwait(2);
     return 0.0f;
@@ -133,7 +133,7 @@ int EMPTYInterface::SMUCurrent(double voltage_max, double voltage_min, double cu
     sprintf(inst_, "SOUR:VOLT %1.3f\n", voltage_max);
     if(Write(inst_))   {   printf("Error: Error setting output voltage \n");    }
     sprintf(inst_, "SOUR:CURR %1.3f\n", fabs(current_t));
-    if(Write(inst_))   {   printf("\nError: Error setting output current_t: %1.3f\n", current_t);    }
+    if(Write(inst_))   {   printf("\nError: Error setting output current: %1.3f\n", current_t);    }
 
     sprintf(inst_, "*WAI\n");
     if(Write(inst_))   {   printf("\nError: Error waiting for command completion\n");    }

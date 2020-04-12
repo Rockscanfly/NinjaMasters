@@ -108,22 +108,42 @@ int LinuxSerialDevice::Read(char *data)
     #endif
 
     memset(&rx_buffer_, '\0', 256); // clear data buffer
+    int new_char = 0;
+    int num_bytes = 0;
 
-    int num_bytes = read(serial_port_, &rx_buffer_, 256);
-
-        if (num_bytes < 0) {
-            printf("Error reading: %s\n", strerror(errno));
-        }
-        else if (num_bytes > 256) {
-            printf("Error read too many bytes: %i\n", num_bytes);
-        }
-        else
+    do
+    {
+        new_char = getc(serial_port_);
+        rx_buffer_[num_bytes] = new_char;
+        num_bytes++;
+        if (num_bytes > 255)
         {
-            snprintf(data, num_bytes+1, "%s\n", rx_buffer_);
-            #ifdef DEBUG
-            printf("Read %i bytes. Received message: %s\n", num_bytes, data);
-            #endif
+            printf("Error: Read too many bytes: %i\n", num_bytes);
+            break;
         }
+    } while (new_char != '\n');
+
+    snprintf(data, num_bytes, "%s", rx_buffer_);
+    #ifdef DEBUG
+    printf("Read %i bytes. Received message: %s\n", num_bytes, data);
+    #endif
+
+
+// int num_bytes = read(serial_port_, &rx_buffer_, 256);
+
+// if (num_bytes < 0) {`
+//     printf("Error reading: %s\n", strerror(errno));
+// }
+// else if (num_bytes > 256) {
+//     printf("Error read too many bytes: %i\n", num_bytes);
+// }
+// else
+// {
+//     snprintf(data, num_bytes+1, "%s\n", rx_buffer_);
+//     #ifdef DEBUG
+//     printf("Read %i bytes. Received message: %s\n", num_bytes, data);
+//     #endif
+// }
     return num_bytes;
 }
 

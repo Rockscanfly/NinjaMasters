@@ -128,7 +128,7 @@ int KeithleyInterface::GetOutput(double * V, double * I)
 
     sprintf(inst, "MEASURE:CURRENT:DC?");
     Ierr = Query(inst, val);
-    if (Ierr)   {   printf("Error reading output current_t\n");    }
+    if (Ierr)   {   printf("Error reading output current\n");    }
     #if DEBUG
         printf("QUERY: %s", val);
     #endif // DEBUG
