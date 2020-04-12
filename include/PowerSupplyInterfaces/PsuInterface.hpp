@@ -56,6 +56,7 @@ class PsuInterface
         virtual int ClearErrors(void) = 0;
         virtual int CheckErrors(void) = 0;
 
+        // virtual int ConfigureSerialPort(void) = 0;
 
         /*
         * File Management

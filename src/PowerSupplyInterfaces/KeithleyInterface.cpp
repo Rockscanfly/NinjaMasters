@@ -323,7 +323,7 @@ int KeithleyInterface::IsCurrentLimited(void)
 {
         // Query if supply is current_t limited, val is 1 if true.
     sprintf(inst_, "SOUR:VOLT:ILIM:TRIP?");
-    if(Query(inst_, val_))    {   printf("ERROR: Error reading current_t trip limit\n"); }
+    if(Query(inst_, val_))    {   printf("ERROR: Error reading current trip limit\n"); }
     #if DEBUG
 	    printf("%s", val_);
     #endif // DEBUG

@@ -176,7 +176,7 @@ int HP66332Interface::IsCurrentLimited(void)
     uint32_t status = 0;
 
     sprintf(inst_, ":STAT:OPER:COND?");
-    if(Query(inst_, val_))    {   printf("ERROR: Error reading current_t trip limit\n"); }
+    if(Query(inst_, val_))    {   printf("ERROR: Error reading current trip limit\n"); }
 
     status = atoi(val_);
     #if DEBUG
@@ -232,7 +232,7 @@ int HP66332Interface::CheckErrors()
     if (error)
     {
         printf("\n");
-        printf("%s", buff);
+        printf("%s\n", buff);
     }
     return error;
 }

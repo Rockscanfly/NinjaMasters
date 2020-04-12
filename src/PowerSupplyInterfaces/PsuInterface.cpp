@@ -1,3 +1,5 @@
+
+
 #include "PsuInterface.hpp"
 // #include "GpibDevice.hpp"
 #include "LinuxSerialDevice.hpp"
@@ -37,21 +39,28 @@ max_voltage_(max_voltage), min_voltage_(min_voltage), max_current_(max_current)
     }
 
 
-    #ifdef __linux__
     if(strncmp(serial_mode, "/dev/", 5) == 0)
     {
+    #ifdef __linux__
         device_ = new LinuxSerialDevice(serial_mode, atoi(serial_value));
-    }
+    #else
+        printf("Error: Unable to use linux serial devices on a non-linux system\n");
+        exit(1);
     #endif
+    }
 
-    /*
-    #ifdef WINDOWS
     if(strncmp(serial_mode, "COM", 3) == 0)
     {
-        device_ = new WindowsSerialDevice(serial_mode, atoi(serial_value));
-    }
+    #ifdef _WIN64
+        printf("Error: WindowsSerialDevice not defined yet\n");
+        exit(1);
+        // device_ = new WindowsSerialDevice(serial_mode, atoi(serial_value));
+    #else
+        printf("Error: Unable to use windows COM port on a non-windows system\n");
+        exit(1);
     #endif
-    */
+    }
+
 
     // if(strncmp(serial_mode, "GPIB", 4) == 0)
     // {
@@ -61,6 +70,7 @@ max_voltage_(max_voltage), min_voltage_(min_voltage), max_current_(max_current)
     // {
     //     device_ = new GpibDevice(atoi(serial_mode), atoi(serial_value));
     // }
+
 
 
 

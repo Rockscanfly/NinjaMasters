@@ -14,7 +14,14 @@ bcargs bcparse(int argc, char ** argv, string device_string)
     if((argc != 12) && (argc != 13))
     {
         cout << "Invalid number of parameters "  <<  argc-1 << endl;
-        cout << "Usage: bc.exe <device> <GPIB#> <gpib_addr> <ncycles> <Vmax> <Vmin> <Imax> <Iend> <Qend> <timeout> <relaxtime> [filestring]" << endl;
+        cout << "Usage: bc <device> <GPIB#> <gpib_addr> <ncycles> <Vmax> <Vmin> <Imax> <Iend> <Qend> <timeout> <relaxtime> [filestring]" << endl;
+        cout << "Usage: bc <device> <serial_port> <baud> <ncycles> <Vmax> <Vmin> <Imax> <Iend> <Qend> <timeout> <relaxtime> [filestring]" << endl;
+        cout << "Parameters in square brackets [] are optional" << endl;
+        cout << endl;
+        cout << "bc HP66332 2 3 ...               < connects to a HP66332 at GPIB2::3::INSTR" << endl;
+        cout << "bc HP66332 GPIB2 3 ...           < connects to a HP66332 at GPIB2::3::INSTR" << endl;
+        cout << "bc Keithley COM20 9600 ...       < connects to a Keithley at COM20 with a baud rate of 9600" << endl;
+        cout << "bc Hameg /dev/ttyS20 115200 ...  < connects to a Hameg at /dev/ttyS20 with a baud rate of 115200" << endl;
         cout << endl;
         cout << "This program requires a " << device_string << " connected to the host machine accessible at the specified" << endl;
         cout << "GPIB address, and the visa driver interface to be installed on the host" << endl;
@@ -35,6 +42,8 @@ bcargs bcparse(int argc, char ** argv, string device_string)
         cout << "Keithley Hameg HP66332 E5270" << endl;
         cout << "<GPIB#> is the GPIB address value of the primary switch that the " << device_string << " is attached to" << endl;
         cout << "<gpib_addr> is the GPIB subaddress value of the " << device_string << " attached to the GPIB switch at <GPIB#>" << endl;
+        cout << "<serial_port> is the alternative serial port to connect to ie. COM20 or /dev/ttyS20" << endl;
+        cout << "<baud> is the baud rate when using a non-GPIB serial port" << endl;
         cout << "<ncycles> is the number of times the attached battery will be fully discharged and then fully charged" << endl;
         cout << "<vmax> is the maximum voltage, in Volts,  up to which the battery will be charged" << endl;
         cout << "<vmin> is the minimum voltage, in Volts,  down to which the battery will be discharged" << endl;

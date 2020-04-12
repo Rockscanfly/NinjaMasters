@@ -158,7 +158,7 @@ int HamegInterface::IsCurrentLimited(void)
 
     uint32_t status = 0;
     sprintf(inst_, "STA?");
-    if(Query(inst_, val_))    {   printf("ERROR: Error reading current_t trip limit\n"); }
+    if(Query(inst_, val_))    {   printf("ERROR: Error reading current trip limit\n"); }
     #if DEBUG
         printf("%s\n", val_);
     #endif // DEBUG
