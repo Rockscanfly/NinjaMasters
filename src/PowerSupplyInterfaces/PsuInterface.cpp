@@ -410,7 +410,7 @@ double PsuInterface::GetToVoltage(const double voltage_target, const double curr
             time_timeoustart = time_now;
         }
         #ifndef DEBUG
-        printf("Voltage: %f, Current: %f, Cycle Number: %i, Charge Moved: %.0f mAh, wait time: %.2fs CLOCKS_PER_SEC: %f, CLK_TCK: %f\r", voltage_now, current_now, current_cycle_, charge_moved/3.6, time_now - time_timeoustart, (double)CLOCKS_PER_SEC, (double)CLK_TCK);
+        printf("Voltage: %f, Current: %f, Cycle Number: %i, Charge Moved: %.0f mAh, wait time: %.2fs CLOCKS_PER_SEC: %f\r", voltage_now, current_now, current_cycle_, charge_moved/3.6, time_now - time_timeoustart, (double)CLOCKS_PER_SEC;
         #endif // DEBUG
     } while(fabs(current_now) > current_end && (time_now - time_timeoustart) < timeout);
     printf("\n");
