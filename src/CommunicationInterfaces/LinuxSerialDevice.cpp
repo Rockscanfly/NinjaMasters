@@ -117,7 +117,7 @@ int LinuxSerialDevice::Read(char *data)
         new_bytes = read(serial_port_, &rx_buffer_[total_bytes], 256);
         total_bytes += new_bytes;
 
-        if (new_bytes < 0) {`
+        if (new_bytes < 0) {
             printf("Error reading: %s\n", strerror(errno));
         }
 
@@ -146,7 +146,7 @@ int LinuxSerialDevice::Read(char *data)
 //     printf("Read %i bytes. Received message: %s\n", num_bytes, data);
 //     #endif
 // }
-    return num_bytes;
+    return total_bytes;
 }
 
 int LinuxSerialDevice::Write(char *data)
