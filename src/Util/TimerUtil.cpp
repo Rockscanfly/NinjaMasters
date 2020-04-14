@@ -16,7 +16,7 @@
     {
         struct timespec res;
         clock_getres(CLOCK_MONOTONIC, &res);
-        return ((double) res.tv_sec) + ((double) res.tv_nsec / (NANOS_PER_SECF));
+        return ((double) res.tv_nsec);
     }
 
     double monotonic_timer() {
