@@ -79,7 +79,7 @@ LinuxSerialDevice::LinuxSerialDevice(char* device, int baud)
     }
     else
     {
-        printf("\n  BaudRate = %i \n  StopBits = 1 \n  Parity   = none", baud);
+        printf("  BaudRate = %i \n  StopBits = 1 \n  Parity   = none\n", baud);
     }
 
     tcflush(serial_port_, TCIFLUSH);   /* Discards old data in the rx buffer */
