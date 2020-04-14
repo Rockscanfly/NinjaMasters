@@ -76,10 +76,9 @@ class PsuInterface
         SerialDevice *device_ = nullptr;
         void mwait(int msecs); // wait some milliseconds in real-time work
 
-        time_t t = 0;
         time_t t0 = 0;
-        clock_t clock_initial_ = 0;
-        clock_t clock_now_ = 0;
+        double clock_initial_ = 0;
+        double clock_now_ = 0;
 
         char inst_[256] = {'\0'};
         char val_[256] = {'\0'};

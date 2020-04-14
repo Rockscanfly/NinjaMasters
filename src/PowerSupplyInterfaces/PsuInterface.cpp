@@ -1,6 +1,7 @@
 #include "PsuInterface.hpp"
 // #include "GpibDevice.hpp"
 #include "LinuxSerialDevice.hpp"
+#include "TimerUtil.hpp"
 
 PsuInterface::PsuInterface(char serial_mode[256], char serial_value[256],
             double max_voltage, double min_voltage, double max_current, char filestring[255]):
@@ -49,7 +50,7 @@ max_voltage_(max_voltage), min_voltage_(min_voltage), max_current_(max_current)
 
     if(strncmp(serial_mode, "COM", 3) == 0)
     {
-    #ifdef _WIN64
+    #ifdef _WIN32
         printf("Error: WindowsSerialDevice not defined yet\n");
         exit(1);
         // device_ = new WindowsSerialDevice(serial_mode, atoi(serial_value));
@@ -75,7 +76,9 @@ max_voltage_(max_voltage), min_voltage_(min_voltage), max_current_(max_current)
 
     // start time for timed operations
 	time(&t0);
-	clock_initial_ = clock();
+    printf("Clock Resolution: %f\n", init_timer());
+    clock_initial_ = monotonic_timer();
+
 
     #if DEBUG
     	printf("End of PsuInterface Constructor\n");
@@ -105,8 +108,8 @@ double PsuInterface::CycleBattery(const int number_cycles, const double voltage_
     double charge_moved = 0;
     double discharge_q = 0;
     double charge_q = 0;
-    clock_t clock_function_start = clock();
-    clock_t clock_now = 0;
+    double clock_function_start = monotonic_timer();
+    double clock_now = 0;
     double time_now = 0;
     double time_last = 0;
     current_cycle_ = 0;
@@ -132,9 +135,9 @@ double PsuInterface::CycleBattery(const int number_cycles, const double voltage_
     // initial charge of the battery
     charge_moved = GetToVoltage(voltage_max, current_max, current_end, timeout);
     printf("End of inital charge\n");
-    clock_now_ = clock();
+    clock_now = monotonic_timer();
     sprintf(function_data, "CycleBattery: initial charge completed\nCharge Moved: %f, time taken: %f\n",
-                charge_moved, (double)(clock_now_-clock_function_start)/CLOCKS_PER_SEC);
+                charge_moved, clock_now-clock_function_start);
     WriteLog(function_data);
     sprintf(function_data, "Cycle %i Charge Moved: %f", 0,  charge_moved);
     MarkData(function_data);
@@ -146,9 +149,9 @@ double PsuInterface::CycleBattery(const int number_cycles, const double voltage_
         // discharge battery to minimum voltage
         charge_moved = GetToVoltage(voltage_min, current_max, current_end, timeout);
         discharge_q = charge_moved;
-        clock_now_ = clock();
+        clock_now = monotonic_timer();
         sprintf(function_data, "CycleBattery: discharge %i completed\nCharge Moved: %f, time taken: %f\n",
-                cycle_count, discharge_q, (double)(clock_now_-clock_function_start)/CLOCKS_PER_SEC);
+                cycle_count, discharge_q, clock_now-clock_function_start);
         WriteLog(function_data);
         sprintf(function_data, "Cycle %i Charge Moved: %f", cycle_count,  charge_moved);
         MarkData(function_data);
@@ -156,9 +159,9 @@ double PsuInterface::CycleBattery(const int number_cycles, const double voltage_
         // charge battery to maximum voltage
         charge_moved = GetToVoltage(voltage_max, current_max, current_end, timeout);
         charge_q = charge_moved;
-        clock_now_ = clock();
+        clock_now = monotonic_timer();
         sprintf(function_data, "CycleBattery: charge %i completed\nCharge Moved: %f, time taken: %f\n",
-                cycle_count, charge_q, (double)(clock_now_-clock_function_start)/CLOCKS_PER_SEC);
+                cycle_count, charge_q, clock_now-clock_function_start);
         WriteLog(function_data);
         sprintf(function_data, "Cycle %i Charge Moved: %f", cycle_count,  charge_moved);
         MarkData(function_data);
@@ -168,9 +171,10 @@ double PsuInterface::CycleBattery(const int number_cycles, const double voltage_
     // move the excess charge from the battery
     charge_moved = MoveCharge(voltage_max, voltage_min, current_max, discharge_q*(1-charge_end));
 
+    clock_now = monotonic_timer();
     sprintf(function_data, "CycleBattery: cycling completed\n"
             "Last full charge Q: %f\nLast full discharge Q: %f\nEnd charge depleted: %f\ntime taken: %f\n",
-            charge_q, discharge_q, charge_moved, (double)(clock_now_-clock_function_start)/CLOCKS_PER_SEC);
+            charge_q, discharge_q, charge_moved, clock_now-clock_function_start);
     WriteLog(function_data);
     sprintf(function_data, "Final Charge Moved: %f", charge_moved);
     MarkData(function_data);
@@ -180,15 +184,15 @@ double PsuInterface::CycleBattery(const int number_cycles, const double voltage_
     SMUCurrent(voltage_max, voltage_min, 0.0f);
     OutputOn();
 
-    clock_now = clock();
-    time_now = (double)(clock_now - clock_function_start)/CLOCKS_PER_SEC;
+    clock_now = monotonic_timer();
+    time_now = clock_now - clock_function_start;
     time_last = time_now;
     while((time_now - time_last) < relax_time) {
         double voltage_now = 0;
         double current_now = 0;
         // GetOutput(&voltage_now, &current_now);
-        clock_now = clock();
-        time_now = (double)(clock_now - clock_function_start)/CLOCKS_PER_SEC;
+        clock_now = monotonic_timer();
+        time_now = clock_now - clock_function_start;
         if(!GetOutput(&voltage_now, &current_now))
         {
             WriteData(voltage_now, current_now);
@@ -215,7 +219,7 @@ double PsuInterface::Waveform(const double voltage_max, const double voltage_min
     #endif // DEBUG
     printf("Vmax: %f, Vmin: %f, I: %f, Q: %f, F: %e\n", voltage_max, voltage_min, current_max, charge_max, frequency[0]);
 
-    clock_t clock_function_start = clock();
+    clock_t clock_function_start = monotonic_timer();
     clock_t clock_now = 0;
     double time_now = 0;
     double time_start = 0;
@@ -304,18 +308,18 @@ double PsuInterface::Waveform(const double voltage_max, const double voltage_min
         WriteData(voltage_now, current_now);
     }
 
-    clock_function_start = clock();
-    time_start = time_now = (double)(clock_function_start)/CLOCKS_PER_SEC;
+    clock_function_start = monotonic_timer();
+    time_start = time_now = clock_function_start;
     time_end += time_now;
 
     // cycle_count = 0;
     while(time_now < time_end)
     {
         current_now = 0;
-        clock_t clock_now = clock();
+        clock_t clock_now = monotonic_timer();
 
         // cycle_count = 0;
-        time_now = (double)(clock_now)/CLOCKS_PER_SEC;
+        time_now = clock_now;
         for(int i = 0; i < nfrequencies; i++)
         {
             current_now += frequency_max_current_t[i]*sin(2*M_PI*frequency[i]*(time_now - time_start));
@@ -376,8 +380,8 @@ double PsuInterface::GetToVoltage(const double voltage_target, const double curr
     double voltage_now = 0;
     double current_now = 0;
     double charge_moved = 0;
-    clock_t clock_function_start = 0;
-    clock_t clock_now = 0;
+    double clock_function_start = 0;
+    double clock_now = 0;
     double time_now = 0;
     double time_last = 0;
     double time_timeoustart = 0;
@@ -389,15 +393,15 @@ double PsuInterface::GetToVoltage(const double voltage_target, const double curr
 
     OutputOn();
 
-    clock_function_start = clock();
-    clock_now = clock();
-    time_last = (double)(clock_now - clock_function_start)/CLOCKS_PER_SEC;
+    clock_function_start = monotonic_timer();
+    clock_now = monotonic_timer();
+    time_last = clock_now - clock_function_start;
     time_now = time_last;
     time_timeoustart = time_now;
     do { // integrate the current_t while waiting for the current_t to drop to the minimum level or the timeout condition
         // GetOutput(&voltage_now, &current_now);
-        clock_now = clock();
-        time_now = (double)(clock_now - clock_function_start)/CLOCKS_PER_SEC;
+        clock_now = monotonic_timer();
+        time_now = clock_now - clock_function_start;
         charge_moved += (time_now-time_last) * current_now;
         time_last = time_now;
         if (!GetOutput(&voltage_now, &current_now))
@@ -410,16 +414,16 @@ double PsuInterface::GetToVoltage(const double voltage_target, const double curr
             time_timeoustart = time_now;
         }
         #ifndef DEBUG
-        printf("Voltage: %f, Current: %f, Cycle Number: %i, Charge Moved: %.0f mAh, wait time: %.2fs CLOCKS_PER_SEC: %f\r", voltage_now, current_now, current_cycle_, charge_moved/3.6, time_now - time_timeoustart, (double)CLOCKS_PER_SEC);
+        printf("Voltage: %f, Current: %f, Cycle Number: %i, Charge Moved: %.0f mAh, wait time: %.2fs \r", voltage_now, current_now, current_cycle_, charge_moved/3.6, time_now - time_timeoustart);
         #endif // DEBUG
     } while(fabs(current_now) > current_end && (time_now - time_timeoustart) < timeout);
     printf("\n");
 
     OutputOff();
 
-    clock_now_ = clock();
+    clock_now = monotonic_timer();
     sprintf(function_data, "GetToVoltage completed\nCharge Moved: %f, time taken: %f\n",
-            charge_moved, (double)(clock_now_-clock_function_start)/CLOCKS_PER_SEC);
+            charge_moved, clock_now-clock_function_start);
     WriteLog(function_data);
 
     return charge_moved;
@@ -430,8 +434,8 @@ double PsuInterface::MoveCharge(const double voltage_max, const double voltage_m
     double voltage_now = 0;
     double current_now = 0;
     double charge_moved = 0;
-    clock_t clock_function_start = 0;
-    clock_t clock_now = 0;
+    double clock_function_start = 0;
+    double clock_now = 0;
     double time_now = 0;
     double time_last = 0;
     char function_data[2048];
@@ -444,15 +448,15 @@ double PsuInterface::MoveCharge(const double voltage_max, const double voltage_m
     SMUCurrent(voltage_max, voltage_min , copysign(current_max, charge_to_move));
     OutputOn();
 
-    clock_function_start = clock();
-    clock_now = clock();
-    time_last = (double)(clock_now - clock_function_start)/CLOCKS_PER_SEC;
+    clock_now = monotonic_timer();
+    time_last = 0;
+    clock_function_start = monotonic_timer();
 
     // integrate current_t while charge moved is less than target
     do {
         // GetOutput(&voltage_now, &current_now);
-        clock_now = clock();
-        time_now = (double)(clock_now - clock_function_start)/CLOCKS_PER_SEC;
+        clock_now = monotonic_timer();
+        time_now = clock_now - clock_function_start;
         charge_moved += (time_now-time_last) * current_now;
         time_last = time_now;
         if(!GetOutput(&voltage_now, &current_now))
@@ -468,9 +472,9 @@ double PsuInterface::MoveCharge(const double voltage_max, const double voltage_m
 
     OutputOff();
 
-    clock_now_ = clock();
+    clock_now = monotonic_timer();
     sprintf(function_data, "MoveCharge completed\nCharge Moved: %f, time taken: %f\n",
-            charge_moved, (double)(clock_now_-clock_function_start)/CLOCKS_PER_SEC);
+            charge_moved, clock_now-clock_function_start);
     WriteLog(function_data);
 
     return charge_moved;
@@ -511,8 +515,8 @@ int PsuInterface::Query(char *inst, char *val)
 
 int PsuInterface::WriteData(double voltage, double current)
 {
-    clock_now_ = clock();
-    fprintf(p_data, "%f\t%.8f\t%.8f\n", (double)(clock_now_-clock_initial_)/CLOCKS_PER_SEC, voltage, current);
+    // clock_now_ = monotonic_timer();
+    fprintf(p_data, "%f\t%.8f\t%.8f\n", monotonic_timer()-clock_initial_, voltage, current);
     return 0;
 }
 
@@ -524,9 +528,10 @@ int PsuInterface::MarkData(const char *str)
 
 int PsuInterface::WriteLog(const char *str)
 {
+    time_t t;
     time(&t);
-    clock_now_ = clock();
-    fprintf(p_log, "%li\t%s %s\n", (int)(clock_now_-clock_initial_)/CLOCKS_PER_SEC, ctime(&t), str);
+    // clock_now_ = monotonic_timer();
+    fprintf(p_log, "%li\t%s %s\n", (long int)(monotonic_timer()-clock_initial_), ctime(&t), str);
     return 0;
 }
 
@@ -559,9 +564,9 @@ int PsuInterface::ChangeLogFile(const char *str)
 
 void PsuInterface::mwait(int msecs) // wait some milliseconds in real-time work
 {
-    clock_t fin = clock() + (clock_t)((CLOCKS_PER_SEC * (long)msecs)/1000.0L);
+    clock_t fin = monotonic_timer() + (clock_t)((CLOCKS_PER_SEC * (long)msecs)/1000.0L);
     if(msecs==0) return;
-    while (fin - clock() > 1L) {};
+    while (fin - monotonic_timer() > 1L) {};
     return;
 }
 

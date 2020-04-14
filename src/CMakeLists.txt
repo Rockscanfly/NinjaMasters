@@ -1,5 +1,6 @@
 add_subdirectory( CommunicationInterfaces )
 add_subdirectory( PowerSupplyInterfaces )
+add_subdirectory( Util )
 
 add_library(bchelper bchelper.cpp)
 add_library(bzhelper bzhelper.cpp)
