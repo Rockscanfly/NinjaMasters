@@ -564,8 +564,10 @@ int PsuInterface::ChangeLogFile(const char *str)
 
 void PsuInterface::mwait(int msecs) // wait some milliseconds in real-time work
 {
-    clock_t fin = monotonic_timer() + (clock_t)((CLOCKS_PER_SEC * (long)msecs)/1000.0L);
+    double fin = monotonic_timer() + msecs/1000.0L;
+
     if(msecs==0) return;
+
     while (fin - monotonic_timer() > 1L) {};
     return;
 }
