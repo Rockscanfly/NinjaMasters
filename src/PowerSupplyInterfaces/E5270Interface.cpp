@@ -230,21 +230,21 @@ int E5270Interface::SMUVoltage(double V, double I)
 }
 
 
-int E5270Interface::SMUCurrent(double voltage_max, double voltage_min, double current_t)
+int E5270Interface::SMUCurrent(double voltage_max, double voltage_min, double current)
 {
     #if DEBUG
         printf("\nFUNCTION: E5270Interface::SMUCurrent\n");
-        printf("V: %f-%f, I: %f\n", voltage_max, voltage_min, current_t);
+        printf("V: %f-%f, I: %f\n", voltage_max, voltage_min, current);
     #endif // DEBUG
     // DV chnum,vrange,voltage[,Icomp[,comp_polarity[,irange]]
-    sprintf(inst_, "DV %i, 0, %.2e, %.2e, 1 \n", E5270_INTERFACE_CHANNEL_GND, 0.0, copysign(this->iMax, current_t));
+    sprintf(inst_, "DV %i, 0, %.2e, %.2e, 1 \n", E5270_INTERFACE_CHANNEL_GND, 0.0, copysign(this->iMax, current));
     Write(inst_);
-    // DI chnum,irange,current_t[,Vcomp[,comp_polarity[,vrange]]]
-    if(current_t >=0)
+    // DI chnum,irange,current[,Vcomp[,comp_polarity[,vrange]]]
+    if(current >=0)
     {
-        sprintf(inst_, "DI %i, 0, %.4e, %.4e, 1 \n", this->channel, current_t, voltage_max);
+        sprintf(inst_, "DI %i, 0, %.4e, %.4e, 1 \n", this->channel, current, voltage_max);
     }else{
-        sprintf(inst_, "DI %i, 0, %.4e, %.4e, 1 \n", this->channel, current_t, voltage_min);
+        sprintf(inst_, "DI %i, 0, %.4e, %.4e, 1 \n", this->channel, current, voltage_min);
     }
 
     Write(inst_);

@@ -71,9 +71,9 @@ int HP66332Interface::SetOutput(double V, double I)
 
     SetVoltageRange(fabs(V));
     SetCurrentRange(fabs(I));
-    sprintf(inst_, ":SOUR:VOLT %1.3f\n", V);
+    sprintf(inst_, "SOUR:VOLT %1.3f\n", V);
     if(Write(inst_))   {   printf("Error: Error setting output voltage \n");    }
-    sprintf(inst_, ":SOUR:CURR %1.3f\n", fabs(I));
+    sprintf(inst_, "SOUR:CURR %1.3f\n", fabs(I));
     if(Write(inst_))   {   printf("\nError: Error setting output current: %1.3f\n", I);    }
 
     mwait(20);
@@ -89,7 +89,7 @@ int HP66332Interface::GetOutput(double *V, double *I)
 	    printf("Call to HP66332Interface::GetOutput\n");
     #endif // DEBUG
 
-    sprintf(inst_, ":MEAS:CURR:DC?");
+    sprintf(inst_, "MEAS:CURR:DC?\n");
     err = Query(inst_, val_);
     if (err)   {   printf("Error reading output current\n");    }
     #if DEBUG
@@ -98,7 +98,7 @@ int HP66332Interface::GetOutput(double *V, double *I)
 
     *I = atof(val_);
 
-    sprintf(inst_, ":MEAS:VOLT:DC?");
+    sprintf(inst_, "MEAS:VOLT:DC?\n");
     err = Query(inst_, val_);
     if (err)    {  printf("Error reading output voltage\n");    }
     #if DEBUG
@@ -129,20 +129,20 @@ int HP66332Interface::SMUVoltage(double V, double I)
 
 }
 
-int HP66332Interface::SMUCurrent(double voltage_max, double voltage_min, double current_t)
+int HP66332Interface::SMUCurrent(double voltage_max, double voltage_min, double current)
 {
     #if DEBUG
 	    printf("Call to HP66332Interface::SMUCurrent\n");
-        printf("V: %f, I: %f\n", voltage_max, current_t);
+        printf("V: %f, I: %f\n", voltage_max, current);
     #endif // DEBUG
 
-    if (current_t >= 0)
+    if (current >= 0)
     {
-        return SetOutput(voltage_max,current_t);
+        return SetOutput(voltage_max,current);
     }
     else
     {
-        return SetOutput(voltage_min,current_t);
+        return SetOutput(voltage_min,current);
     }
 }
 
@@ -162,7 +162,7 @@ double HP66332Interface::SetCurrentRange(double I)
     #endif // DEBUG
 
     sprintf(inst_, ":SENS:CURR:RANG %.6f", I);
-    if(Write(inst_))   { printf("Error: Error setting current_t range"); }
+    if(Write(inst_))   { printf("Error: Error setting current range"); }
 
     return 0.0f;
 }

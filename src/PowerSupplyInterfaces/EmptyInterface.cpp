@@ -117,11 +117,11 @@ int EMPTYInterface::SMUVoltage(double V, double I)
     return 0.0f;
 }
 
-int EMPTYInterface::SMUCurrent(double voltage_max, double voltage_min, double current_t)
+int EMPTYInterface::SMUCurrent(double voltage_max, double voltage_min, double current)
 {
     #if DEBUG
 	    printf("Call to EMPTYInterface::SMUCurrent\n");
-        printf("V: %f-%f, I: %f\n", voltage_max, voltage_min, current_t);
+        printf("V: %f-%f, I: %f\n", voltage_max, voltage_min, current);
     #endif // DEBUG
 
     // if(fabs(I) < 0.001)
@@ -129,11 +129,11 @@ int EMPTYInterface::SMUCurrent(double voltage_max, double voltage_min, double cu
     //     I = 0;
     // }
     SetVoltageRange(fabs(voltage_max));
-    SetCurrentRange(fabs(current_t));
+    SetCurrentRange(fabs(current));
     sprintf(inst_, "SOUR:VOLT %1.3f\n", voltage_max);
     if(Write(inst_))   {   printf("Error: Error setting output voltage \n");    }
-    sprintf(inst_, "SOUR:CURR %1.3f\n", fabs(current_t));
-    if(Write(inst_))   {   printf("\nError: Error setting output current: %1.3f\n", current_t);    }
+    sprintf(inst_, "SOUR:CURR %1.3f\n", fabs(current));
+    if(Write(inst_))   {   printf("\nError: Error setting output current: %1.3f\n", current);    }
 
     sprintf(inst_, "*WAI\n");
     if(Write(inst_))   {   printf("\nError: Error waiting for command completion\n");    }
@@ -157,7 +157,7 @@ double EMPTYInterface::SetCurrentRange(double I)
     #endif // DEBUG
 
     sprintf(inst_, "SENS:CURR:RANG %.6f", I);
-    if(Write(inst_))   { printf("Error: Error setting current_t range"); }
+    if(Write(inst_))   { printf("Error: Error setting current range"); }
 
     return 0.0f;
 }

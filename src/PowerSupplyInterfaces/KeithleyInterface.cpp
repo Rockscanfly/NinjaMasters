@@ -54,14 +54,14 @@ KeithleyInterface::KeithleyInterface(char serial_mode[256], char serial_value[25
     mwait(1000);
 
     sprintf(inst_, "OUTPUT1:CURRENT:SMODE HIMPEDANCE");
-    if (Write(inst_))     {   printf("Failed to set current_t output off mode to High Impedance");  }
+    if (Write(inst_))     {   printf("Failed to set current output off mode to High Impedance");  }
     sprintf(inst_, "OUTPUT1:VOLTAGE:SMODE HIMPEDANCE");
     if (Write(inst_))     {   printf("Failed to set voltage output off mode to High Impedance");  }
     sprintf(inst_, "OUTPUT:STATE OFF");
     if (Write(inst_))    {   printf("ERROR: Error setting output off\n"); }
 
     sprintf(inst_, "SENSE:CURRENT:RSENSE 1");
-    if (Write(inst_))    {   printf("ERROR: Error setting current_t sense to 4 wire method\n"); }
+    if (Write(inst_))    {   printf("ERROR: Error setting current sense to 4 wire method\n"); }
     sprintf(inst_, "SENSE:VOLTAGE:RSENSE 1");
     if (Write(inst_))    {   printf("ERROR: Error setting voltage sense to 4 wire method\n"); }
     sprintf(inst_, "SOUR:CURR:HIGH:CAP ON");
@@ -169,7 +169,7 @@ int KeithleyInterface::SMUVoltage(double V, double I)
     SetVoltageRange(fabs(V));
     SetCurrentRange(fabs(I*10));
     sprintf(inst_, "SOUR:VOLT:ILIM %1.3e", I);
-    if(Write(inst_))   {printf("Error Setting voltage current_t limit\n"); }
+    if(Write(inst_))   {printf("Error Setting voltage current limit\n"); }
     sprintf(inst_, "SOUR:VOLT %2.3e", V);
     if(Write(inst_))   {printf("Error Setting voltage\n"); }
 
@@ -180,21 +180,21 @@ int KeithleyInterface::SMUVoltage(double V, double I)
     return 0.0f;
 }
 
-int KeithleyInterface::SMUCurrent(double voltage_max, double voltage_min, double current_t)
+int KeithleyInterface::SMUCurrent(double voltage_max, double voltage_min, double current)
 {
     #if DEBUG
 	    printf("Call to KeithleyInterface::SMUCurrent\n");
-        printf("V: %f, I: %f\n", voltage_max, current_t);
+        printf("V: %f, I: %f\n", voltage_max, current);
     #endif // DEBUG
 
     sprintf(inst_, "SOUR:FUNC CURR");
-    if(Write(inst_))   {printf("Error Setting output to current_t\n"); }
+    if(Write(inst_))   {printf("Error Setting output to current\n"); }
     SetVoltageRange(fabs(voltage_max));
-    SetCurrentRange(fabs(current_t));
+    SetCurrentRange(fabs(current));
     sprintf(inst_, "SOUR:CURR:VLIM %2.3e", voltage_max);
-    if(Write(inst_))   {printf("Error Setting current_t voltage limit\n"); }
-    sprintf(inst_, "SOUR:CURR %1.3e", current_t);
-    if(Write(inst_))   {printf("Error Setting current_t\n"); }
+    if(Write(inst_))   {printf("Error Setting current voltage limit\n"); }
+    sprintf(inst_, "SOUR:CURR %1.3e", current);
+    if(Write(inst_))   {printf("Error Setting current\n"); }
 
     sprintf(inst_, "*WAI");
     if(Write(inst_))   {printf("Error sending wait command\n"); }
@@ -295,22 +295,22 @@ double KeithleyInterface::SetCurrentRange(double I)
         range = 7.0;
     if (fabs(I) >= 7.35)
     {
-        printf("\nInvalid current_t %f, unable to determine range\n", I);
+        printf("\nInvalid current %f, unable to determine range\n", I);
         range = -1;
     }
 
     if (range != -1)
     {
         sprintf(val, "SOURCE:CURRENT:RANGE %f", range);
-        if (Write(val))    {   printf("Error setting current_t SOURCE range\n");    }
+        if (Write(val))    {   printf("Error setting current SOURCE range\n");    }
 
         sprintf(inst, "SOUR:FUNC?");
-        if (Query(inst,val))    {   printf("Error reading current_t SOURCE type\n");    }
+        if (Query(inst,val))    {   printf("Error reading current SOURCE type\n");    }
 
         if(abs(strncmp(val, "CURR", 4)))
         {
             sprintf(val, "SENSE:CURRENT:RANGE %f", range);
-            if (Write(val))    {   printf("Error setting current_t SENSE range\n");    }
+            if (Write(val))    {   printf("Error setting current SENSE range\n");    }
         }
     }
 
@@ -321,7 +321,7 @@ double KeithleyInterface::SetCurrentRange(double I)
 
 int KeithleyInterface::IsCurrentLimited(void)
 {
-        // Query if supply is current_t limited, val is 1 if true.
+        // Query if supply is current limited, val is 1 if true.
     sprintf(inst_, "SOUR:VOLT:ILIM:TRIP?");
     if(Query(inst_, val_))    {   printf("ERROR: Error reading current trip limit\n"); }
     #if DEBUG

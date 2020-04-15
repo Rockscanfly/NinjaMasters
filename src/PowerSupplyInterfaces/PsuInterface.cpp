@@ -179,7 +179,7 @@ double PsuInterface::CycleBattery(const int number_cycles, const double voltage_
     sprintf(function_data, "Final Charge Moved: %f", charge_moved);
     MarkData(function_data);
 
-    // wait out the relaxation time, continue to measure the voltage and current_t on the battery
+    // wait out the relaxation time, continue to measure the voltage and current on the battery
     // required to have output on to read with high imedance mode on, give vmax to set measurement range to appropriate value
     SMUCurrent(voltage_max, voltage_min, 0.0f);
     OutputOn();
@@ -235,7 +235,7 @@ double PsuInterface::Waveform(const double voltage_max, const double voltage_min
     double max_fq = 0;
     double fmin = frequency[0];
     double fmax = frequency[0];
-    double frequency_max_current_t[16] = {0};
+    double frequency_max_current[16] = {0};
 
     // check if valid frequencies are given
     if(frequency[0] == 0)
@@ -288,13 +288,13 @@ double PsuInterface::Waveform(const double voltage_max, const double voltage_min
         // dQ_f = -2*nfreq*I_f/(2*pi*f)
         // dI_f = Q_f*(2*pi*f)/2*nfreq
         // dI_f = Q_f*(pi*f)/nfreq
-        frequency_max_current_t[i] = max_dq * M_PI * frequency[i]*3600/(nfrequencies);
-        if(fabs(frequency_max_current_t[i]) > fabs(current_max/nfrequencies))
+        frequency_max_current[i] = max_dq * M_PI * frequency[i]*3600/(nfrequencies);
+        if(fabs(frequency_max_current[i]) > fabs(current_max/nfrequencies))
         {
-            frequency_max_current_t[i] = current_max/nfrequencies;
+            frequency_max_current[i] = current_max/nfrequencies;
         }
         // #if DEBUG
-            printf("Maximum current_t for frequency %e Hz: %e A\n", frequency[i], frequency_max_current_t[i]);
+            printf("Maximum current for frequency %e Hz: %e A\n", frequency[i], frequency_max_current[i]);
         // #endif // DEBUG
     }
 
@@ -322,9 +322,9 @@ double PsuInterface::Waveform(const double voltage_max, const double voltage_min
         time_now = clock_now;
         for(int i = 0; i < nfrequencies; i++)
         {
-            current_now += frequency_max_current_t[i]*sin(2*M_PI*frequency[i]*(time_now - time_start));
+            current_now += frequency_max_current[i]*sin(2*M_PI*frequency[i]*(time_now - time_start));
             #if DEBUG
-                printf("F: %e, T: %e, C: %e\n",frequency[i], time_now - time_start, frequency_max_current_t[i]*sin(2*M_PI*frequency[i]*(time_now - time_start)));
+                printf("F: %e, T: %e, C: %e\n",frequency[i], time_now - time_start, frequency_max_current[i]*sin(2*M_PI*frequency[i]*(time_now - time_start)));
             #endif // DEBUG
         }
 
@@ -398,7 +398,7 @@ double PsuInterface::GetToVoltage(const double voltage_target, const double curr
     time_last = clock_now - clock_function_start;
     time_now = time_last;
     time_timeoustart = time_now;
-    do { // integrate the current_t while waiting for the current_t to drop to the minimum level or the timeout condition
+    do { // integrate the current while waiting for the current to drop to the minimum level or the timeout condition
         // GetOutput(&voltage_now, &current_now);
         clock_now = monotonic_timer();
         time_now = clock_now - clock_function_start;
@@ -408,7 +408,7 @@ double PsuInterface::GetToVoltage(const double voltage_target, const double curr
         {
             WriteData(voltage_now, current_now);
         }
-        // Query if supply is current_t limited, val is 1 if true. Reset timeout if true
+        // Query if supply is current limited, val is 1 if true. Reset timeout if true
         // printf("\nCurrent Limited: %i, %f\n", IsCurrentLimited(), time_timeoustart);
         if (IsCurrentLimited()) {
             time_timeoustart = time_now;
@@ -444,7 +444,7 @@ double PsuInterface::MoveCharge(const double voltage_max, const double voltage_m
     WriteLog(function_data);
 
     OutputOff();
-    // set output to voltage limited current_t source of correct polarity
+    // set output to voltage limited current source of correct polarity
     SMUCurrent(voltage_max, voltage_min , copysign(current_max, charge_to_move));
     OutputOn();
 
@@ -452,7 +452,7 @@ double PsuInterface::MoveCharge(const double voltage_max, const double voltage_m
     time_last = 0;
     clock_function_start = monotonic_timer();
 
-    // integrate current_t while charge moved is less than target
+    // integrate current while charge moved is less than target
     do {
         // GetOutput(&voltage_now, &current_now);
         clock_now = monotonic_timer();
