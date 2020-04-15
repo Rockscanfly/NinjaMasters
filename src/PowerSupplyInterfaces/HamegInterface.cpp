@@ -112,20 +112,20 @@ int HamegInterface::SMUVoltage(double V, double I)
     return 0;
 }
 
-int HamegInterface::SMUCurrent(double voltage_max, double voltage_min, double current)
+int HamegInterface::SMUCurrent(double voltage_max, double voltage_min, double current_t)
 {
     #if DEBUG
 	    printf("Call to HamegInterface::SMUCurrent\n");
-        printf("V: %f-%f, I: %f\n", voltage_max, voltage_min, current);
+        printf("V: %f-%f, I: %f\n", voltage_max, voltage_min, current_t);
     #endif // DEBUG
 
-    if (current >= 0)
+    if (current_t >= 0)
     {
-        return SetOutput(voltage_max,current);
+        return SetOutput(voltage_max,current_t);
     }
     else
     {
-        return SetOutput(voltage_min,current);
+        return SetOutput(voltage_min,current_t);
     }
     mwait(20);
 

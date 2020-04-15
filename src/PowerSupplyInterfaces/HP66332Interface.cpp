@@ -89,7 +89,7 @@ int HP66332Interface::GetOutput(double *V, double *I)
 	    printf("Call to HP66332Interface::GetOutput\n");
     #endif // DEBUG
 
-    sprintf(inst_, ":MEAS:CURR:DC?\n");
+    sprintf(inst_, ":MEAS:CURR:DC?");
     err = Query(inst_, val_);
     if (err)   {   printf("Error reading output current\n");    }
     #if DEBUG
@@ -98,7 +98,7 @@ int HP66332Interface::GetOutput(double *V, double *I)
 
     *I = atof(val_);
 
-    sprintf(inst_, ":MEAS:VOLT:DC?\n");
+    sprintf(inst_, ":MEAS:VOLT:DC?");
     err = Query(inst_, val_);
     if (err)    {  printf("Error reading output voltage\n");    }
     #if DEBUG
@@ -129,20 +129,20 @@ int HP66332Interface::SMUVoltage(double V, double I)
 
 }
 
-int HP66332Interface::SMUCurrent(double voltage_max, double voltage_min, double current)
+int HP66332Interface::SMUCurrent(double voltage_max, double voltage_min, double current_t)
 {
     #if DEBUG
 	    printf("Call to HP66332Interface::SMUCurrent\n");
-        printf("V: %f, I: %f\n", voltage_max, current);
+        printf("V: %f, I: %f\n", voltage_max, current_t);
     #endif // DEBUG
 
-    if (current >= 0)
+    if (current_t >= 0)
     {
-        return SetOutput(voltage_max,current);
+        return SetOutput(voltage_max,current_t);
     }
     else
     {
-        return SetOutput(voltage_min,current);
+        return SetOutput(voltage_min,current_t);
     }
 }
 
@@ -162,7 +162,7 @@ double HP66332Interface::SetCurrentRange(double I)
     #endif // DEBUG
 
     sprintf(inst_, ":SENS:CURR:RANG %.6f", I);
-    if(Write(inst_))   { printf("Error: Error setting current range"); }
+    if(Write(inst_))   { printf("Error: Error setting current_t range"); }
 
     return 0.0f;
 }
