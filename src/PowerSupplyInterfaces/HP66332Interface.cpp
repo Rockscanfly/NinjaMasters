@@ -71,7 +71,7 @@ int HP66332Interface::SetOutput(double V, double I)
 
     SetVoltageRange(fabs(V));
     SetCurrentRange(fabs(I));
-    sprintf(inst_, "SOUR:VOLT %1.3f\n", V);
+    sprintf(inst_, ":SOUR:VOLT %1.3f\n", V);
     if(Write(inst_))   {   printf("Error: Error setting output voltage \n");    }
     sprintf(inst_, "SOUR:CURR %1.3f\n", fabs(I));
     if(Write(inst_))   {   printf("\nError: Error setting output current: %1.3f\n", I);    }
@@ -98,7 +98,7 @@ int HP66332Interface::GetOutput(double *V, double *I)
 
     *I = atof(val_);
 
-    sprintf(inst_, ":MEAS:VOLT:DC?\n");
+    sprintf(inst_, "MEAS:VOLT:DC?\n");
     err = Query(inst_, val_);
     if (err)    {  printf("Error reading output voltage\n");    }
     #if DEBUG
