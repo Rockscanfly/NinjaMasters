@@ -89,7 +89,7 @@ int HP66332Interface::GetOutput(double *V, double *I)
 	    printf("Call to HP66332Interface::GetOutput\n");
     #endif // DEBUG
 
-    sprintf(inst_, "MEAS:CURR:DC?\n");
+    sprintf(inst_, ":MEAS:CURR:DC?\n");
     err = Query(inst_, val_);
     if (err)   {   printf("Error reading output current\n");    }
     #if DEBUG
@@ -98,7 +98,7 @@ int HP66332Interface::GetOutput(double *V, double *I)
 
     *I = atof(val_);
 
-    sprintf(inst_, "MEAS:VOLT:DC?\n");
+    sprintf(inst_, ":MEAS:VOLT:DC?\n");
     err = Query(inst_, val_);
     if (err)    {  printf("Error reading output voltage\n");    }
     #if DEBUG
