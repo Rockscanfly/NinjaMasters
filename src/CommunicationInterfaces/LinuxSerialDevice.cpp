@@ -111,10 +111,13 @@ int LinuxSerialDevice::Read(char *data)
     int new_char = 0;
     int total_bytes = 0;
     int new_bytes = 0;
+    double start = monotonic_timer();
+    double now = monotonic_timer();
+    bool timed_out = false;
 
     do
     {
-        new_bytes = read(serial_port_, &rx_buffer_[total_bytes], 256);
+        new_bytes = read(serial_port_, &rx_buffer_[total_bytes], 255);
         total_bytes += new_bytes;
 
         if (new_bytes < 0) {
@@ -126,26 +129,20 @@ int LinuxSerialDevice::Read(char *data)
             printf("Error: Read too many bytes: %i\n", new_bytes);
             break;
         }
-    } while (rx_buffer_[total_bytes-1] != '\n');
+        now = monotonic_timer();
+        if ((now - start) > 10 && total_bytes == 0)
+        {
+            printf("Error timed out while reading data\n");
+            timed_out = true;
+        }
+
+    } while ((rx_buffer_[total_bytes-1] != '\n') && !timed_out);
 
     snprintf(data, total_bytes, "%s", rx_buffer_);
     #ifdef DEBUG
     printf("Read %i bytes. Received message: %s\n", total_bytes, data);
     #endif
 
-
-// int num_bytes = read(serial_port_, &rx_buffer_, 256);
-
-// else if (num_bytes > 256) {
-//     printf("Error read too many bytes: %i\n", num_bytes);
-// }
-// else
-// {
-//     snprintf(data, num_bytes+1, "%s\n", rx_buffer_);
-//     #ifdef DEBUG
-//     printf("Read %i bytes. Received message: %s\n", num_bytes, data);
-//     #endif
-// }
     return total_bytes;
 }
 
