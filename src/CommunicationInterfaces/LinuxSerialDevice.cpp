@@ -130,9 +130,14 @@ int LinuxSerialDevice::Read(char *data)
             break;
         }
         now = monotonic_timer();
-        if ((now - start) > 10 && total_bytes == 0)
+        if ((now - start) > 5 && total_bytes == 0)
         {
-            printf("Error timed out while reading data\n");
+            printf("Error timed out, read no data\n");
+            timed_out = true;
+        }
+        if ((now - start) > 10)
+        {
+            printf("Error timed out, read %i bytes: %s\n", total_bytes, rx_buffer_);
             timed_out = true;
         }
 
