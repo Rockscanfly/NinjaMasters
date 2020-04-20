@@ -84,14 +84,16 @@ int HP66332Interface::SetOutput(double V, double I)
 
 int HP66332Interface::GetOutput(double *V, double *I)
 {
-    int err = 0;
+    int err_voltage = 0;
+    int err_current = 0;
+
     #if DEBUG
 	    printf("Call to HP66332Interface::GetOutput\n");
     #endif // DEBUG
 
     sprintf(inst_, ":MEAS:CURR:DC?");
-    err = Query(inst_, val_);
-    if (err)   {   printf("Error reading output current\n");    }
+    err_current = Query(inst_, val_);
+    if (err_current)   {   printf("Error reading output current\n");    }
     #if DEBUG
         printf("QUERY: %s", val_);
     #endif // DEBUG
@@ -99,8 +101,8 @@ int HP66332Interface::GetOutput(double *V, double *I)
     *I = atof(val_);
 
     sprintf(inst_, ":MEAS:VOLT:DC?");
-    err = Query(inst_, val_);
-    if (err)    {  printf("Error reading output voltage\n");    }
+    err_voltage = Query(inst_, val_);
+    if (err_voltage)    {  printf("Error reading output voltage\n");    }
     #if DEBUG
         printf("QUERY: %s", val_);
     #endif // DEBUG
@@ -115,7 +117,7 @@ int HP66332Interface::GetOutput(double *V, double *I)
     // }else    {
     //     // WriteData(*V, *I);
     // }
-    return err;
+    return err_voltage | err_current;
 }
 
 int HP66332Interface::SMUVoltage(double V, double I)
