@@ -11,6 +11,7 @@ max_voltage_(max_voltage), min_voltage_(min_voltage), max_current_(max_current)
         printf("Start of PsuInterface Constructor\n");
     #endif // DEBUG
 
+    setbuf (stdout , NULL);
     // Setup data and log files
 	if (filestring[0] != '\0') {
         for(int i = 0; i < 256; i++)
