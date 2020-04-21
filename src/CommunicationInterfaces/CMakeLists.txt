@@ -16,5 +16,10 @@ add_library(serialdevice_debug SerialDevice.cpp)
 
 # target_compile_definitions(visawrapper_debug PUBLIC DEBUG=1)
 # target_compile_definitions(gpibdevice_debug PUBLIC DEBUG=1)
+#
+target_link_libraries(linuxdevice timerutil)
+target_link_libraries(linuxdevice_debug timerutil)
+
+
 target_compile_definitions(linuxdevice_debug PUBLIC DEBUG=1)
 target_compile_definitions(serialdevice_debug PUBLIC DEBUG=1)

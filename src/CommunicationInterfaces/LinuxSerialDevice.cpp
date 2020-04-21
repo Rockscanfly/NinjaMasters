@@ -18,6 +18,7 @@
 #endif //__linux__
 
 #include "LinuxSerialDevice.hpp"
+#include "TimerUtil.hpp"
 
 #ifdef __linux__
 LinuxSerialDevice::LinuxSerialDevice(char* device, int baud)
