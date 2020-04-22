@@ -21,7 +21,7 @@ HP66332Interface::HP66332Interface(char serial_mode[256], char serial_value[256]
     }
 
     sprintf(inst_, "*RST\n"); // reset
-    if(device_->Write(inst_))   {   printf("Error: Error during initial reset\n");    }
+    device_->Write(inst_);
 
     sprintf(inst_, ":OUTP:PON:STAT RST\n"); // reset on power failure
     if(Write(inst_))   {   printf("Error: Error setting reset state\n");   }

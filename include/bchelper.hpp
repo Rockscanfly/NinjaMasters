@@ -7,6 +7,7 @@ enum device_list {
     Hameg,
     HP66332,
     E5270,
+    W5000,
     None
 };
 

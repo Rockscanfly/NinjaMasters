@@ -2,6 +2,7 @@
 #include "HamegInterface.hpp"
 #include "HP66332Interface.hpp"
 #include "E5270Interface.hpp"
+#include "W5000Interface.hpp"
 #include "PsuInterface.hpp"
 #include "bzhelper.hpp"
 
@@ -48,6 +49,11 @@ int main (int argc, char *argv[])
         {
             device_selection = E5270;
             device_string = "Keysight E5270B Precision IV Analyzer";
+        }
+        else if ((!(strcmp(argv[1], "W5000"))) | (!(strcmp(argv[1], "W5000"))))
+        {
+            device_selection = W5000;
+            device_string = "WILDSCHUT5000";
         }
         else
         {
@@ -121,6 +127,12 @@ int main (int argc, char *argv[])
         {
             // p_device = new E5270Interface(args.vmax, args.vmin, args.imax, args.filestring);
             p_device = new E5270Interface(argv[2], argv[3], args.max_voltage, args.min_voltage, args.max_current, args.filestring);
+            break;
+        }
+        case W5000:
+        {
+            // p_device = new E5270Interface(args.vmax, args.vmin, args.imax, args.filestring);
+            p_device = new W5000Interface(argv[2], argv[3], args.max_voltage, args.min_voltage, args.max_current, args.filestring);
             break;
         }
         case None:
