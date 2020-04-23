@@ -9,7 +9,7 @@ W5000Interface::W5000Interface(char serial_mode[256], char serial_value[256],
     #endif // DEBUG
 
     printf("Checking Device ID\n");
-    sprintf(inst_, "*IDN?");
+    sprintf(inst_, "#*IDN?");
     device_->Write(inst_);
     device_->Read(val_);
     printf("%s\n", val_);
@@ -20,13 +20,13 @@ W5000Interface::W5000Interface(char serial_mode[256], char serial_value[256],
         exit(1);
     }
 
-    sprintf(inst_, "RST\n"); // reset
+    sprintf(inst_, "#RST\n"); // reset
     device_->Write(inst_);
 
-    sprintf(inst_, "CLR\n"); // connect output relay (not the same as output on)
+    sprintf(inst_, "#CLR\n"); // connect output relay (not the same as output on)
     if(Write(inst_))   {   printf("Error: Error in initial clear\n");   }
 
-    sprintf(inst_, "STA");
+    sprintf(inst_, "#STA");
     Query(inst_, val_);
     #if DEBUG
     printf("%s", val_);
@@ -50,7 +50,7 @@ W5000Interface::~W5000Interface()
     #endif // DEBUG
 
     // turn off output and disengage remote mode
-    sprintf(inst_, "OP0");
+    sprintf(inst_, "#OP0");
     Write(inst_);
 
     printf("Closing W5000Interface Device\n");
@@ -67,9 +67,9 @@ int W5000Interface::SetOutput(double V, double I)
         printf("Call to W5000Interface::SetOutput\n");
         printf(">> %f, %f\n", V, I);
     #endif // DEBUG
-    sprintf(inst_, "SU%i:%2.2f\n", this->channel, V);
+    sprintf(inst_, "#SU%i:%2.2f\n", this->channel, V);
     if(Write(inst_))   {   printf("Error: Error setting output voltage \n");    }
-    sprintf(inst_, "SI%i:%1.3f\n", this->channel, fabs(I));
+    sprintf(inst_, "#SI%i:%1.3f\n", this->channel, fabs(I));
     if(Write(inst_))   {   printf("\nError: Error setting output current: %1.3f\n", I);    }
 
     mwait(2);
@@ -84,11 +84,11 @@ int W5000Interface::GetOutput(double *V, double *I)
 
     mwait(2);
 
-    sprintf(inst_, "MU%i\n", this->channel);
+    sprintf(inst_, "#MU%i\n", this->channel);
     if(Query(inst_, val_))   {   printf("Error: Error getting output voltage \n");    }
     *V = atof(&val_[3]);
 
-    sprintf(inst_, "MI%i\n", this->channel);
+    sprintf(inst_, "#MI%i\n", this->channel);
     if(Query(inst_, val_))   {   printf("Error: Error getting output current \n");    }
     *I = atof(&val_[3]);
 
@@ -154,7 +154,7 @@ int W5000Interface::IsCurrentLimited(void)
     #endif // DEBUG
 
     uint32_t status = 0;
-    sprintf(inst_, "STA?");
+    sprintf(inst_, "#STA?");
     if(Query(inst_, val_))    {   printf("ERROR: Error reading current trip limit\n"); }
     #if DEBUG
         printf("%s\n", val_);
@@ -184,7 +184,7 @@ int W5000Interface::IsCurrentLimited(void)
 int W5000Interface::OutputOn()
 {
     int err = 0;
-    sprintf(inst_, "OP1\n"); // turn off output (not the same as output on)
+    sprintf(inst_, "#OP1\n"); // turn off output (not the same as output on)
     err = Write(inst_);
     mwait(1000);
     return err;
@@ -192,7 +192,7 @@ int W5000Interface::OutputOn()
 
 int W5000Interface::OutputOff()
 {
-    sprintf(inst_, "OP0\n"); // turn off output (not the same as output on)
+    sprintf(inst_, "#OP0\n"); // turn off output (not the same as output on)
     return Write(inst_);
 }
 
