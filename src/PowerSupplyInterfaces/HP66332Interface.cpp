@@ -32,11 +32,21 @@ HP66332Interface::HP66332Interface(char serial_mode[256], char serial_value[256]
     sprintf(inst_, ":OUTP:REL:STAT ON\n"); // connect output relay (not the same as output on)
     if(Write(inst_))   {   printf("Error: Error setting output relay state on\n");   }
 
-    sprintf(inst_, ":SENSe:SWEep:TINTerval 15.6E-6\n"); // connect output relay (not the same as output on)
+    sprintf(inst_, ":SENS:SWE:TINT 15.6E-6\n");
     if(Write(inst_))   {   printf("Error: Error setting sweep time interval\n");   }
 
-    sprintf(inst_, ":SENSe:SWEep:POINts 2565\n"); // connect output relay (not the same as output on)
+    sprintf(inst_, ":SENS:SWE:POIN 2565\n");
     if(Write(inst_))   {   printf("Error: Error setting sweep number of points\n");   }
+
+    sprintf(inst_, "DISPLAY:MODE TEXT\n");
+    if(Write(inst_))   {   printf("Error: Error changing display mode\n");   }
+
+    sprintf(inst_, "DISPLAY:TEXT \"TURNING OFF SCREEN\"\n");
+    if(Write(inst_))   {   printf("Error: Error changing display mode\n");   }
+    mwait(200);
+
+    sprintf(inst_, "DISPLAY:STATE OFF\n");
+    if(Write(inst_))   {   printf("Error: Error changing display mode\n");   }
 
 
 	time(&t0);
