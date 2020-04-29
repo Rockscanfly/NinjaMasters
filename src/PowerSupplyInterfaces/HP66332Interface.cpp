@@ -32,6 +32,13 @@ HP66332Interface::HP66332Interface(char serial_mode[256], char serial_value[256]
     sprintf(inst_, ":OUTP:REL:STAT ON\n"); // connect output relay (not the same as output on)
     if(Write(inst_))   {   printf("Error: Error setting output relay state on\n");   }
 
+    sprintf(inst_, ":SENSe:SWEep:TINTerval 15.6E-6\n"); // connect output relay (not the same as output on)
+    if(Write(inst_))   {   printf("Error: Error setting sweep time interval\n");   }
+
+    sprintf(inst_, ":SENSe:SWEep:POINts 2565\n"); // connect output relay (not the same as output on)
+    if(Write(inst_))   {   printf("Error: Error setting sweep number of points\n");   }
+
+
 	time(&t0);
 	printf("HP66332Interface (V%.2f): started at %s", HP66332_INTERFACE_VERSION, ctime(&t0));
 
@@ -162,10 +169,20 @@ double HP66332Interface::SetCurrentRange(double I)
 	    printf("Call to HP66332Interface::SetCurrentRange\n");
     #endif // DEBUG
 
-    sprintf(inst_, ":SENS:CURR:RANG %.6f", I);
-    if(Write(inst_))   { printf("Error: Error setting current_t range"); }
+    if( fabs(I) > 0.02) // maxiumum range
+    {
+        sprintf(inst_, ":SENS:CURR:RANG MAX\n");
+        if(Write(inst_))   { printf("Error: Error setting current range to MAX"); }
+        return 5.0f;
+    }
+    else
+    {
+        sprintf(inst_, ":SENS:CURR:RANG MIN\n");
+        if(Write(inst_))   { printf("Error: Error setting current range to MIN"); }
+        return 0.02f;
+    }
+    return -1.0f;
 
-    return 0.0f;
 }
 
 int HP66332Interface::IsCurrentLimited(void)
