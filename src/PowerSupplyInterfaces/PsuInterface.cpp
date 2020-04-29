@@ -338,7 +338,7 @@ double PsuInterface::Waveform(const double voltage_max, const double voltage_min
             WriteData(voltage_now, current_now);
         }
         #ifndef DEBUG
-        printf("Voltage: %2.4fV, Current: %2.4eA, Cycle Number: %i, time remaining: %5.2fs\r", voltage_now, current_now, 1, time_end - time_now);
+        printf("Voltage: %2.4fV, Current: %2.4eA, Cycle Number: %i, time remaining: %5.2fs        \r", voltage_now, current_now, int((time_end - time_now)*frequency[0]), time_end - time_now);
         #endif // DEBUG
 
         if((!err) && (voltage_now >= voltage_max))
