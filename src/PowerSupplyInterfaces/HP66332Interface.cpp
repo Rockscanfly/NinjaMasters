@@ -108,15 +108,14 @@ int HP66332Interface::GetOutput(double *V, double *I)
     #endif // DEBUG
     *V = atof(val_);
 
-    // if (*I > 1.1*this->iMax)
-    // {
-    //     #if DEBUG
-    //     printf("\nWarning Faulty Current Detected: %fA\n", *I);
-    //     #endif // DEBUG
-    //     err = 1;
-    // }else    {
-    //     // WriteData(*V, *I);
-    // }
+    if (*I > 1.1*this->max_current_)
+    {
+        // #if DEBUG
+        printf("\nWarning Faulty Current Detected: %fA\n", *I);
+        // #endif // DEBUG
+        err_current = 1;
+    }
+
     return err_voltage | err_current;
 }
 

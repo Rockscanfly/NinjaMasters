@@ -311,7 +311,7 @@ double PsuInterface::Waveform(const double voltage_max, const double voltage_min
 
     clock_function_start = monotonic_timer();
     time_start = time_now = clock_function_start;
-    time_end += time_now;
+    time_end += time_now + 5.0; // extra 5 seconds just to be safe
 
     // cycle_count = 0;
     while(time_now < time_end)
