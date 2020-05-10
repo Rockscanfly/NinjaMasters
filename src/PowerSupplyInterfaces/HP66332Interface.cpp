@@ -38,15 +38,15 @@ HP66332Interface::HP66332Interface(char serial_mode[256], char serial_value[256]
     sprintf(inst_, ":SENS:SWE:POIN 2565\n");
     if(Write(inst_))   {   printf("Error: Error setting sweep number of points\n");   }
 
-    sprintf(inst_, "DISPLAY:MODE TEXT\n");
-    if(Write(inst_))   {   printf("Error: Error changing display mode\n");   }
+    // sprintf(inst_, "DISPLAY:MODE TEXT\n");
+    // if(Write(inst_))   {   printf("Error: Error changing display mode\n");   }
 
-    sprintf(inst_, "DISPLAY:TEXT \"TURNING OFF SCREEN\"\n");
-    if(Write(inst_))   {   printf("Error: Error changing display mode\n");   }
-    mwait(200);
+    // sprintf(inst_, "DISPLAY:TEXT \"TURNING OFF SCREEN\"\n");
+    // if(Write(inst_))   {   printf("Error: Error changing display mode\n");   }
+    // mwait(200);
 
-    sprintf(inst_, "DISPLAY:STATE OFF\n");
-    if(Write(inst_))   {   printf("Error: Error changing display mode\n");   }
+    // sprintf(inst_, "DISPLAY:STATE OFF\n");
+    // if(Write(inst_))   {   printf("Error: Error changing display mode\n");   }
 
 
 	time(&t0);
@@ -179,15 +179,15 @@ double HP66332Interface::SetCurrentRange(double I)
 	    printf("Call to HP66332Interface::SetCurrentRange\n");
     #endif // DEBUG
 
-    if( fabs(I) > 0.02) // maxiumum range
+    if( fabs(I) >= 0.02) // maxiumum range
     {
-        sprintf(inst_, ":SENS:CURR:RANG MAX\n");
+        sprintf(inst_, ":SENS:CURR:RANG %1.3f\n", I);
         if(Write(inst_))   { printf("Error: Error setting current range to MAX"); }
         return 5.0f;
     }
     else
     {
-        sprintf(inst_, ":SENS:CURR:RANG MIN\n");
+        sprintf(inst_, ":SENS:CURR:RANG 0.19\n");
         if(Write(inst_))   { printf("Error: Error setting current range to MIN"); }
         return 0.02f;
     }
