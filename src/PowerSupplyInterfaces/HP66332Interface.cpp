@@ -187,7 +187,7 @@ double HP66332Interface::SetCurrentRange(double I)
     }
     else
     {
-        sprintf(inst_, ":SENS:CURR:RANG 0.199\n");
+        sprintf(inst_, ":SENS:CURR:RANG 0.019\n");
         if(Write(inst_))   { printf("Error: Error setting current range to MIN"); }
         return 0.02f;
     }
