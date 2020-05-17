@@ -1,5 +1,19 @@
 # NinjaMasters
- Masters Compiled with Ninja
+Masters Compiled with Ninja
+
+# Requirements
+CMake Version 3.0 or greater
+Ninja version 1.10 or greater
+Mingw is recommended for compiling on windows
+
+
+# Compiling with Ninja
+mkdir build 
+cd build
+cmake .. -G Ninja
+ninja
+
+bc and bz will be generated in the build directory 
 
 #Style Guide
 snake case for variable names: my_variable

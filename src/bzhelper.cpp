@@ -14,8 +14,8 @@ bzargs bzparse(int argc, char ** argv, std::string device_string)
     if((argc < 10))
     {
         cout << "Invalid number of parameters " <<  argc-1 << endl;
-        cout << "Usage: bz <device> <GPIB#> <gpib_addr> <Vmax> <Vmin> <Imax> <QMax> <Ncylces> [S|s|Single] <Frequency List> [filestring]" << endl;
-        cout << "Usage: bz <device> <serial_port> <baud> <Vmax> <Vmin> <Imax> <QMax> <Ncylces> [S|s|Single] <Frequency List> [filestring]" << endl;
+        cout << "Usage: bz <device> <GPIB#> <gpib_addr> <Vmax> <Vmin> <Imax> <QMax> <Ncycles> [S|s|Single] <Frequency List> [filestring]" << endl;
+        cout << "Usage: bz <device> <serial_port> <baud> <Vmax> <Vmin> <Imax> <QMax> <Ncycles> [S|s|Single] <Frequency List> [filestring]" << endl;
         cout << "Parameters in square brackets [] are optional" << endl;
         cout << endl;
         cout << "bz HP66332 2 3 ...               < connects to a HP66332 at GPIB2::3::INSTR" << endl;

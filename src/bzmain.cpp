@@ -50,7 +50,7 @@ int main (int argc, char *argv[])
             device_selection = E5270;
             device_string = "Keysight E5270B Precision IV Analyzer";
         }
-        else if ((!(strcmp(argv[1], "W5000"))) | (!(strcmp(argv[1], "W5000"))))
+        else if ((!(strcmp(argv[1], "W5000"))) | (!(strcmp(argv[1], "w5000"))))
         {
             device_selection = W5000;
             device_string = "WILDSCHUT5000";
