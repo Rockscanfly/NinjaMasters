@@ -48,6 +48,19 @@ HP66332Interface::HP66332Interface(char serial_mode[256], char serial_value[256]
     // sprintf(inst_, "DISPLAY:STATE OFF\n");
     // if(Write(inst_))   {   printf("Error: Error changing display mode\n");   }
 
+    double tmp = SetCurrentRange(fabs(max_current));
+    if(tmp > 4.0)
+    {
+        printf("Current set to 5A range\n");
+    }
+    else if(tmp > 0)
+    {
+        printf("Current set to 20mA range\n");
+    }
+    else if(tmp < 0)
+    {
+        printf("Error setting current range\n");
+    }
 
 	time(&t0);
 	printf("HP66332Interface (V%.2f): started at %s", HP66332_INTERFACE_VERSION, ctime(&t0));
@@ -86,8 +99,9 @@ int HP66332Interface::SetOutput(double V, double I)
         printf("V: %f, I:%f\n", V, I);
     #endif // DEBUG
 
-    SetVoltageRange(fabs(V));
-    SetCurrentRange(fabs(I));
+    // no longer set range at each measurement for this device, set once during initialisation
+    // SetVoltageRange(fabs(V));
+    // SetCurrentRange(fabs(I));
     sprintf(inst_, ":SOUR:VOLT %1.3f\n", V);
     if(Write(inst_))   {   printf("Error: Error setting output voltage \n");    }
     sprintf(inst_, ":SOUR:CURR %1.3f\n", fabs(I));
@@ -187,7 +201,8 @@ double HP66332Interface::SetCurrentRange(double I)
     }
     else
     {
-        sprintf(inst_, ":SENS:CURR:RANG 0.019\n");
+        // sprintf(inst_, ":SENS:CURR:RANG 0.019\n");
+        sprintf(inst_, ":SENS:CURR:RANG %1.3f\n", I);
         if(Write(inst_))   { printf("Error: Error setting current range to MIN"); }
         return 0.02f;
     }

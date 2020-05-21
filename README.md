@@ -6,7 +6,6 @@ CMake Version 3.0 or greater
 Ninja version 1.10 or greater
 Mingw is recommended for compiling on windows
 
-
 # Compiling with Ninja
 mkdir build 
 cd build
