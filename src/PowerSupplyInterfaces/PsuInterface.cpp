@@ -234,8 +234,8 @@ double PsuInterface::Waveform(const double voltage_max, const double voltage_min
 
     double max_dq = 0;
     double max_fq = 0;
-    double fmin = frequency[0];
-    double fmax = frequency[0];
+    double fmin = fabs(frequency[0]);
+    double fmax = fabs(frequency[0]);
     double frequency_max_current_t[16] = {0};
 
     // check if valid frequencies are given
@@ -249,12 +249,12 @@ double PsuInterface::Waveform(const double voltage_max, const double voltage_min
     int nfrequencies = 1;
     for(int i = 1; i < 16; i++)
     {
-        if(frequency[i]!= 0)
+        if(frequency[i]!= 0.0f)
         {
             if(fabs(frequency[i])<fmin)
             {
                 fmin = fabs(frequency[i]);
-                if (fmin < 0)
+                if (fmin < 0.0f)
                     printf("\n fmin less than zero: %f \n", fmin);
             }
             if(fabs(frequency[i])>fmax)
@@ -291,7 +291,7 @@ double PsuInterface::Waveform(const double voltage_max, const double voltage_min
         // dQ_f = -2*nfreq*I_f/(2*pi*f)
         // dI_f = Q_f*(2*pi*f)/2*nfreq
         // dI_f = Q_f*(pi*f)/nfreq
-        frequency_max_current_t[i] = max_dq * M_PI * frequency[i]*3600/(nfrequencies);
+        frequency_max_current_t[i] = fabs(max_dq * M_PI * frequency[i]*3600/(nfrequencies));
         if(fabs(frequency_max_current_t[i]) > fabs(current_max/nfrequencies))
         {
             frequency_max_current_t[i] = current_max/nfrequencies;
