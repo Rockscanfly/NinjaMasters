@@ -251,13 +251,13 @@ double PsuInterface::Waveform(const double voltage_max, const double voltage_min
     {
         if(frequency[i]!= 0)
         {
-            if(frequency[i]<fmin)
+            if(fabs(frequency[i])<fmin)
             {
-                fmin = frequency[i];
+                fmin = fabs(frequency[i]);
             }
-            if(frequency[i]>fmax)
+            if(fabs(frequency[i])>fmax)
             {
-                fmax = frequency[i];
+                fmax = fabs(frequency[i]);
             }
             nfrequencies++;
         }
