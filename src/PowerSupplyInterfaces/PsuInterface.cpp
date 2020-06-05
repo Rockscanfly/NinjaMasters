@@ -254,6 +254,8 @@ double PsuInterface::Waveform(const double voltage_max, const double voltage_min
             if(fabs(frequency[i])<fmin)
             {
                 fmin = fabs(frequency[i]);
+                if fmin < 0
+                    printf("\n fmin less than zero: %f \n", fmin);
             }
             if(fabs(frequency[i])>fmax)
             {
