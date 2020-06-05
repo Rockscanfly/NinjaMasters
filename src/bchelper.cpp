@@ -56,7 +56,8 @@ bcargs bcparse(int argc, char ** argv, string device_string)
         cout << "    charge level has reached <qend>, zero current will flow but the " << device_string << " will continue measurements for this time" << endl;
         cout << "[filestring] sets the name of the target .tvi and .log files, NOTE existing files with the same name will be OVERWRITTEN" << endl;
         // args.gpib_major = -1;
-        return args;
+        // return args;
+        exit(1);
     }
     else
     {

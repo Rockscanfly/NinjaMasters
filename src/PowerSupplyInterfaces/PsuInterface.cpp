@@ -220,8 +220,8 @@ double PsuInterface::Waveform(const double voltage_max, const double voltage_min
     #endif // DEBUG
     printf("Vmax: %f, Vmin: %f, I: %f, Q: %f, F: %e\n", voltage_max, voltage_min, current_max, charge_max, frequency[0]);
 
-    clock_t clock_function_start = monotonic_timer();
-    clock_t clock_now = 0;
+    double clock_function_start = monotonic_timer();
+    double clock_now = 0;
     double time_now = 0;
     double time_start = 0;
     double time_end = 0;
@@ -317,7 +317,7 @@ double PsuInterface::Waveform(const double voltage_max, const double voltage_min
     while(time_now < time_end)
     {
         current_now = 0;
-        clock_t clock_now = monotonic_timer();
+        clock_now = monotonic_timer();
 
         // cycle_count = 0;
         time_now = clock_now;
@@ -338,7 +338,7 @@ double PsuInterface::Waveform(const double voltage_max, const double voltage_min
             WriteData(voltage_now, current_now);
         }
         #ifndef DEBUG
-        printf("Voltage: %2.4fV, Current: %2.4eA, Cycle Number: %i, time remaining: %5.2fs        \r", voltage_now, current_now, int((time_now-time_start)*frequency[0]), time_end - time_now);
+        printf("Voltage: %2.4fV, Current: %2.4eA, Cycle Number: %i, time remaining: %5.2fs        \r", voltage_now, current_now, int((time_now-time_start)*fmin), time_end - time_now);
         #endif // DEBUG
 
         if((!err) && (voltage_now >= voltage_max))

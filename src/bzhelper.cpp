@@ -56,7 +56,8 @@ bzargs bzparse(int argc, char ** argv, std::string device_string)
         cout << "data files of the name format [filestring]_[frequency in uHz]uHz.tvi will be made for single tone sweeps" << endl;
         cout.flush( );
 		// args.gpib_major = -1;
-        return args;
+        // return args;
+        exit(1);
     } else {
 
         // args.gpib_major = atoi(argv[2]);
