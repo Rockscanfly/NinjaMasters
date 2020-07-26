@@ -1,0 +1,869 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"Write",
+				"WriteLog"
+			],
+			[
+				"in",
+				"include"
+			],
+			[
+				"err",
+				"err_current"
+			],
+			[
+				"nu",
+				"num_read"
+			],
+			[
+				"ar",
+				"argH"
+			],
+			[
+				"remove",
+				"remove_tail"
+			],
+			[
+				"arr",
+				"array"
+			],
+			[
+				"add",
+				"add_executable\tcommand"
+			],
+			[
+				"chec",
+				"CheckErrors"
+			],
+			[
+				"lin",
+				"__linux__"
+			],
+			[
+				"Cl",
+				"CLOCKS_PER_SEC"
+			],
+			[
+				"CMAK",
+				"CMAKE_CXX_FLAGS"
+			],
+			[
+				"serial",
+				"serial_port_"
+			],
+			[
+				"eror",
+				"error_last"
+			],
+			[
+				"num",
+				"num_bytes"
+			],
+			[
+				"seria",
+				"serial_port_"
+			],
+			[
+				"seri",
+				"serial_port_"
+			],
+			[
+				"end",
+				"end_current"
+			],
+			[
+				"gpi",
+				"gpibdevice_debug"
+			],
+			[
+				"visa",
+				"visawrapper"
+			],
+			[
+				"string",
+				"stringbuffer"
+			],
+			[
+				"include",
+				"include_directories\tcommand"
+			],
+			[
+				"prin",
+				"printf\tprintf …"
+			],
+			[
+				"frequn",
+				"frequency"
+			],
+			[
+				"freq",
+				"frequencies"
+			],
+			[
+				"frequ",
+				"frequency"
+			],
+			[
+				"frequenc",
+				"frequencies"
+			],
+			[
+				"P",
+				"PSUInterface"
+			],
+			[
+				"str",
+				"string"
+			],
+			[
+				"H",
+				"Hameg"
+			],
+			[
+				"e",
+				"e5270"
+			],
+			[
+				"h",
+				"hp66332"
+			],
+			[
+				"tar",
+				"target_link_libraries\tcommand"
+			],
+			[
+				"arg",
+				"argc"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "src/bcmain.cpp",
+			"settings":
+			{
+				"buffer_size": 5957,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "src/bzmain.cpp",
+			"settings":
+			{
+				"buffer_size": 6528,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "src/PowerSupplyInterfaces/PsuInterface.cpp",
+			"settings":
+			{
+				"buffer_size": 19594,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "src/CommunicationInterfaces/LinuxSerialDevice.cpp",
+			"settings":
+			{
+				"buffer_size": 7165,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "/C/Users/vance/OneDrive/Desktop/thoughts.txt",
+			"settings":
+			{
+				"buffer_size": 1238,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "/C/Users/vance/OneDrive/Desktop/NinjaMastersGordan/src/PowerSupplyInterfaces/W5000Interface.cpp",
+			"settings":
+			{
+				"buffer_size": 4965,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"contents": "batteries fractional stuff\n\nbatteries aging rather than by cycling\n\nrahat, others. \nWarburg elements but more an obervations\n\nif hassan/scott correct then how does the imepedance change with cycles\n\nplot alpha, Cf vs cycle number and/or capacity\n\n\n\nHow does the impedance change as the battery wears out, Cf, alpha, resistance\n",
+			"settings":
+			{
+				"buffer_size": 327,
+				"line_ending": "Windows",
+				"name": "batteries fractional stuff"
+			}
+		}
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+		[
+			[
+				[
+					"Packages/C++/C++ Single File.sublime-build",
+					""
+				],
+				[
+					"Packages/C++/C++ Single File.sublime-build",
+					"Run"
+				]
+			],
+			[
+				"Packages/C++/C++ Single File.sublime-build",
+				""
+			]
+		]
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"packa",
+				"Package Control: Install Package"
+			],
+			[
+				".sublime",
+				"Plugin Development: Convert Syntax to .sublime-syntax"
+			],
+			[
+				"",
+				"Set Syntax: LaTeX Log"
+			]
+		],
+		"width": 0.0
+	},
+	"console":
+	{
+		"height": 0.0,
+		"history":
+		[
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/C/Users/vance/OneDrive/Desktop/NinjaMasters",
+		"/C/Users/vance/OneDrive/Desktop/NinjaMasters/include",
+		"/C/Users/vance/OneDrive/Desktop/NinjaMasters/include/PowerSupplyInterfaces",
+		"/C/Users/vance/OneDrive/Desktop/NinjaMasters/src",
+		"/C/Users/vance/OneDrive/Desktop/NinjaMasters/src/PowerSupplyInterfaces",
+		"/C/Users/vance/OneDrive/Desktop/NinjaMasters/src/Util"
+	],
+	"file_history":
+	[
+		"/C/Users/vance/OneDrive/Desktop/NinjaMasters/src/PowerSupplyInterfaces/PsuInterface.cpp",
+		"/C/Users/vance/OneDrive/Desktop/NinjaMasters/src/bzhelper.cpp",
+		"/C/Users/vance/OneDrive/Desktop/NinjaMasters/NinjaProject.sublime-project",
+		"/C/Users/vance/AppData/Local/SumatraPDF/SumatraPDF-settings.txt",
+		"/C/Users/vance/OneDrive/Desktop/NinjaMastersGordan/src/Util/TimerUtil.cpp",
+		"/C/Users/vance/OneDrive/Desktop/NinjaMastersGordan/src/PowerSupplyInterfaces/PsuInterface.cpp",
+		"/C/Users/vance/OneDrive/Desktop/NinjaMasters/src/bzmain.cpp",
+		"/C/Users/vance/OneDrive/Desktop/hameg_cycle_capacity_slope_z.txt",
+		"/C/Users/vance/OneDrive/Desktop/NinjaMasters/src/bchelper.cpp",
+		"/C/Users/vance/OneDrive/Desktop/NinjaMasters/src/bcmain.cpp",
+		"/C/Users/vance/OneDrive/Desktop/Masters goals.txt",
+		"/C/Users/vance/OneDrive/Desktop/NinjaMasters/src/CommunicationInterfaces/LinuxSerialDevice.cpp",
+		"/C/Users/vance/OneDrive/Desktop/NinjaMasters/src/PowerSupplyInterfaces/HP66332Interface.cpp",
+		"/C/Users/vance/OneDrive/Desktop/BatteryCycler/Program/BatteryCycler.c",
+		"/C/Users/vance/OneDrive/Desktop/BatteryCycler/.gitignore",
+		"/C/Users/vance/Downloads/ST7735 TFT CCS driver-August 2017/ST7735_TFT.c",
+		"/C/Users/vance/AppData/Local/Temp/Temp1_0042-lcd-character-display-sample-code.zip/0042-LCD-Sample-Code/src/dogm_p.h",
+		"/C/Users/vance/AppData/Local/Temp/Temp1_0042-lcd-character-display-sample-code.zip/0042-LCD-Sample-Code/src/dogm.h",
+		"/C/Users/vance/AppData/Local/Temp/Temp1_0042-lcd-character-display-sample-code.zip/0042-LCD-Sample-Code/src/spi.c",
+		"/C/Users/vance/AppData/Local/Temp/Temp1_0042-lcd-character-display-sample-code.zip/0042-LCD-Sample-Code/src/dogm.c",
+		"/C/Users/vance/AppData/Local/Temp/Temp1_0042-lcd-character-display-sample-code.zip/0042-LCD-Sample-Code/src/main.c",
+		"/C/Users/vance/AppData/Local/Temp/Temp1_0042-lcd-character-display-sample-code.zip/0042-LCD-Sample-Code/src/util.h",
+		"/C/Users/vance/AppData/Local/Temp/Temp1_0042-lcd-character-display-sample-code.zip/0042-LCD-Sample-Code/src/spi.h",
+		"/C/Users/vance/AppData/Local/Temp/Temp1_0042-lcd-character-display-sample-code.zip/0042-LCD-Sample-Code/src/util.c",
+		"/C/Users/vance/Downloads/200504 - Stage 3 Release Pack/200504 - Stage 3 Release Pack/Sinusoidal Test Data/README.txt",
+		"/C/Users/vance/OneDrive/Desktop/NinjaMasters/src/PowerSupplyInterfaces/W5000Interface.cpp",
+		"/C/Users/vance/OneDrive/Desktop/BatteryCycler/BatteryCyclerProgramF/BatteryCycler.c",
+		"/C/Users/vance/OneDrive/Desktop/BatteryCycler/ProgramF/BatteryCycler.c",
+		"/C/Users/vance/OneDrive/Desktop/BatteryCycler/Program/BatteryCycler.X/BatteryCycler.c",
+		"/C/Users/vance/OneDrive/Desktop/BatteryCycler/Program/README.txt",
+		"/C/Program Files (x86)/Microchip/MPLABX/v5.35/packs/Microchip/PIC16Fxxx_DFP/1.2.33/xc8/pic/include/pic_cas_chip_select.h",
+		"/C/Program Files (x86)/Microchip/MPLABX/v5.35/packs/Microchip/PIC16Fxxx_DFP/1.2.33/xc8/pic/include/htc.h",
+		"/C/Users/vance/OneDrive/Desktop/USB/VanceFarrow/Waveform.cpp",
+		"/C/Users/vance/Downloads/recheckinginforsignsoflife_/UARTCommand.h",
+		"/C/Users/vance/Downloads/recheckinginforsignsoflife_/UARTParser.c",
+		"/C/Users/vance/Downloads/recheckinginforsignsoflife_/UARTParser.h",
+		"/C/Users/vance/OneDrive/Desktop/NinjaMasters/include/bzhelper.hpp",
+		"/C/Users/vance/OneDrive/Desktop/NinjaMasters/include/bchelper.hpp",
+		"/C/Users/vance/OneDrive/Desktop/NinjaMasters/src/CMakeLists.txt",
+		"/C/Users/vance/OneDrive/Desktop/NinjaMasters/src/PowerSupplyInterfaces/CMakeLists.txt",
+		"/C/Users/vance/OneDrive/Desktop/NinjaMasters/include/PowerSupplyInterfaces/W5000Interface.hpp",
+		"/C/Users/vance/OneDrive/Desktop/NinjaMasters/src/PowerSupplyInterfaces/HamegInterface.cpp",
+		"/C/Users/vance/OneDrive/Desktop/NinjaMasters/src/PowerSupplyInterfaces/Wilde.cpp",
+		"/C/Users/vance/OneDrive/Desktop/NinjaMasters/src/CommunicationInterfaces/CMakeLists.txt",
+		"/C/Users/vance/OneDrive/Desktop/NinjaMasters/CMakeLists.txt",
+		"/C/Users/vance/OneDrive/Documents/Masters/Jonathan/DFTP/main.c",
+		"/C/Users/vance/OneDrive/Desktop/cpuddle/CMakeLists.txt",
+		"/C/Users/vance/OneDrive/Desktop/cpuddle/test.c",
+		"/C/Users/vance/OneDrive/Desktop/cpematlab/M_tab.txt",
+		"/C/Users/vance/OneDrive/Desktop/NinjaMasters/src/Util/TimerUtil.cpp",
+		"/C/Users/vance/OneDrive/Desktop/NinjaMasters/src/PowerSupplyInterfaces/EmptyInterface.cpp",
+		"/C/Users/vance/OneDrive/Desktop/NinjaMasters/src/PowerSupplyInterfaces/E5270Interface.cpp",
+		"/C/Users/vance/OneDrive/Desktop/NinjaMasters/src/PowerSupplyInterfaces/KeithleyInterface.cpp",
+		"/C/Users/vance/AppData/Roaming/Sublime Text 3/Packages/User/Preferences.sublime-settings",
+		"/C/Users/vance/AppData/Roaming/Sublime Text 3/Packages/Default/Preferences.sublime-settings",
+		"/C/Users/vance/OneDrive/Desktop/NinjaMasters/include/PowerSupplyInterfaces/PsuInterface.hpp",
+		"/C/Users/vance/OneDrive/Desktop/NinjaMasters/include/CommunicationInterfaces/SerialDevice.hpp",
+		"/C/Users/vance/OneDrive/Desktop/NinjaMasters/include/CommunicationInterfaces/LinuxSerialDevice.hpp",
+		"/C/Users/vance/OneDrive/Desktop/hours to book.txt",
+		"/C/Users/vance/OneDrive/Desktop/NinjaMasters/src/CommunicationInterfaces/SerialDevice.cpp",
+		"/C/Users/vance/OneDrive/Desktop/screen/incoming/howto/emulate_vims_help.txt",
+		"/C/Users/vance/OneDrive/Desktop/NinjaMasters/include/PowerSupplyInterfaces/KeithleyInterface.hpp",
+		"/C/Users/vance/OneDrive/Desktop/NinjaMasters/include/CommunicationInterfaces/visawrapper.h",
+		"/C/Users/vance/OneDrive/Desktop/NinjaMasters/include/CommunicationInterfaces/GpibDevice.hpp",
+		"/C/Users/vance/OneDrive/Desktop/NinjaMasters/src/CommunicationInterfaces/GpibDevice.cpp",
+		"/C/Users/vance/OneDrive/Desktop/NinjaMasters/include/PowerSupplyInterfaces/E5270Interface.hpp",
+		"/C/Users/vance/OneDrive/Desktop/NinjaMasters/include/PowerSupplyInterfaces/EmptyInterface.hpp",
+		"/C/Users/vance/OneDrive/Desktop/NinjaMasters/include/PowerSupplyInterfaces/HamegInterface.hpp",
+		"/C/Users/vance/OneDrive/Desktop/NinjaMasters/include/PowerSupplyInterfaces/HP66332Interface.hpp",
+		"/C/Users/vance/OneDrive/Desktop/NinjaMasters/src/CommunicationInterfaces/SerialPortDemo.cpp",
+		"/C/Users/vance/OneDrive/Desktop/NinjaMasters/src/PsuInterface.cpp",
+		"/C/Users/vance/OneDrive/Desktop/NinjaMasters/src/GpibDevice.cpp",
+		"/C/Users/vance/OneDrive/Desktop/NinjaMasters/include/GpibDevice.hpp",
+		"/C/Users/vance/OneDrive/Desktop/NinjaMasters/include/argparse.h",
+		"/C/Users/vance/OneDrive/Desktop/NinjaMasters/include/visawrapper.h",
+		"/C/Users/vance/OneDrive/Desktop/NinjaMasters/include/PsuInterface.hpp",
+		"/C/Users/vance/OneDrive/Desktop/NinjaMasters/src/visawrapper.cpp",
+		"/C/Users/vance/OneDrive/Desktop/NinjaMasters/include/PSUInterface.hpp",
+		"/C/Users/vance/OneDrive/Desktop/NinjaMasters/src/PSUInterface.cpp",
+		"/C/Users/vance/OneDrive/Desktop/NinjaMasters/include/KeithleyInterface.hpp",
+		"/C/Users/vance/OneDrive/Desktop/NinjaMasters/src/KeithleyInterface.cpp",
+		"/C/Users/vance/OneDrive/Desktop/NinjaMasters/src/HP66332Interface.cpp",
+		"/C/Users/vance/OneDrive/Desktop/NinjaMasters/src/HamegInterface.cpp",
+		"/C/Users/vance/OneDrive/Desktop/NinjaMasters/src/EmptyInterface.cpp",
+		"/C/Users/vance/OneDrive/Desktop/NinjaMasters/src/E5270Interface.cpp",
+		"/C/Users/vance/OneDrive/Desktop/NinjaMasters/include/VISA/WinNT/NIvisa/ni-visa.chm",
+		"/C/Users/vance/OneDrive/Desktop/NinjaMasters/include/SerialDevice.hpp",
+		"/C/Users/vance/OneDrive/Desktop/NinjaMasters/bcmain.cpp",
+		"/C/Users/vance/OneDrive/Desktop/NinjaMasters/build/.ninja_deps",
+		"/C/Users/vance/OneDrive/Desktop/NinjaMasters/build/.ninja_log",
+		"/C/Users/vance/OneDrive/Desktop/NinjaMasters/build/build.ninja",
+		"/C/Users/vance/OneDrive/Desktop/NinjaMasters/build/CMakeCache.txt",
+		"/C/Users/vance/OneDrive/Desktop/NinjaMasters/build/CMakeFiles/TargetDirectories.txt",
+		"/C/Users/vance/OneDrive/Desktop/NinjaMasters/build/rules.ninja",
+		"/C/Users/vance/OneDrive/Desktop/NinjaMasters/bzmain.cpp",
+		"/C/Users/vance/OneDrive/Desktop/NinjaMasters/include/E5270Interface.hpp",
+		"/C/Users/vance/OneDrive/Desktop/NinjaMasters/include/EmptyInterface.hpp",
+		"/C/Users/vance/OneDrive/Desktop/NinjaMasters/include/HamegInterface.hpp",
+		"/C/Users/vance/OneDrive/Desktop/NinjaMasters/include/HP66332Interface.hpp",
+		"/C/Users/vance/OneDrive/Desktop/NinjaMasters/include/SerialInterface.hpp",
+		"/C/Users/vance/OneDrive/Desktop/NinjaMasters/src/SerialPortDemo.cpp",
+		"/C/Users/vance/OneDrive/Desktop/NinjaMasters/include/VISA/WinNT/Include/visatype.h",
+		"/C/Users/vance/OneDrive/Documents/Masters/CPP/bck/src/KeithlyInterface.cpp",
+		"/C/Users/vance/OneDrive/Desktop/NinjaMasters/main.cpp",
+		"/C/Users/vance/OneDrive/Desktop/NinjaMasters/bzh.cpp",
+		"/C/Users/vance/OneDrive/Desktop/NinjaMasters/bz5270.cpp",
+		"/C/Users/vance/OneDrive/Desktop/NinjaMasters/bz66332.cpp",
+		"/C/Users/vance/OneDrive/Desktop/NinjaMasters/bzk.cpp",
+		"/C/Users/vance/OneDrive/Desktop/Opera Browser.lnk",
+		"/C/Users/vance/OneDrive/Desktop/Antares Data Questions.txt",
+		"/C/Users/vance/OneDrive/Desktop/NinjaMasters/tests/Test.bat",
+		"/C/Users/vance/OneDrive/Desktop/NinjaMasters/Test.bat",
+		"/E/LongRunChristmas/Hameg/Hameg5270Test.bat",
+		"/C/Users/vance/OneDrive/Desktop/NinjaMasters/bck.cpp",
+		"/C/Users/vance/OneDrive/Desktop/NinjaMasters/bch.cpp",
+		"/C/Users/vance/OneDrive/Desktop/NinjaMasters/bc66332.cpp",
+		"/C/Users/vance/OneDrive/Desktop/NinjaMasters/.gitignore",
+		"/C/Users/vance/OneDrive/Desktop/NinjaMasters/src/argparse.cpp",
+		"/C/Users/vance/OneDrive/Desktop/NinjaMasters/include/cxxopts.hpp",
+		"/C/Users/vance/OneDrive/Desktop/SUBLIMEMasters/CMakeLists.txt",
+		"/C/Users/vance/OneDrive/Desktop/SUBLIMEMasters/.sublime-project",
+		"/C/Users/vance/AppData/Local/Temp/kite_tutorial.py",
+		"/C/Users/vance/OneDrive/Desktop/VSMasters/.gitignore",
+		"/C/Users/vance/AppData/Local/Temp/Temp1_Master's thesis Template.zip/Master's thesis/Chapters/Chapter2.tex",
+		"/C/Users/vance/OneDrive/Desktop/description.tex",
+		"/C/Users/vance/OneDrive/Desktop/description.vhdl",
+		"/C/Users/vance/OneDrive/Desktop/description.cpp",
+		"/C/Users/vance/OneDrive/Documents/Masters/CPP/bz/src/PSUInterface.cpp"
+	],
+	"find":
+	{
+		"height": 41.0
+	},
+	"find_in_files":
+	{
+		"height": 114.0,
+		"where_history":
+		[
+			"C:\\Users\\vance\\OneDrive\\Desktop\\NinjaMasters\\src\\PowerSupplyInterfaces"
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": true,
+		"find_history":
+		[
+			"printf(",
+			"WriteLog",
+			"night",
+			"dark",
+			"0.0f",
+			"if fmin",
+			"fabs",
+			"fmin",
+			"clock_now",
+			"clock_t",
+			"clock_now",
+			"timer",
+			"Waveform(",
+			"charge_max",
+			"Waveform",
+			"max_charge",
+			"SetVoltageRange",
+			"SetCurrentRange",
+			"ChangeLogFile",
+			"Qu",
+			"query",
+			"quert",
+			"VLimH",
+			"ncycles",
+			"CYCLES",
+			"SetCurrentRange",
+			"clock_now",
+			"monotonic_timer",
+			"cycle_count",
+			"current_cycle_",
+			"Cycle Number",
+			"getout",
+			"GetToVoltage",
+			"inst_, \"",
+			"idn",
+			"Hameg",
+			"HP66332",
+			"HamegInterface",
+			"HP66332Interface",
+			"this->channel",
+			"num_bytes",
+			"timedout",
+			"cycle",
+			"CylcleBat",
+			"arg",
+			"xjbs[ndat",
+			"10",
+			"array",
+			"ClearError",
+			"CheckError",
+			"read()",
+			"error setting output current",
+			"current_t",
+			"current_t ",
+			"current_t",
+			"Eerror:",
+			"Write",
+			";\n",
+			"space"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			"sprintf(logdata,",
+			"VLimL",
+			"VLimH",
+			"VMAX",
+			"inst_, \"#",
+			"W5000",
+			"W5000Interface",
+			"W5000",
+			"timed_out",
+			"ndatl",
+			"xjbs",
+			"current"
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 1,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "src/bcmain.cpp",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 5957,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								4493,
+								5700
+							]
+						],
+						"settings":
+						{
+							"WordCount":
+							{
+								"changes": 310,
+								"count": 211,
+								"modified": false,
+								"selection": false,
+								"status": -1,
+								"syntax": "plain text"
+							},
+							"syntax": "Packages/C++/C++.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 2244.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "src/bzmain.cpp",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 6528,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								5431,
+								5431
+							]
+						],
+						"settings":
+						{
+							"WordCount":
+							{
+								"changes": 146,
+								"count": 228,
+								"modified": false,
+								"selection": false,
+								"status": -1,
+								"syntax": "plain text"
+							},
+							"syntax": "Packages/C++/C++.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 2669.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "src/PowerSupplyInterfaces/PsuInterface.cpp",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 19594,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								10148,
+								10148
+							]
+						],
+						"settings":
+						{
+							"WordCount":
+							{
+								"changes": 59,
+								"count": 1289,
+								"modified": false,
+								"selection": false,
+								"status": -1,
+								"syntax": "plain text"
+							},
+							"syntax": "Packages/C++/C++.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 3548.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "src/CommunicationInterfaces/LinuxSerialDevice.cpp",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 7165,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								4680,
+								4680
+							]
+						],
+						"settings":
+						{
+							"WordCount":
+							{
+								"changes": 0,
+								"count": 512,
+								"modified": false,
+								"selection": false,
+								"status": -1,
+								"syntax": "plain text"
+							},
+							"syntax": "Packages/C++/C++.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 2662.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "/C/Users/vance/OneDrive/Desktop/thoughts.txt",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1238,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"WordCount":
+							{
+								"changes": 0,
+								"count": 185,
+								"modified": false,
+								"selection": false,
+								"status": -1,
+								"syntax": "plain text"
+							},
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 4,
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "/C/Users/vance/OneDrive/Desktop/NinjaMastersGordan/src/PowerSupplyInterfaces/W5000Interface.cpp",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 4965,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"WordCount":
+							{
+								"changes": 0,
+								"count": 284,
+								"modified": false,
+								"selection": false,
+								"status": -1,
+								"syntax": "plain text"
+							},
+							"syntax": "Packages/C++/C++.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 5,
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 327,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								326,
+								326
+							]
+						],
+						"settings":
+						{
+							"WordCount":
+							{
+								"changes": 0,
+								"count": 47,
+								"modified": false,
+								"selection": false,
+								"status": -1,
+								"syntax": "plain text"
+							},
+							"auto_name": "batteries fractional stuff",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 6,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 29.0
+	},
+	"input":
+	{
+		"height": 42.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.exec":
+	{
+		"height": 578.0
+	},
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"output.latextools":
+	{
+		"height": 127.0
+	},
+	"pinned_build_system": "",
+	"project": "NinjaProject.sublime-project",
+	"replace":
+	{
+		"height": 73.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 500.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"",
+				"C:\\Users\\vance\\OneDrive\\Documents\\Masters\\Master's thesis\\Master's thesis\\MastersText.sublime-project"
+			]
+		],
+		"width": 380.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": true,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 220.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}

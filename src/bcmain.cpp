@@ -129,10 +129,43 @@ int main (int argc, char *argv[])
             exit(1);
     }
 
-    printf("\n Starting Cycle\n");
     char filename[256];
-    sprintf(filename, "%s.tvi", args.filestring);
-    p_device->ChangeDataFile(filename);
+    if (args.filestring[0] != '\0') {
+        sprintf(filename, "%s.tvi", args.filestring);
+    } else {
+        sprintf(filename, "%s.tvi", "DataFile");
+    }
+    if (p_device->ChangeDataFile(filename)){
+        printf("Failed to open data file\n");
+        exit(1);
+    }
+
+
+    char logdata[256];
+    sprintf(logdata, "%s", );
+    p_device->WriteLog(device_string.c_str());
+    sprintf(logdata,"ncycles: %i\n", args.num_cycles);
+    p_device->WriteLog(logdata);
+    sprintf(logdata,"vmax: %.3fV\n", args.max_voltage);
+    p_device->WriteLog(logdata);
+    sprintf(logdata,"vmin: %.3fV\n", args.min_voltage);
+    p_device->WriteLog(logdata);
+    sprintf(logdata,"imax: %.3fA\n", args.max_current);
+    p_device->WriteLog(logdata);
+    sprintf(logdata,"iend: %.3fA\n", args.end_current);
+    p_device->WriteLog(logdata);
+    sprintf(logdata,"qend: %.3f%%Q\n", args.end_charge*100);
+    p_device->WriteLog(logdata);
+    sprintf(logdata,"timeout: %.0fs\n", args.timeout);
+    p_device->WriteLog(logdata);
+    sprintf(logdata,"trelax: %.0fs\n", args.relax_time);
+    p_device->WriteLog(logdata);
+    sprintf(logdata,"filestring: %s\n", args.filestring);
+    p_device->WriteLog(logdata);
+
+
+
+    printf("\n Starting Cycle\n");
 
     // cycle battery
     p_device->CycleBattery(args.num_cycles, args.max_voltage, args.min_voltage, args.max_current,

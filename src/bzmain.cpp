@@ -141,6 +141,35 @@ int main (int argc, char *argv[])
             exit(1);
     }
 
+
+
+    char logdata[256];
+    sprintf(logdata, "%s", );
+    p_device->WriteLog(device_string.c_str());
+
+
+    sprintf(logdata,"vmax: %.3fV\n", args.max_voltage);
+    p_device->WriteLog(logdata);
+    sprintf(logdata,"vmin: %.3fV\n", args.min_voltage);
+    p_device->WriteLog(logdata);
+    sprintf(logdata,"imax: %.3fA\n", args.max_current);
+    p_device->WriteLog(logdata);
+    sprintf(logdata,"qmax: %.5fAh\n", args.max_charge);
+    p_device->WriteLog(logdata);
+    sprintf(logdata,"ncycles: %i\n", args.num_cycles);
+    p_device->WriteLog(logdata);
+    sprintf(logdata,"n_freq: %i\n", args.num_frequencies);
+    p_device->WriteLog(logdata);
+
+    for (int i = 0; i < num_frequencies; i++)
+    {
+        sprintf(logdata, "%i Hz", args.frequency[i]);
+        p_device->WriteLog(logdata);
+    }
+
+
+
+
     char filename[256];
 
     printf("\n Starting Sweep\n");

@@ -19,16 +19,6 @@ max_voltage_(max_voltage), min_voltage_(min_voltage), max_current_(max_current)
     }
 
 	if (filestring[0] != '\0') {
-        sprintf(val_, "%s.tvi", filestring);
-    } else {
-        sprintf(val_, "%s.tvi", "DataFile");
-    }
-    if (ChangeDataFile(val_)){
-        printf("Failed to open data file\n");
-        exit(1);
-	}
-
-	if (filestring[0] != '\0') {
         sprintf(val_, "%s.log", filestring);
     } else {
         sprintf(val_, "%s.log", "LogFile");
@@ -37,7 +27,6 @@ max_voltage_(max_voltage), min_voltage_(min_voltage), max_current_(max_current)
         printf("Failed to open log file\n");
         exit(1);
     }
-
 
     if(strncmp(serial_mode, "/dev/", 5) == 0)
     {
@@ -218,7 +207,7 @@ double PsuInterface::Waveform(const double voltage_max, const double voltage_min
         printf("Call to Waveform\n");
         printf("Vmax: %f, Vmin: %f, I: %f, Q: %f, F: %e\n", voltage_max, voltage_min, current_max, charge_max, frequency[0]);
     #endif // DEBUG
-    printf("Vmax: %f, Vmin: %f, I: %f, Q: %f, F: %e\n", voltage_max, voltage_min, current_max, charge_max, frequency[0]);
+    printf("Vmax: %f, Vmin: %f, I: %f, Q: %f\n", voltage_max, voltage_min, current_max, charge_max);
 
     double clock_function_start = monotonic_timer();
     double clock_now = 0;
@@ -297,7 +286,12 @@ double PsuInterface::Waveform(const double voltage_max, const double voltage_min
             frequency_max_current_t[i] = current_max/nfrequencies;
         }
         // #if DEBUG
+
             printf("Maximum current_t for frequency %e Hz: %e A\n", frequency[i], frequency_max_current_t[i]);
+            char logdata[1024];
+            sprintf(logdata, "Maximum current_t for frequency %e Hz: %e A\n", frequency[i], frequency_max_current_t[i]);
+            WriteLog(logdata);
+
         // #endif // DEBUG
     }
 
