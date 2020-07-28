@@ -142,7 +142,6 @@ int main (int argc, char *argv[])
 
 
     char logdata[256];
-    sprintf(logdata, "%s", );
     p_device->WriteLog(device_string.c_str());
     sprintf(logdata,"ncycles: %i\n", args.num_cycles);
     p_device->WriteLog(logdata);

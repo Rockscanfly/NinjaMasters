@@ -144,10 +144,7 @@ int main (int argc, char *argv[])
 
 
     char logdata[256];
-    sprintf(logdata, "%s", );
     p_device->WriteLog(device_string.c_str());
-
-
     sprintf(logdata,"vmax: %.3fV\n", args.max_voltage);
     p_device->WriteLog(logdata);
     sprintf(logdata,"vmin: %.3fV\n", args.min_voltage);
@@ -161,9 +158,9 @@ int main (int argc, char *argv[])
     sprintf(logdata,"n_freq: %i\n", args.num_frequencies);
     p_device->WriteLog(logdata);
 
-    for (int i = 0; i < num_frequencies; i++)
+    for (int i = 0; i < args.num_frequencies; i++)
     {
-        sprintf(logdata, "%i Hz", args.frequency[i]);
+        sprintf(logdata, "%i uHz", (int)(args.frequency[i]*1e6));
         p_device->WriteLog(logdata);
     }
 
