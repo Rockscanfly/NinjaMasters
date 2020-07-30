@@ -8,7 +8,7 @@
 #include <cstring>
 #include <time.h>
 #include "visawrapper.h"
-#include
+
 namespace visa
 {
 

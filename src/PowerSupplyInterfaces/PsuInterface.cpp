@@ -1,7 +1,10 @@
 #include "PsuInterface.hpp"
-// #include "GpibDevice.hpp"
 #include "LinuxSerialDevice.hpp"
 #include "TimerUtil.hpp"
+
+#ifdef _WIN32
+#include "GpibDevice.hpp"
+#endif
 
 PsuInterface::PsuInterface(char serial_mode[256], char serial_value[256],
             double max_voltage, double min_voltage, double max_current, char filestring[255]):
@@ -50,16 +53,16 @@ max_voltage_(max_voltage), min_voltage_(min_voltage), max_current_(max_current)
     #endif
     }
 
-
-    // if(strncmp(serial_mode, "GPIB", 4) == 0)
-    // {
-    //     device_ = new GpibDevice(serial_mode, atoi(serial_value));
-    // }
-    // if(isdigit(serial_mode[0]))
-    // {
-    //     device_ = new GpibDevice(atoi(serial_mode), atoi(serial_value));
-    // }
-
+    #ifdef _WIN32
+    if(strncmp(serial_mode, "GPIB", 4) == 0)
+    {
+        device_ = new GpibDevice(serial_mode, atoi(serial_value));
+    }
+    if(isdigit(serial_mode[0]))
+    {
+        device_ = new GpibDevice(atoi(serial_mode), atoi(serial_value));
+    }
+    #endif
 
 
 

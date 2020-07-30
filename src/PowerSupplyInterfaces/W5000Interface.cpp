@@ -5,7 +5,7 @@ W5000Interface::W5000Interface(char serial_mode[256], char serial_value[256],
                PsuInterface::PsuInterface(serial_mode, serial_value, max_voltage, min_voltage, max_current, filestring)
 {
     #if DEBUG
-     	printf("Start of WILDSCHUT5000 Interface Constructor\n");
+     	printf("Start of W5000 Interface Constructor\n");
     #endif // DEBUG
 
     printf("Checking Device ID\n");
