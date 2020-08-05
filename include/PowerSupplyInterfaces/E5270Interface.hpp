@@ -40,8 +40,6 @@ class E5270Interface : public PsuInterface
         int DataDecode(char data[256], double *value);
 
         int channel = E5270_INTERFACE_CHANNEL;
-        int iMax = 0;
-
 
 };
 

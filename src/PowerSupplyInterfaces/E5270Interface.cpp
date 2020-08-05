@@ -110,6 +110,7 @@ int E5270Interface::GetOutput(double *V, double *I)
     double V_GND = 0;
     double I_GND = 0;
 
+
     int data_return = 0;
     // read once and throw away
     sprintf(inst_, "TV %i, 0\n", E5270_INTERFACE_CHANNEL_GND);
@@ -223,8 +224,10 @@ int E5270Interface::SMUVoltage(double V, double I)
     // DV chnum,vrange,voltage[,Icomp[,comp_polarity[,irange]]
     sprintf(inst_, "DV %i, 0, %.4f, %.4f \n", E5270_INTERFACE_CHANNEL_GND, 0.0, -I);
     Write(inst_);
+    mwait(10);
     sprintf(inst_, "DV %i, 0, %.4f, %.4f \n", this->channel, V, I);
     Write(inst_);
+    mwait(10);
 
     return 0;
 }
@@ -237,8 +240,10 @@ int E5270Interface::SMUCurrent(double voltage_max, double voltage_min, double cu
         printf("V: %f-%f, I: %f\n", voltage_max, voltage_min, current_t);
     #endif // DEBUG
     // DV chnum,vrange,voltage[,Icomp[,comp_polarity[,irange]]
-    sprintf(inst_, "DV %i, 0, %.2e, %.2e, 1 \n", E5270_INTERFACE_CHANNEL_GND, 0.0, copysign(this->iMax, current_t));
+    sprintf(inst_, "DV %i, 0, %.2e, %.2e, 1 \n", E5270_INTERFACE_CHANNEL_GND, 0.0, copysign(this->max_current_, current_t));
     Write(inst_);
+    mwait(10);
+
     // DI chnum,irange,current_t[,Vcomp[,comp_polarity[,vrange]]]
     if(current_t >=0)
     {
@@ -248,6 +253,8 @@ int E5270Interface::SMUCurrent(double voltage_max, double voltage_min, double cu
     }
 
     Write(inst_);
+    mwait(10);
+
 
     return 0;
 }

@@ -220,6 +220,8 @@ double PsuInterface::Waveform(const double voltage_max, const double voltage_min
 
     double voltage_now = 0;
     double current_now = 0;
+    double current_target = 0;
+
     // int cycle_count = 0;
     int vlimcount = 0;
     int err = 0;
@@ -316,20 +318,20 @@ double PsuInterface::Waveform(const double voltage_max, const double voltage_min
     while(time_now < time_end)
     {
         current_now = 0;
+        current_target = 0;
         clock_now = monotonic_timer();
 
         // cycle_count = 0;
         time_now = clock_now;
         for(int i = 0; i < nfrequencies; i++)
         {
-            current_now += frequency_max_current_t[i]*sin(2*M_PI*frequency[i]*(time_now - time_start));
+            current_target += frequency_max_current_t[i]*sin(2*M_PI*frequency[i]*(time_now - time_start));
             #if DEBUG
                 printf("F: %e, T: %e, C: %e\n",frequency[i], time_now - time_start, frequency_max_current_t[i]*sin(2*M_PI*frequency[i]*(time_now - time_start)));
             #endif // DEBUG
         }
 
-        SMUCurrent(voltage_max, voltage_min, current_now);
-        mwait(100);
+        SMUCurrent(voltage_max, voltage_min, current_target);
 
         err = GetOutput(&voltage_now, &current_now);
         if((!err) && (time_now - time_start > 1.0))
@@ -564,11 +566,10 @@ int PsuInterface::ChangeLogFile(const char *str)
 
 void PsuInterface::mwait(int msecs) // wait some milliseconds in real-time work
 {
-    double fin = monotonic_timer() + msecs/1000.0L;
+    double fin = monotonic_timer() + double(msecs)/1000.0L;
 
     if(msecs==0) return;
-
-    while (fin - monotonic_timer() > 1L) {};
+    while (fin - monotonic_timer() >= 0.01L) {;};
     return;
 }
 
