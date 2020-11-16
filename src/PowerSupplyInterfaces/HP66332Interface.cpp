@@ -233,7 +233,7 @@ int HP66332Interface::IsCurrentLimited(void)
     #endif // DEBUG
 
     bool enumfault = false;
-    if (fabs(this->current_now_m) < 0.95*fabs(this->max_current_))
+    if (fabs(this->current_now_m) < 0.98*fabs(this->max_current_))
     {
         enumfault = true;
     }   
