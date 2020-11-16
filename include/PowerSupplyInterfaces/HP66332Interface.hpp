@@ -31,6 +31,8 @@ class HP66332Interface : public PsuInterface {
         */
         int ClearErrors(void);
         int CheckErrors(void);
+    private:
+        double current_now_m = 0;
 
 };
 

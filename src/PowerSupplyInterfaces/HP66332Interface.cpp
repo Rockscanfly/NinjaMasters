@@ -147,6 +147,11 @@ int HP66332Interface::GetOutput(double *V, double *I)
         err_current = 1;
     }
 
+    if(!(err_voltage | err_current))
+    {
+        this->current_now_m = *I;
+    }
+    
     return err_voltage | err_current;
 }
 
@@ -227,7 +232,13 @@ int HP66332Interface::IsCurrentLimited(void)
         printf("0x%04x %i\n", status, status);
     #endif // DEBUG
 
-    return ((status & 0x0800) || (status & 0x0400));
+    bool enumfault = false;
+    if (fabs(this->current_now_m) < 0.95*fabs(this->max_current_))
+    {
+        enumfault = true;
+    }   
+
+    return ((status & 0x0800) || (status & 0x0400) || !enumfault);
 
 }
 

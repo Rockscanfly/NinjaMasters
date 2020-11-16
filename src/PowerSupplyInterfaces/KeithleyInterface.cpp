@@ -167,7 +167,7 @@ int KeithleyInterface::SMUVoltage(double V, double I)
     sprintf(inst_, "SOUR:FUNC VOLT");
     if(Write(inst_))   {printf("Error Setting output to voltage\n"); }
     SetVoltageRange(fabs(V));
-    SetCurrentRange(fabs(I*10));
+    SetCurrentRange(fabs(I));
     sprintf(inst_, "SOUR:VOLT:ILIM %1.3e", I);
     if(Write(inst_))   {printf("Error Setting voltage current_t limit\n"); }
     sprintf(inst_, "SOUR:VOLT %2.3e", V);
